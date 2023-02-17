@@ -1,27 +1,22 @@
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import BottomAppBar from "./src/components/navigation/BottomAppBar";
-import EventsScreen from "./src/screens/events/EventsScreen";
-import PlacesScreen from "./src/screens/places/PlacesScreen";
-import ProfileScreen from "./src/screens/profile/ProfileScreen";
-import HomeScreen from "./src/screens/home/HomeScreen";
+// In App.js in a new project
 
-const screens = [
-  <HomeScreen />,
-  <PlacesScreen />,
-  <EventsScreen />,
-  <ProfileScreen />,
-];
-export default function App() {
-  const [tab, setTab] = useState(0);
+import React, {useState} from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { PreAuthNavigator } from './navigation/PreAuthNavigator';
+import { PostAuthNavigator } from './navigation/PostAuthNavigator';
+
+function App() {
+  const [user, setUser] = useState(true)
 
   return (
     <NavigationContainer>
-      <SafeAreaView className="bg-gray-600 h-screen">
-        {screens[tab]}
-        <BottomAppBar setTab={setTab} tab={tab} />
-      </SafeAreaView>
+      {
+        user ?  <PostAuthNavigator /> : <PreAuthNavigator />
+      }
     </NavigationContainer>
   );
 }
+
+export default App;

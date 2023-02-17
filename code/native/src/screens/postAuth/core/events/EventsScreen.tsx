@@ -1,14 +1,14 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import DiscoverAppBar from "../../components/surfaces/appbars/DiscoverAppBar";
-import ProfileBody from "./ProfileBody";
+import HomeAppBar from "../../../../components/surfaces/appbars/BoardAppBar";
+import EventsBody from "./EventsBody";
 
-export default function ProfileScreen() {
+export default function EventsScreen() {
   return (
     <View className="p-4 flex flex-col flex-1">
-      <DiscoverAppBar />
+      <HomeAppBar />
       <ScrollView className="flex-1">
-        <ProfileBody />
+        <EventsBody />
       </ScrollView>
     </View>
   );
