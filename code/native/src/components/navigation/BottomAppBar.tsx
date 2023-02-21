@@ -4,6 +4,7 @@ import Events from "../icons/Events";
 import Home from "../icons/Home";
 import Places from "../icons/Places";
 import Profile from "../icons/Profile";
+import BaseText from "../text/BaseText";
 
 type Props = {
   tab: number;
@@ -68,7 +69,7 @@ function BottomAppBarItem(props: BottomAppBarItem) {
         }`}
       >
         {props.icon}
-        <Text className="text-gray-300">{props.text}</Text>
+        <BaseText className="text-gray-300">{props.text}</BaseText>
       </View>
     </TouchableOpacity>
   );
