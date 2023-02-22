@@ -5,4 +5,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: "local",
   name: "Local",
   orientation: "portrait",
+  ios: {
+    "bundleIdentifier": "com.joinpickup.local"
+  },
+  plugins: []
 });

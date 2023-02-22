@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-function Profile(props) {
+function ProfileSolid(props) {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,4 +15,4 @@ function Profile(props) {
   );
 }
 
-export default Profile;
+export default ProfileSolid;

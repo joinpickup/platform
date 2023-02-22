@@ -13,6 +13,7 @@ SplashScreen.preventAutoHideAsync();
 
 function App() {
   const [user, setUser] = useState(true);
+
   const [fontsLoaded] = useFonts({
     'Nunito-Bold': require('./src/assets/fonts/Nunito-Bold.ttf'),
     'Nunito-Regular': require('./src/assets/fonts/Nunito-Regular.ttf'),
@@ -27,9 +28,7 @@ function App() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <NavigationContainer theme={DarkMode}>

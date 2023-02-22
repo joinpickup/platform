@@ -1,20 +1,22 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PlacesScreen from "../src/screens/postAuth/core/places/PlacesScreen";
-import EventsScreen from "../src/screens/postAuth/core/events/EventsScreen";
 import ProfileScreen from "../src/screens/postAuth/core/profile/ProfileScreen";
-import EventScreen from "../src/screens/postAuth/event/EventScreen";
-import Home from "../src/components/icons/Home";
-import Places from "../src/components/icons/Places";
-import Events from "../src/components/icons/Events";
-import Profile from "../src/components/icons/Profile";
+import HomeSolid from "../src/components/icons/home/HomeSolid";
+import ProfileSolid from "../src/components/icons/profile/ProfileSolid";
 import DiscoverNavigator from "../src/screens/postAuth/core/discover/navigator/DiscoverNavigator";
-import DiscoverScreen from "../src/screens/postAuth/core/discover/DiscoverScreen";
 import { Colors } from "../src/styles/theme";
 import PostScreen from "../src/screens/postAuth/post/PostScreen";
 import EventsNavigator from "../src/screens/postAuth/core/events/navigator/EventsNavigator";
 import EventPage from "../src/screens/postAuth/event/EventScreen";
+import HomeOutline from "../src/components/icons/home/HomeOutline";
+import MapOutline from "../src/components/icons/map/MapOutline";
+import MapSolid from "../src/components/icons/map/MapSolid";
+import CalendarOutline from "../src/components/icons/calendar/CalendarOutline";
+import CalendarSolid from "../src/components/icons/calendar/CalendarSolid";
+import ProfileOutline from "../src/components/icons/profile/ProfileOutline";
+import PersonScreen from "../src/screens/postAuth/person/PersonScreen";
+import PlacesNavigator from "../src/screens/postAuth/core/places/navigator/PlacesNavigator";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,17 +38,19 @@ function CoreNavigator() {
         name="Home"
         component={DiscoverNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Home name="home" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            focused ? <HomeSolid name="home" color={color} size={size} /> : 
+            <HomeOutline name="home" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
         name="Places"
-        component={PlacesScreen}
+        component={PlacesNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Places name="home" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            focused ? <MapSolid name="home" color={color} size={size} /> :
+            <MapOutline name="home" color={color} size={size} /> 
           ),
         }}
       />
@@ -54,8 +58,9 @@ function CoreNavigator() {
         name="Events"
         component={EventsNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Events name="events" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            focused ?  <CalendarSolid name="events" color={color} size={size} /> :
+            <CalendarOutline name="events" color={color} size={size} /> 
           ),
         }}
       />
@@ -63,8 +68,9 @@ function CoreNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Profile name="home" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            focused ?  <ProfileSolid name="profile" color={color} size={size} /> :
+            <ProfileOutline name="profile" color={color} size={size} />
           ),
         }}
       />
@@ -79,6 +85,7 @@ export function PostAuthNavigator() {
       <Stack.Screen name="Core" component={CoreNavigator} options={{headerShown: false}} />
       <Stack.Screen name="EventScreen" component={EventPage} />
       <Stack.Screen name="PostScreen" component={PostScreen} />
+      <Stack.Screen name="PersonScreen" component={PersonScreen} />
     </Stack.Navigator>
   );
 }

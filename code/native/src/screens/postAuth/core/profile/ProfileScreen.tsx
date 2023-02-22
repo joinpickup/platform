@@ -1,7 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View, Text, Pressable } from "react-native";
-import Home from "../../../../components/icons/Home";
-import ProfileBody from "./ProfileBody";
+import HomeSolid from "../../../../components/icons/home/HomeSolid";
+import RightArrow from "../../../../components/icons/RightArrow";
 
 interface Setting {
   icon: JSX.Element;
@@ -17,13 +18,13 @@ const accountSettings: SettingGroup = {
   name: "Account",
   settings: [
     {
-      icon: <Home 
+      icon: <HomeSolid 
         className="text-gray-300"
       />,
       name: "Profile"
     },
     {
-      icon: <Home 
+      icon: <HomeSolid 
         className="text-gray-300"
       />,
       name: "Home"
@@ -35,13 +36,13 @@ const appSettings: SettingGroup = {
   name: "Application",
   settings: [
     {
-      icon: <Home 
+      icon: <HomeSolid 
         className="text-gray-300"
       />,
       name: "Profile"
     },
     {
-      icon: <Home 
+      icon: <HomeSolid 
         className="text-gray-300"
       />,
       name: "Home"
@@ -54,8 +55,31 @@ const allSettings: SettingGroup[] = [
 ]
 
 export default function ProfileScreen() {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView className="flex flex-col flex-1">
+      <View className="p-4 flex-row space-x-4 items-center">
+        <View className="h-16 w-16 bg-blue-400 rounded-full">
+        </View>
+        <View className="flex-col">
+          <View>
+            <Text 
+            style={{fontFamily: "Nunito-Bold"}}
+            className="text-gray-300 text-xl">Andrew</Text>
+          </View>
+          <Pressable onPress={(() => {
+            navigation.push("PersonScreen")
+          })}>
+            <View>
+              <Text
+              style={{fontFamily: "Nunito-SemiBold"}}
+              className="text-orange-500"
+              >View Profile</Text>
+            </View>
+          </Pressable>
+        </View>
+      </View>
       <ScrollView className="flex-1 p-4">
         <ProfileSettings groups={allSettings} />
       </ScrollView>
@@ -123,13 +147,16 @@ function SettingItem(props: SettingItemProps) {
         <View>
           {props.setting.icon}
         </View>
-        <View>
+        <View className="flex-1">
           <Text
             style={{
               fontFamily: "Nunito-Bold"
             }}
             className="text-lg text-gray-300"
           >{props.setting.name}</Text>
+        </View>
+        <View>
+          <RightArrow className="text-gray-300"/>
         </View>
       </View>
     </Pressable>

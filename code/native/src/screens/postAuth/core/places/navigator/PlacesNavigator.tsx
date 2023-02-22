@@ -1,14 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react"
+import React from "react";
 import { SafeAreaView } from "react-native";
 import { Colors } from "../../../../../styles/theme";
-import DiscoverAppBar from "../EventsAppBar";
-import EventsScreen from "../EventsScreen";
-import EventsAppBar from "../EventsAppBar";
+import PlacesAppBar from "../PlacesAppBar";
+import PlaceScreen from "../../../place/PlaceScreen";
+import PlacesScreen from "../PlacesScreen";
 
 const Stack = createNativeStackNavigator();
 
-export default function EventsNavigator() {
+export default function PlacesNavigator() {
   return (
     <Stack.Navigator screenOptions={{
       headerStyle: {
@@ -17,11 +17,11 @@ export default function EventsNavigator() {
       header: ({ navigation, route, options, back }) => {
       return (
           <SafeAreaView>
-            <EventsAppBar />
+            <PlacesAppBar />
           </SafeAreaView>
         )
     }}}>
-      <Stack.Screen name="EventsScreen" component={EventsScreen} />
+      <Stack.Screen name="PlacesScreen" component={PlacesScreen} />
     </Stack.Navigator>
   );
 }

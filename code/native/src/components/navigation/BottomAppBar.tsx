@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, TouchableOpacity, View, SafeAreaView } from "react-native";
 import Events from "../icons/Events";
-import Home from "../icons/Home";
+import HomeSolid from "../icons/home/HomeSolid";
 import Places from "../icons/Places";
-import Profile from "../icons/Profile";
+import ProfileSolid from "../icons/profile/ProfileSolid";
 import BaseText from "../text/BaseText";
 
 type Props = {
@@ -16,7 +16,7 @@ export default function BottomAppBar(props: Props) {
     <SafeAreaView className="bg-gray-700">
       <View className="flex rounded-lg w-screen p-2 px-4 flex-row justify-between">
         <BottomAppBarItem
-          icon={<Home className="text-gray-300" />}
+          icon={<HomeSolid className="text-gray-300" />}
           text="Home"
           tab={0}
           current={props.tab}
@@ -37,7 +37,7 @@ export default function BottomAppBar(props: Props) {
           setTab={props.setTab}
         />
         <BottomAppBarItem
-          icon={<Profile className="text-gray-300" />}
+          icon={<ProfileSolid className="text-gray-300" />}
           text="Profile"
           tab={3}
           current={props.tab}
