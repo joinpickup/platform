@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 
 function MapSolid(props) {
   return (
@@ -16,7 +16,7 @@ function MapSolid(props) {
         clipRule="evenodd"
       />
     </Svg>
-  )
+  );
 }
 
-export default MapSolid
+export default MapSolid;

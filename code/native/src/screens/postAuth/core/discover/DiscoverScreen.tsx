@@ -1,6 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import React, {useState} from "react";
-import { Pressable, RefreshControl, TouchableOpacity, View, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+  Pressable,
+  RefreshControl,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
 import Card from "../../../../components/surfaces/cards/Card";
 import PostCard from "../../../../components/surfaces/cards/PostCard";
 import Post from "../../../../models/post";
@@ -16,15 +22,13 @@ const data: Post[] = [
     },
     title: "Looking for a Belay Partner",
     body: "Here is some more info about me...",
-    interests: [
-      {id: 2, name: "Rock-Climbing"},
-    ],
+    interests: [{ id: 2, name: "Rock-Climbing" }],
     location: {
       id: "1",
-      common_name: "East Rock"
+      common_name: "East Rock",
     },
-    visibility: Visibility.PUBLIC
-  }, 
+    visibility: Visibility.PUBLIC,
+  },
   {
     id: 2,
     created_at: new Date(),
@@ -34,14 +38,12 @@ const data: Post[] = [
     },
     title: "Looking to go on a midnight hike",
     body: "Let me know what you think!!...",
-    interests: [
-      {id: 1, name: "Hiking"},
-    ],
+    interests: [{ id: 1, name: "Hiking" }],
     location: {
       id: "1",
-      common_name: "East Rock"
+      common_name: "East Rock",
     },
-    visibility: Visibility.PRIVATE
+    visibility: Visibility.PRIVATE,
   },
 ];
 
@@ -57,27 +59,21 @@ export default function DiscoverScreen() {
   }, []);
 
   return (
-    <ScrollView 
-    className="flex-1 bg-gray-600 px-2"
-    refreshControl={
-      <RefreshControl 
-        refreshing={refreshing} 
-        onRefresh={onRefresh} 
-        tintColor="#d1d5db"
-      />
-    }
+    <ScrollView
+      className="flex-1 bg-gray-600 px-2"
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#d1d5db"
+        />
+      }
     >
       <View className="flex py-2 flex-col space-y-2">
         {data.map((post) => {
           return (
             <View key={post.id}>
-              <Pressable
-                onPress={() => {
-                  navigator.push("PostScreen", {id: post.id})
-                }}
-              >
-                <PostCard post={post}/>
-              </Pressable>
+                <PostCard post={post} />
             </View>
           );
         })}

@@ -16,7 +16,7 @@ export default interface Post {
   visibility: Visibility;
 
   // generated
-  interests: Interest[]
+  interests: Interest[];
 }
 
 export interface PostBody {

@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 
 function RightArrow(props) {
   return (
@@ -18,7 +18,7 @@ function RightArrow(props) {
         d="M8.25 4.5l7.5 7.5-7.5 7.5"
       />
     </Svg>
-  )
+  );
 }
 
-export default RightArrow
+export default RightArrow;

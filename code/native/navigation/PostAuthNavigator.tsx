@@ -30,7 +30,7 @@ function CoreNavigator() {
         tabBarInactiveTintColor: Colors.gray["500"],
         tabBarStyle: {
           backgroundColor: Colors.gray["700"],
-          borderTopColor: Colors.gray["800"]
+          borderTopColor: Colors.gray["800"],
         },
       }}
     >
@@ -38,40 +38,48 @@ function CoreNavigator() {
         name="Home"
         component={DiscoverNavigator}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            focused ? <HomeSolid name="home" color={color} size={size} /> : 
-            <HomeOutline name="home" color={color} size={size} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <HomeSolid name="home" color={color} size={size} />
+            ) : (
+              <HomeOutline name="home" color={color} size={size} />
+            ),
         }}
       />
       <Tab.Screen
         name="Places"
         component={PlacesNavigator}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            focused ? <MapSolid name="home" color={color} size={size} /> :
-            <MapOutline name="home" color={color} size={size} /> 
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <MapSolid name="home" color={color} size={size} />
+            ) : (
+              <MapOutline name="home" color={color} size={size} />
+            ),
         }}
       />
       <Tab.Screen
         name="Events"
         component={EventsNavigator}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            focused ?  <CalendarSolid name="events" color={color} size={size} /> :
-            <CalendarOutline name="events" color={color} size={size} /> 
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <CalendarSolid name="events" color={color} size={size} />
+            ) : (
+              <CalendarOutline name="events" color={color} size={size} />
+            ),
         }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            focused ?  <ProfileSolid name="profile" color={color} size={size} /> :
-            <ProfileOutline name="profile" color={color} size={size} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <ProfileSolid name="profile" color={color} size={size} />
+            ) : (
+              <ProfileOutline name="profile" color={color} size={size} />
+            ),
         }}
       />
     </Tab.Navigator>
@@ -79,10 +87,12 @@ function CoreNavigator() {
 }
 export function PostAuthNavigator() {
   return (
-    <Stack.Navigator
-      initialRouteName="Core"
-    >
-      <Stack.Screen name="Core" component={CoreNavigator} options={{headerShown: false}} />
+    <Stack.Navigator initialRouteName="Core">
+      <Stack.Screen
+        name="Core"
+        component={CoreNavigator}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="EventScreen" component={EventPage} />
       <Stack.Screen name="PostScreen" component={PostScreen} />
       <Stack.Screen name="PersonScreen" component={PersonScreen} />

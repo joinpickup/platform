@@ -18,41 +18,31 @@ const accountSettings: SettingGroup = {
   name: "Account",
   settings: [
     {
-      icon: <HomeSolid 
-        className="text-gray-300"
-      />,
-      name: "Profile"
+      icon: <HomeSolid className="text-gray-300" />,
+      name: "Profile",
     },
     {
-      icon: <HomeSolid 
-        className="text-gray-300"
-      />,
-      name: "Home"
+      icon: <HomeSolid className="text-gray-300" />,
+      name: "Home",
     },
-  ]
-}
+  ],
+};
 
 const appSettings: SettingGroup = {
   name: "Application",
   settings: [
     {
-      icon: <HomeSolid 
-        className="text-gray-300"
-      />,
-      name: "Profile"
+      icon: <HomeSolid className="text-gray-300" />,
+      name: "Profile",
     },
     {
-      icon: <HomeSolid 
-        className="text-gray-300"
-      />,
-      name: "Home"
+      icon: <HomeSolid className="text-gray-300" />,
+      name: "Home",
     },
-  ]
-}
+  ],
+};
 
-const allSettings: SettingGroup[] = [
-  accountSettings, appSettings
-]
+const allSettings: SettingGroup[] = [accountSettings, appSettings];
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -60,22 +50,28 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView className="flex flex-col flex-1">
       <View className="p-4 flex-row space-x-4 items-center">
-        <View className="h-16 w-16 bg-blue-400 rounded-full">
-        </View>
+        <View className="h-16 w-16 bg-blue-400 rounded-full"></View>
         <View className="flex-col">
           <View>
-            <Text 
-            style={{fontFamily: "Nunito-Bold"}}
-            className="text-gray-300 text-xl">Andrew</Text>
+            <Text
+              style={{ fontFamily: "Nunito-Bold" }}
+              className="text-gray-300 text-xl"
+            >
+              Andrew
+            </Text>
           </View>
-          <Pressable onPress={(() => {
-            navigation.push("PersonScreen")
-          })}>
+          <Pressable
+            onPress={() => {
+              navigation.push("PersonScreen");
+            }}
+          >
             <View>
               <Text
-              style={{fontFamily: "Nunito-SemiBold"}}
-              className="text-orange-500"
-              >View Profile</Text>
+                style={{ fontFamily: "Nunito-SemiBold" }}
+                className="text-orange-500"
+              >
+                View Profile
+              </Text>
             </View>
           </Pressable>
         </View>
@@ -88,77 +84,87 @@ export default function ProfileScreen() {
 }
 
 interface ProfileSettingsProps {
-  groups: SettingGroup[]
+  groups: SettingGroup[];
 }
 
 function ProfileSettings(props: ProfileSettingsProps) {
   return (
     <View className="flex-col space-y-4">
-      {props.groups.map(group => {
+      {props.groups.map((group) => {
         return (
           <View key={group.name} className="flex-col space-y-2">
             <View>
-              <Text 
-                style={{fontFamily: "Nunito-Bold"}}
-                className="text-gray-300 text-xl">{group.name}</Text>
+              <Text
+                style={{ fontFamily: "Nunito-Bold" }}
+                className="text-gray-300 text-xl"
+              >
+                {group.name}
+              </Text>
             </View>
             <View className="flex-col space-y-2 rounded-lg p-2 bg-gray-600">
               <SettingGroup settings={group.settings} />
             </View>
           </View>
-        )
+        );
       })}
     </View>
-  )
+  );
 }
 
 interface SettingGroupProps {
-  settings: Setting[] 
+  settings: Setting[];
 }
 
 function SettingGroup(props: SettingGroupProps) {
   return (
     <View className="flex-col space-y-1 divide-gray-700 rounded-lg">
-      {props.settings.map(setting => {
+      {props.settings.map((setting) => {
         return (
-          <View key={setting.name} >
+          <View key={setting.name}>
             <SettingItem setting={setting} />
           </View>
-        )
+        );
       })}
     </View>
-  )
-
+  );
 }
 
 interface SettingItemProps {
-  setting: Setting
+  setting: Setting;
 }
 
 function SettingItem(props: SettingItemProps) {
   const [selected, setSelected] = useState(false);
   return (
-    <Pressable onPressIn={() => {
-      setSelected(true)
-    }} onPressOut={() => {
-      setSelected(false)
-    }}>
-      <View key={props.setting.name} className={`${selected ? "bg-gray-700" : ""} rounded-lg p-2 flex-row space-x-2 items-center`}>
-        <View>
-          {props.setting.icon}
-        </View>
+    <Pressable
+      onPressIn={() => {
+        setSelected(true);
+      }}
+      onPressOut={() => {
+        setSelected(false);
+      }}
+    >
+      <View
+        key={props.setting.name}
+        className={`${
+          selected ? "bg-gray-700" : ""
+        } rounded-lg p-2 flex-row space-x-2 items-center`}
+      >
+        <View>{props.setting.icon}</View>
         <View className="flex-1">
           <Text
             style={{
-              fontFamily: "Nunito-Bold"
+              fontFamily: "Nunito-Bold",
             }}
             className="text-lg text-gray-300"
-          >{props.setting.name}</Text>
+          >
+            {props.setting.name}
+          </Text>
         </View>
         <View>
-          <RightArrow className="text-gray-300"/>
+          <RightArrow className="text-gray-300" />
         </View>
       </View>
     </Pressable>
-  )
+  );
 }

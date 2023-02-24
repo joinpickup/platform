@@ -7,11 +7,14 @@ import {
   View,
   Keyboard,
 } from "react-native";
+import AddSolid from "../../../../components/icons/add/AddSolid";
 import Close from "../../../../components/icons/Close";
 import Group from "../../../../components/icons/Group";
+import HomeSolid from "../../../../components/icons/home/HomeSolid";
 import More from "../../../../components/icons/More";
 import Search from "../../../../components/icons/Search";
-import style from "../../../../styles/style"
+import IconButton from "../../../../components/input/IconButton";
+import style from "../../../../styles/style";
 
 export default function DiscoverAppBar() {
   const [search, setSearch] = useState("");
@@ -19,15 +22,16 @@ export default function DiscoverAppBar() {
   const navigation = useNavigation();
 
   return (
-    <View className={`flex font-sans-serif items-center p-2 shadow-lg flex-row`}>
+    <View
+      className={`flex font-sans-serif items-center p-2 shadow-lg flex-row`}
+    >
       {searching ? (
         <></>
       ) : (
         <View className="p-2">
-          <TouchableOpacity onPress={() => {
-          }}>
+          <IconButton press={() => {}}>
             <Group className="text-gray-300" />
-          </TouchableOpacity>
+          </IconButton>
         </View>
       )}
       <View className="flex-row space-x-2 items-center flex-1 h-8 px-2 font-bold bg-gray-600 rounded-lg ">
@@ -68,9 +72,9 @@ export default function DiscoverAppBar() {
         </View>
       ) : (
         <View className="p-2">
-          <TouchableOpacity>
-            <More className="text-gray-300" />
-          </TouchableOpacity>
+          <IconButton press={() => {}}>
+            <AddSolid className="text-gray-300"/>
+          </IconButton>
         </View>
       )}
     </View>

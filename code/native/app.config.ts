@@ -5,8 +5,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: "local",
   name: "Local",
   orientation: "portrait",
-  ios: {
-    "bundleIdentifier": "com.joinpickup.local"
+  splash: {
+    image: "./src/assets/splash.png",
+    backgroundColor: "#374151",
   },
-  plugins: []
+  ios: {
+    bundleIdentifier: "com.joinpickup.local",
+  },
+  plugins: [],
 });

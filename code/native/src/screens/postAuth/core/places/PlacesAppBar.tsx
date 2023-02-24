@@ -19,7 +19,9 @@ export default function PlacesAppBar() {
   const navigation = useNavigation();
 
   return (
-    <View className={`flex font-sans-serif items-center p-2 shadow-lg flex-row`}>
+    <View
+      className={`flex font-sans-serif items-center p-2 shadow-lg flex-row`}
+    >
       <View className="flex-row space-x-2 items-center flex-1 h-8 px-2 font-bold bg-gray-600 rounded-lg ">
         <Search className="text-gray-300" />
         <TextInput

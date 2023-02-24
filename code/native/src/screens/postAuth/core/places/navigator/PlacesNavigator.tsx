@@ -10,17 +10,20 @@ const Stack = createNativeStackNavigator();
 
 export default function PlacesNavigator() {
   return (
-    <Stack.Navigator screenOptions={{
-      headerStyle: {
-        backgroundColor: Colors.gray["700"]
-      },
-      header: ({ navigation, route, options, back }) => {
-      return (
-          <SafeAreaView>
-            <PlacesAppBar />
-          </SafeAreaView>
-        )
-    }}}>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.gray["700"],
+        },
+        header: ({ navigation, route, options, back }) => {
+          return (
+            <SafeAreaView>
+              <PlacesAppBar />
+            </SafeAreaView>
+          );
+        },
+      }}
+    >
       <Stack.Screen name="PlacesScreen" component={PlacesScreen} />
     </Stack.Navigator>
   );

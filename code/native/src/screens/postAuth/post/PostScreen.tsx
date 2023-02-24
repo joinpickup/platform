@@ -10,10 +10,12 @@ export default function PostScreen() {
     <SafeAreaView>
       <Text
         style={{
-          fontFamily: "Nunito-Bold"
+          fontFamily: "Nunito-Bold",
         }}
         className="text-2xl text-gray-300"
-      >Post {id}</Text>
+      >
+        Post {id}
+      </Text>
     </SafeAreaView>
   );
 }

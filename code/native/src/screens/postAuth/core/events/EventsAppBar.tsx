@@ -11,7 +11,6 @@ import Close from "../../../../components/icons/Close";
 import Group from "../../../../components/icons/Group";
 import More from "../../../../components/icons/More";
 import Search from "../../../../components/icons/Search";
-import style from "../../../../styles/style"
 import { Colors } from "../../../../styles/theme";
 
 export default function EventsAppBar() {
@@ -20,13 +19,14 @@ export default function EventsAppBar() {
   const navigation = useNavigation();
 
   return (
-    <View className={`flex font-sans-serif items-center p-2 shadow-lg flex-row`}>
+    <View
+      className={`flex font-sans-serif items-center p-2 shadow-lg flex-row`}
+    >
       {searching ? (
         <></>
       ) : (
         <View className="p-2">
-          <TouchableOpacity onPress={() => {
-          }}>
+          <TouchableOpacity onPress={() => {}}>
             <Group className="text-gray-300" />
           </TouchableOpacity>
         </View>

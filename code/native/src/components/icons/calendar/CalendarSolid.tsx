@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 
 function CalendarSolid(props) {
   return (
@@ -17,7 +17,7 @@ function CalendarSolid(props) {
         clipRule="evenodd"
       />
     </Svg>
-  )
+  );
 }
 
-export default CalendarSolid
+export default CalendarSolid;
