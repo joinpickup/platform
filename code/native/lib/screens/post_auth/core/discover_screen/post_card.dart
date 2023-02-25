@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class EventCard extends HookWidget {
-  const EventCard({super.key});
+class PostCard extends HookWidget {
+  const PostCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class EventCard extends HookWidget {
         opacity.value = 0.6;
       },
       onTap: () {
-        print("Go to event page");
+        print("Go to post page");
       },
       onTapUp: (details) {
         opacity.value = 1;

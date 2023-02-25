@@ -25,7 +25,7 @@ class EventTabs extends HookWidget {
         },
         shrinkWrap: true,
         itemCount: tabs.value.length,
-        separatorBuilder: (context, index) => const Divider(),
+        separatorBuilder: (context, index) => const SizedBox(width: 12),
       ),
     );
   }
