@@ -10,12 +10,16 @@ class GroupDrawer extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchController = useTextEditingController(text: "");
+
     return Container(
       color: TW3Colors.gray.shade600,
       child: SafeArea(
         child: Column(
           children: [
-            const GroupDrawerAppBar(),
+            GroupDrawerAppBar(
+              searchController: searchController,
+            ),
             const GroupDrawerFeed(),
             Container(
               padding: const EdgeInsets.all(32),

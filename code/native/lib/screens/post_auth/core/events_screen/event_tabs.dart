@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:heroicons/heroicons.dart';
-import 'package:local/screens/post_auth/core/events_screen/event_card.dart';
 
 class EventTabs extends HookWidget {
   const EventTabs({super.key});
@@ -14,8 +11,10 @@ class EventTabs extends HookWidget {
       ["Upcoming", "Organized", "Saved", "Premium"],
     );
 
-    return Expanded(
+    return SizedBox(
+      height: 45,
       child: ListView.separated(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.all(12),
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {

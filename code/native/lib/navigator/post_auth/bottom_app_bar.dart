@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/navigator/post_auth/bottom_app_bar_item.dart';
+import 'package:tailwind_colors/tailwind_colors.dart';
 
 class CustomBottomAppBar extends HookWidget {
   const CustomBottomAppBar(
@@ -20,14 +21,12 @@ class CustomBottomAppBar extends HookWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
-        boxShadow: const [
-          BoxShadow(
-            offset: Offset(0, -2),
-            spreadRadius: -6,
-            blurRadius: 4,
-            color: Color.fromRGBO(0, 0, 0, 1),
+        border: Border(
+          top: BorderSide(
+            color: TW3Colors.gray.shade500.withOpacity(.25),
+            width: 1.0,
           ),
-        ],
+        ),
       ),
       child: Row(
         textBaseline: TextBaseline.alphabetic,

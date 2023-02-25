@@ -34,6 +34,7 @@ class CustomIconButton extends HookWidget {
         ),
         child: HeroIcon(
           icon,
+          color: TWColors.gray.shade400,
           size: size,
           style: selected.value ? HeroIconStyle.solid : HeroIconStyle.outline,
         ),

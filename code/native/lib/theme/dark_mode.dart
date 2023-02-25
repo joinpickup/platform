@@ -20,9 +20,38 @@ final darkTheme = ThemeData(
     surface: createMaterialColor(TW3Colors.gray.shade600),
     onSurface: createMaterialColor(TW3Colors.gray.shade300),
   ),
-  textTheme: const TextTheme(
+  fontFamily: "Nunito",
+  textTheme: TextTheme(
     bodyLarge: TextStyle(
-      fontFamily: "Nunito",
+      color: TW3Colors.gray.shade300,
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+    bodyMedium: TextStyle(
+      color: TW3Colors.gray.shade300,
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+    ),
+    titleLarge: TextStyle(
+      color: TW3Colors.gray.shade300,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+    titleMedium: TextStyle(
+      color: TW3Colors.gray.shade400,
+      fontSize: 14,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.bold,
+    ),
+    titleSmall: TextStyle(
+      color: TW3Colors.gray.shade400,
+      fontStyle: FontStyle.italic,
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+    ),
+    bodySmall: TextStyle(
+      color: TW3Colors.gray.shade300,
+      fontWeight: FontWeight.bold,
     ),
   ),
 );

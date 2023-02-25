@@ -52,6 +52,7 @@ class CustomBottomAppBarItem extends HookWidget {
                 child: Text(
                   label,
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
                     color: active
                         ? TW3Colors.gray.shade300
                         : TW3Colors.gray.shade500,

@@ -3,11 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/input/input.dart';
-import 'package:local/screens/post_auth/core/discover_screen/add_post.dart';
+import 'package:local/screens/post_auth/core/events_screen/add_event.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class DiscoverAppBar extends HookWidget {
-  const DiscoverAppBar({super.key, required this.searchController});
+class PlacesAppbar extends HookWidget {
+  const PlacesAppbar({super.key, required this.searchController});
 
   final TextEditingController searchController;
 
@@ -27,19 +27,9 @@ class DiscoverAppBar extends HookWidget {
       child: SafeArea(
         child: Row(children: [
           Expanded(
-            flex: 0,
-            child: CustomIconButton(
-              size: 24,
-              icon: HeroIcons.userGroup,
-              tap: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
-          ),
-          Expanded(
             flex: 1,
             child: CustomInput(
-              placeholder: "Search for a post...",
+              placeholder: "Search for a place...",
               controller: searchController,
             ),
           ),
@@ -51,7 +41,7 @@ class DiscoverAppBar extends HookWidget {
               tap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AddPostScreen(),
+                    builder: (context) => const AddEventScreen(),
                   ),
                 );
               },

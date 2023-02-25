@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   heroicons:
 
+  pull_to_refresh: ^2.0.0
   cupertino_icons: ^1.0.2
   flutter_hooks: ^0.18.6
   tailwind_colors: ^0.3.1
@@ -20,6 +21,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
 flutter:
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: fonts/Nunito-Black.ttf
+        - asset: fonts/Nunito-BlackItalic.ttf
+          style: italic
+        - asset: fonts/Nunito-Bold.ttf
+        - asset: fonts/Nunito-BoldItalic.ttf
+          style: italic
+        - asset: fonts/Nunito-Regular.ttf
+        - asset: fonts/Nunito-Italic.ttf
+          style: italic
 
   uses-material-design: true
