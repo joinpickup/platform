@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AddPostScreen extends HookWidget {
@@ -6,8 +7,13 @@ class AddPostScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green.shade300,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Add Post",
+        ),
+      ),
+      body: Container(),
     );
   }
 }

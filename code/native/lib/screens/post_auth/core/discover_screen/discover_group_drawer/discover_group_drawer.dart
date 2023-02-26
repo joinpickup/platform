@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/components/input/button.dart';
+import 'package:local/screens/post_auth/core/discover_screen/discover_group_drawer/add_group.dart';
 import 'package:local/screens/post_auth/core/discover_screen/discover_group_drawer/group_drawer_app_bar.dart';
 import 'package:local/screens/post_auth/core/discover_screen/discover_group_drawer/group_drawer_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -23,7 +24,11 @@ class GroupDrawer extends HookWidget {
             const GroupDrawerFeed(),
             Container(
               padding: const EdgeInsets.all(32),
-              child: const CustomButton(),
+              child: CustomButton(
+                tap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const AddGroupScreen(),
+                )),
+              ),
             ),
           ],
         ),

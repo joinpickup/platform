@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class EventScreen extends HookWidget {
-  const EventScreen({super.key, required this.eventID});
+class PersonScreen extends HookWidget {
+  const PersonScreen({super.key, required this.personID});
 
-  final int eventID;
+  final int personID;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Event $eventID"),
+        title: Text(
+          "Person Screen $personID",
+        ),
       ),
     );
   }

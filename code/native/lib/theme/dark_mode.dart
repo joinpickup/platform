@@ -11,7 +11,7 @@ final darkTheme = ThemeData(
     ),
     onPrimary: createMaterialColor(TW3Colors.gray.shade300),
     secondary: createMaterialColor(
-      const Color(0xFF5A6943),
+      const Color(0xFF6B7954),
     ),
     onSecondary: createMaterialColor(TW3Colors.gray.shade300),
     error: createMaterialColor(TW3Colors.red),

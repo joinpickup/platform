@@ -6,8 +6,10 @@ class AddPlaceScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green.shade600,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Place"),
+      ),
     );
   }
 }

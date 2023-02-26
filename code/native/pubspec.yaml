@@ -1,11 +1,11 @@
 name: local
 description: Go local and get connected to your community.
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+  sdk: ">=2.19.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -16,6 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_hooks: ^0.18.6
   tailwind_colors: ^0.3.1
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

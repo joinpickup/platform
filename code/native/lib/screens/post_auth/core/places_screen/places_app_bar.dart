@@ -4,6 +4,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/input/input.dart';
 import 'package:local/screens/post_auth/core/events_screen/add_event.dart';
+import 'package:local/screens/post_auth/core/places_screen/add_place.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class PlacesAppbar extends HookWidget {
@@ -41,7 +42,7 @@ class PlacesAppbar extends HookWidget {
               tap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AddEventScreen(),
+                    builder: (context) => const AddPlaceScreen(),
                   ),
                 );
               },

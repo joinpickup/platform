@@ -9,12 +9,8 @@ class PostScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Colors.blue,
-          child: Text("Post ID $postID"),
-        ),
-      ),
+      appBar: AppBar(title: Text("Post Page $postID")),
+      body: Container(),
     );
   }
 }

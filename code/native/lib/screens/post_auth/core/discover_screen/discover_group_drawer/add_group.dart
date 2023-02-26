@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class EventScreen extends HookWidget {
-  const EventScreen({super.key, required this.eventID});
-
-  final int eventID;
+class AddGroupScreen extends HookWidget {
+  const AddGroupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Event $eventID"),
+        title: const Text(
+          "Add Group",
+        ),
       ),
+      body: Container(),
     );
   }
 }

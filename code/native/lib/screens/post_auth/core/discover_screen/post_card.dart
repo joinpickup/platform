@@ -141,7 +141,7 @@ Widget _buildPostCardFooter(BuildContext context, Post post) {
       Text(
         "#Rock-Climbing",
         style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.secondary,
         ),
       ),
       const Text(

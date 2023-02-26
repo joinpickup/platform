@@ -6,8 +6,12 @@ class AddEventScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green.shade800,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Add Event",
+        ),
+      ),
     );
   }
 }

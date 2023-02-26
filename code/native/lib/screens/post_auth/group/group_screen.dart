@@ -8,8 +8,12 @@ class GroupScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blueGrey.shade400,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Group Screen $groupID",
+        ),
+      ),
     );
   }
 }

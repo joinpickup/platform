@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
 import 'package:local/models/event.dart';
+import 'package:local/models/post.dart';
 import 'package:local/screens/post_auth/event/event_screen.dart';
+import 'package:local/screens/post_auth/post/post_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class EventCard extends HookWidget {
@@ -21,7 +23,8 @@ class EventCard extends HookWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => EventScreen(eventID: event.eventID),
+            builder: (BuildContext context) =>
+                EventScreen(eventID: event.eventID),
           ),
         );
       },
@@ -35,15 +38,94 @@ class EventCard extends HookWidget {
         duration: const Duration(milliseconds: 100),
         opacity: opacity.value,
         child: Container(
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: TW3Colors.gray.shade700,
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
           ),
-          height: 100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildEventCardHeader(context, event),
+              const SizedBox(
+                height: 8,
+              ),
+              _buildEventCardContent(context, event),
+              const SizedBox(
+                height: 8,
+              ),
+              _buildEventCardFooter(context, event),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget _buildEventCardHeader(BuildContext context, Event event) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // name
+      Text(
+        event.name,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+      const SizedBox(
+        height: 4,
+      ),
+      Text(
+        event.location.commonName,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildEventCardContent(BuildContext context, Event event) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        event.description,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    ],
+  );
+}
+
+Widget _buildEventCardFooter(BuildContext context, Event event) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        "#Rock-Climbing",
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
+      RichText(
+        text: TextSpan(
+          style: TextStyle(
+            fontSize: 12,
+            color: TW3Colors.gray.shade300,
+          ),
+          children: [
+            TextSpan(text: DateFormat.yMMMd().format(event.startDate)),
+            TextSpan(
+              text: " @ ",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+            TextSpan(text: event.startTime),
+          ],
+        ),
+      ),
+    ],
+  );
 }

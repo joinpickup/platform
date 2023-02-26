@@ -19,6 +19,7 @@ class GroupDrawerAppBar extends HookWidget {
               placeholder: "Search for a group...",
               controller: searchController,
               backgroundColor: TW3Colors.gray.shade500,
+              hintColor: TW3Colors.gray.shade400,
             ),
           )
         ],
