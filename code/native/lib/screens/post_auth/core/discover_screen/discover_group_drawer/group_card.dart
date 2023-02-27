@@ -35,15 +35,67 @@ class GroupCard extends HookWidget {
         duration: const Duration(milliseconds: 100),
         opacity: opacity.value,
         child: Container(
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: TW3Colors.gray.shade700,
+            border: Border.all(
+              color: TW3Colors.gray.shade500.withOpacity(.25),
+              width: 1.0,
+            ),
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
           ),
-          height: 100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildGroupCardHeader(context, group),
+              const SizedBox(
+                height: 8,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget _buildGroupCardHeader(BuildContext context, Group group) {
+  return Row(
+    children: [
+      // avatar
+      Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Colors.blue.shade400,
+        ),
+      ),
+      const SizedBox(
+        width: 8,
+      ),
+      // poster information
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // name
+          Text(
+            group.name,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          // location / visbility
+          Row(
+            children: [
+              Text(
+                group.slug,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ],
+          )
+        ],
+      )
+    ],
+  );
 }

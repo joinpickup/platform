@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/models/post.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:timeago/timeago.dart';
 
 class PostCard extends HookWidget {
   const PostCard({super.key, required this.post});
@@ -37,6 +38,10 @@ class PostCard extends HookWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: TW3Colors.gray.shade700,
+            border: Border.all(
+              color: TW3Colors.gray.shade500.withOpacity(.25),
+              width: 1.0,
+            ),
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
@@ -139,13 +144,17 @@ Widget _buildPostCardFooter(BuildContext context, Post post) {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Text(
-        "#Rock-Climbing",
+        "#${post.interest.name}",
         style: TextStyle(
           color: Theme.of(context).colorScheme.secondary,
         ),
       ),
-      const Text(
-        "4m",
+      Text(
+        format(post.createdAt),
+        style: TextStyle(
+          fontSize: 12,
+          color: TW3Colors.gray.shade500,
+        ),
       ),
     ],
   );

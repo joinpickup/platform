@@ -1,3 +1,4 @@
+import 'package:local/models/interest.dart';
 import 'package:local/models/person.dart';
 
 enum Visibility { public, private, unlisted }
@@ -9,6 +10,12 @@ class Post {
   final String body;
   final Visibility visibility;
 
+  // generated
+  final Person poster;
+  final Interest interest;
+  // final Group group;
+  // final Space space;
+
   Post({
     required this.postID,
     required this.poster,
@@ -16,11 +23,6 @@ class Post {
     required this.title,
     required this.body,
     required this.visibility,
+    required this.interest,
   });
-  // generated
-  final Person poster;
-  // final Location location;
-  // final Interest[] interests;
-  // final Group group;
-  // final Space space;
 }

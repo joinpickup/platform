@@ -114,13 +114,12 @@ Widget _buildEventCardFooter(BuildContext context, Event event) {
         text: TextSpan(
           style: TextStyle(
             fontSize: 12,
-            color: TW3Colors.gray.shade300,
+            color: TW3Colors.gray.shade500,
           ),
           children: [
             TextSpan(text: DateFormat.yMMMd().format(event.startDate)),
-            TextSpan(
+            const TextSpan(
               text: " @ ",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
             TextSpan(text: event.startTime),
           ],

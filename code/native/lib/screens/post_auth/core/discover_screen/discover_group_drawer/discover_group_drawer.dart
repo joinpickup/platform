@@ -23,11 +23,12 @@ class GroupDrawer extends HookWidget {
             ),
             const GroupDrawerFeed(),
             Container(
-              padding: const EdgeInsets.all(32),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 32),
               child: CustomButton(
                 tap: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const AddGroupScreen(),
                 )),
+                text: "Create New Group",
               ),
             ),
           ],

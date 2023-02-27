@@ -32,7 +32,7 @@ final darkTheme = ThemeData(
       fontSize: 14,
       fontWeight: FontWeight.bold,
     ),
-    titleLarge: TextStyle(
+  titleLarge: TextStyle(
       color: TW3Colors.gray.shade300,
       fontSize: 20,
       fontWeight: FontWeight.bold,
