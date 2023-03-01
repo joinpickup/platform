@@ -12,39 +12,60 @@ class PostFeed extends HookWidget {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  void _onRefresh(ValueNotifier<List<Post>> posts) async {
+  void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    posts.value = [...posts.value, andrewPost];
     _refreshController.refreshCompleted();
   }
 
-  void _onLoading() async {
+  void _onLoading(ValueNotifier<List<Post>> posts) async {
     await Future.delayed(const Duration(milliseconds: 500));
+    posts.value = [
+      ...posts.value,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+      andrewPost,
+    ];
     _refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
     final posts = useState(allPosts);
+    final scrollController = useScrollController();
 
     return Expanded(
       child: SmartRefresher(
-        onRefresh: () => _onRefresh(posts),
-        onLoading: () => _onLoading(),
+        onRefresh: () => _onRefresh(),
+        onLoading: () => _onLoading(posts),
         enablePullDown: true,
+        enablePullUp: true,
         controller: _refreshController,
-        child: ListView.separated(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.all(8),
-          itemBuilder: (BuildContext context, int index) {
-            return PostCard(
-              post: posts.value[index],
-            );
-          },
-          shrinkWrap: true,
-          itemCount: posts.value.length,
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 8,
+        child: Scrollbar(
+          thumbVisibility: true,
+          controller: scrollController,
+          child: ListView.separated(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: const EdgeInsets.all(8),
+            itemBuilder: (BuildContext context, int index) {
+              return PostCard(
+                post: posts.value[index],
+              );
+            },
+            shrinkWrap: true,
+            controller: scrollController,
+            itemCount: posts.value.length,
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 8,
+            ),
           ),
         ),
       ),

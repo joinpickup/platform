@@ -13,6 +13,7 @@ class PostAuthNavigator extends HookWidget {
   Widget build(BuildContext context) {
     final showBottomBar = useState(true);
     final tab = useState(0);
+
     final items = useState([
       DiscoverScreen(
         showBottomBar: showBottomBar,

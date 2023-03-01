@@ -38,6 +38,7 @@ class EventFeed extends HookWidget {
       onRefresh: () => _onRefresh(events),
       onLoading: () => _onLoading(),
       enablePullDown: true,
+      enablePullUp: true,
       controller: _refreshController,
       child: ListView.separated(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
