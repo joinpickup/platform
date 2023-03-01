@@ -13,3 +13,5 @@ final brian = Person(
   name: "Brian",
   username: "windswept",
 );
+
+final allPersons = [andrew, brian];

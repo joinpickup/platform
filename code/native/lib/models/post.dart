@@ -1,14 +1,14 @@
 import 'package:local/models/interest.dart';
 import 'package:local/models/person.dart';
 
-enum Visibility { public, private, unlisted }
+enum PostVisibility { public, private, unlisted }
 
 class Post {
   final int postID;
   final DateTime createdAt;
   final String title;
   final String body;
-  final Visibility visibility;
+  final PostVisibility visibility;
 
   // generated
   final Person poster;

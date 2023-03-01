@@ -16,25 +16,25 @@ class EventsScreen extends HookWidget {
 
   final tabs = [
     TabModel(
-      body: const EventFeed(
+      body: EventFeed(
         filter: EventFilter.upcoming,
       ),
       name: "Upcoming",
     ),
     TabModel(
-      body: const EventFeed(
+      body: EventFeed(
         filter: EventFilter.organized,
       ),
       name: "Organized",
     ),
     TabModel(
-      body: const EventFeed(
+      body: EventFeed(
         filter: EventFilter.saved,
       ),
       name: "Saved",
     ),
     TabModel(
-      body: const EventFeed(
+      body: EventFeed(
         filter: EventFilter.premium,
       ),
       name: "Premium",

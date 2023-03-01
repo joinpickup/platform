@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
@@ -12,7 +13,19 @@ class CustomButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selected = useState(false);
+
     return GestureDetector(
+      onTapDown: (details) {
+        selected.value = true;
+        HapticFeedback.lightImpact();
+      },
+      onTapUp: (details) {
+        selected.value = false;
+      },
+      onTapCancel: () {
+        selected.value = false;
+      },
       onTap: () => tap(),
       child: Container(
         width: double.infinity,
@@ -21,7 +34,9 @@ class CustomButton extends HookWidget {
           borderRadius: BorderRadius.circular(
             8,
           ),
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.secondary.withOpacity(
+                selected.value ? 0.80 : 1,
+              ),
         ),
         child: Text(
           text,

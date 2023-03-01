@@ -22,3 +22,5 @@ final climbingSession2 = Event(
   endDate: DateTime.now(),
   endTime: "11:00",
 );
+
+final allEvents = [climbingSession1, climbingSession2];

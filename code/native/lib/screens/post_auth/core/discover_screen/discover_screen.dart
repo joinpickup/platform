@@ -38,7 +38,7 @@ class DiscoverScreen extends HookWidget {
       backgroundColor: TW3Colors.gray.shade600,
       body: SafeArea(
         child: Column(
-          children: const [
+          children: [
             PostFeed(),
           ],
         ),

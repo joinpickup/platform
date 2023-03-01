@@ -11,7 +11,7 @@ final andrewPost = Post(
   ),
   title: "Looking for a belay buddy",
   body: "I have minimal experience so there's a solid chance you'll die. Oops",
-  visibility: Visibility.public,
+  visibility: PostVisibility.public,
   poster: andrew,
   interest: rockClimbingInterest,
 );
@@ -24,7 +24,9 @@ final brianPost = Post(
   title: "Anyone want to belay?",
   body:
       "I'm open to meeting with anyone. Except that guy with minimal experience.",
-  visibility: Visibility.private,
+  visibility: PostVisibility.private,
   poster: brian,
   interest: rockClimbingInterest,
 );
+
+final allPosts = [andrewPost, brianPost];
