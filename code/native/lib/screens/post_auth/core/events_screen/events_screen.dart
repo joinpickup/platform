@@ -15,29 +15,17 @@ class EventsScreen extends HookWidget {
   EventsScreen({super.key});
 
   final tabs = [
-    TabModel(
-      body: EventFeed(
-        filter: EventFilter.upcoming,
-      ),
-      name: "Upcoming",
+    EventFeed(
+      filter: EventFilter.upcoming,
     ),
-    TabModel(
-      body: EventFeed(
-        filter: EventFilter.organized,
-      ),
-      name: "Organized",
+    EventFeed(
+      filter: EventFilter.organized,
     ),
-    TabModel(
-      body: EventFeed(
-        filter: EventFilter.saved,
-      ),
-      name: "Saved",
+    EventFeed(
+      filter: EventFilter.saved,
     ),
-    TabModel(
-      body: EventFeed(
-        filter: EventFilter.premium,
-      ),
-      name: "Premium",
+    EventFeed(
+      filter: EventFilter.premium,
     ),
   ];
 
@@ -45,35 +33,18 @@ class EventsScreen extends HookWidget {
   Widget build(BuildContext context) {
     final searchController = useTextEditingController(text: "");
 
-    return DefaultTabController(
-      length: tabs.length,
-      child: Scaffold(
-        backgroundColor: TW3Colors.gray.shade600,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: EventsAppBar(
-            searchController: searchController,
-          ),
+    return Scaffold(
+      backgroundColor: TW3Colors.gray.shade600,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: EventsAppBar(
+          searchController: searchController,
         ),
-        body: Column(
-          children: [
-            TabBar(
-              isScrollable: true,
-              indicatorColor: Theme.of(context).colorScheme.secondary,
-              indicatorSize: TabBarIndicatorSize.label,
-              tabs: tabs
-                  .map((tab) => Tab(
-                        child: Text(tab.name),
-                      ))
-                  .toList(),
-            ),
-            Expanded(
-              child: TabBarView(
-                children: tabs.map((tab) => (tab.body)).toList(),
-              ),
-            ),
-          ],
-        ),
+      ),
+      body: Column(
+        children: [
+          tabs[0],
+        ],
       ),
     );
   }

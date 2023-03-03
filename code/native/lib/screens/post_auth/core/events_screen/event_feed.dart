@@ -34,24 +34,26 @@ class EventFeed extends HookWidget {
       climbingSession2,
     ]);
 
-    return SmartRefresher(
-      onRefresh: () => _onRefresh(events),
-      onLoading: () => _onLoading(),
-      enablePullDown: true,
-      enablePullUp: true,
-      controller: _refreshController,
-      child: ListView.separated(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        padding: const EdgeInsets.all(8),
-        itemBuilder: (BuildContext context, int index) {
-          return EventCard(
-            event: events.value[index],
-          );
-        },
-        shrinkWrap: true,
-        itemCount: events.value.length,
-        separatorBuilder: (context, index) => const SizedBox(
-          height: 8,
+    return Expanded(
+      child: SmartRefresher(
+        onRefresh: () => _onRefresh(events),
+        onLoading: () => _onLoading(),
+        enablePullDown: true,
+        enablePullUp: true,
+        controller: _refreshController,
+        child: ListView.separated(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          padding: const EdgeInsets.all(8),
+          itemBuilder: (BuildContext context, int index) {
+            return EventCard(
+              event: events.value[index],
+            );
+          },
+          shrinkWrap: true,
+          itemCount: events.value.length,
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 8,
+          ),
         ),
       ),
     );

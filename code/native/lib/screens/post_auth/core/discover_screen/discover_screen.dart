@@ -6,8 +6,7 @@ import 'package:local/screens/post_auth/core/discover_screen/post_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class DiscoverScreen extends HookWidget {
-  const DiscoverScreen(
-      {super.key, required this.showBottomBar});
+  const DiscoverScreen({super.key, required this.showBottomBar});
 
   final ValueNotifier<bool> showBottomBar;
 

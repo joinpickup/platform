@@ -5,3 +5,11 @@ final climbingGroup = Group(
   name: "Climbing Group",
   slug: "climb",
 );
+
+final climbingGroup2 = Group(
+  groupID: 2,
+  name: "Climbing Group2",
+  slug: "climb2",
+);
+
+final allGroups = [climbingGroup, climbingGroup2];

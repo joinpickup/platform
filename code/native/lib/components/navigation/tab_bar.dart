@@ -1,0 +1,113 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:tailwind_colors/tailwind_colors.dart';
+
+class CustomTabBar extends HookWidget {
+  const CustomTabBar(
+      {super.key, required this.tab, required this.includeSettings});
+
+  final ValueNotifier<int> tab;
+  final bool includeSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      color: TW3Colors.gray.shade700,
+      height: 65,
+      width: double.maxFinite,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            CustomTab(
+              label: "Posts",
+              active: tab,
+              tab: 0,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            CustomTab(
+              label: "Events",
+              active: tab,
+              tab: 1,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            CustomTab(
+              label: "Members",
+              active: tab,
+              tab: 2,
+            ),
+            includeSettings
+                ? Row(
+                    children: [
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      CustomTab(
+                        label: "Settings",
+                        active: tab,
+                        tab: 3,
+                      ),
+                    ],
+                  )
+                : Container()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTab extends HookWidget {
+  const CustomTab({
+    super.key,
+    required this.label,
+    required this.active,
+    required this.tab,
+  });
+
+  final String label;
+  final ValueNotifier<int> active;
+  final int tab;
+
+  @override
+  Widget build(BuildContext context) {
+    final current = active.value == tab;
+
+    final selected = useState(false);
+
+    return GestureDetector(
+      onTapDown: (details) {
+        selected.value = true;
+      },
+      onTapUp: (details) {
+        selected.value = false;
+      },
+      onTapCancel: () {
+        selected.value = false;
+      },
+      onTap: () {
+        active.value = tab;
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: current ? TW3Colors.gray.shade600 : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 20,
+            color:
+                TW3Colors.gray.shade300.withOpacity(selected.value ? .45 : 1),
+          ),
+        ),
+      ),
+    );
+  }
+}

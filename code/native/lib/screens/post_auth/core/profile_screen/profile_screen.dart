@@ -4,6 +4,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/setting_item.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/settings_group.dart';
+import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class ProfileScreen extends HookWidget {
@@ -16,16 +17,14 @@ class ProfileScreen extends HookWidget {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildAppBar(context),
-                SizedBox.fromSize(
-                  size: const Size.fromHeight(8),
-                ),
-                _buildProfileSettings(context),
-              ],
-            ),
+          child: ListView(
+            children: [
+              _buildAppBar(context),
+              SizedBox.fromSize(
+                size: const Size.fromHeight(8),
+              ),
+              _buildProfileSettings(context),
+            ],
           ),
         ),
       ),
@@ -34,34 +33,46 @@ class ProfileScreen extends HookWidget {
 }
 
 Widget _buildAppBar(BuildContext context) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Colors.blue.shade400,
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const PersonScreen(
+          personID: 1,
         ),
-      ),
-      const SizedBox(
-        width: 8,
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Andrew",
-            style: Theme.of(context).textTheme.titleLarge,
+      ));
+    },
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          height: 40,
+          width: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.blue.shade400,
           ),
-          Text(
-            "View Profile",
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        ],
-      )
-    ],
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Andrew",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              "View Profile",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: Theme.of(context).colorScheme.primary),
+            ),
+          ],
+        )
+      ],
+    ),
   );
 }
 
@@ -69,8 +80,14 @@ Widget _buildProfileSettings(BuildContext context) {
   return Column(
     children: [
       SettingsGroup(
-        name: "User Settings",
+        name: "Account Settings",
         settings: [
+          SettingsItem(
+            icon: HeroIcons.check,
+            name: "Verify Account",
+            action: () {},
+            hasArrow: false,
+          ),
           SettingsItem(
             icon: HeroIcons.user,
             name: "Edit Profile",
@@ -84,10 +101,10 @@ Widget _buildProfileSettings(BuildContext context) {
             hasArrow: true,
           ),
           SettingsItem(
-            icon: HeroIcons.check,
-            name: "Verify Profile",
+            icon: HeroIcons.arrowLeftOnRectangle,
+            name: "Logout",
             action: () {},
-            hasArrow: true,
+            hasArrow: false,
           ),
         ],
       ),
@@ -98,8 +115,18 @@ Widget _buildProfileSettings(BuildContext context) {
         name: "Application Settings",
         settings: [
           SettingsItem(
-            icon: HeroIcons.user,
-            name: "Edit Profile",
+            icon: HeroIcons.swatch,
+            name: "Theme",
+            action: () {},
+          ),
+          SettingsItem(
+            icon: HeroIcons.documentText,
+            name: "Terms Of Service",
+            action: () {},
+          ),
+          SettingsItem(
+            icon: HeroIcons.eye,
+            name: "Privacy Policy",
             action: () {},
           ),
         ],

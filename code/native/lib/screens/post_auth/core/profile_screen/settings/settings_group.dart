@@ -24,12 +24,15 @@ class SettingsGroup extends HookWidget {
             name,
             style: Theme.of(context).textTheme.titleLarge,
           ),
+          SizedBox.fromSize(
+            size: const Size.fromHeight(8),
+          ),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: TW3Colors.gray.shade500,
+              color: TW3Colors.gray.shade700,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

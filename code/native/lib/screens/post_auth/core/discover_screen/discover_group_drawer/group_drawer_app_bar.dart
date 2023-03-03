@@ -12,17 +12,20 @@ class GroupDrawerAppBar extends HookWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Expanded(
-            child: CustomInput(
-              placeholder: "Search for a group...",
-              controller: searchController,
-              backgroundColor: TW3Colors.gray.shade500,
-              hintColor: TW3Colors.gray.shade400,
-            ),
-          )
-        ],
+      color: TW3Colors.gray.shade700,
+      child: SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: CustomInput(
+                placeholder: "Search for a group...",
+                controller: searchController,
+                backgroundColor: TW3Colors.gray.shade600,
+                hintColor: TW3Colors.gray.shade500,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

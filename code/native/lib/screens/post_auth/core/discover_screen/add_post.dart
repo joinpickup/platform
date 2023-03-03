@@ -12,16 +12,20 @@ class AddPostScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          "Add Post",
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          title: const Text(
+            "Add Post",
+          ),
+          backgroundColor: TW3Colors.gray.shade700,
         ),
-      ),
-      backgroundColor: TW3Colors.gray.shade600,
-      body: SafeArea(
-        child: _buildBody(context),
+        backgroundColor: TW3Colors.gray.shade700,
+        body: SafeArea(
+          child: _buildBody(context),
+        ),
       ),
     );
   }
@@ -33,55 +37,52 @@ Widget _buildBody(BuildContext context) {
     padding: const EdgeInsets.all(16),
     child: Stack(
       children: [
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Post Information",
-                style: Theme.of(context).textTheme.bodyLarge,
+        ListView(
+          children: [
+            Text(
+              "Post Information",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            CupertinoTextField(
+              placeholder: "Enter a title...",
+              placeholderStyle: TextStyle(
+                color: TW3Colors.gray.shade400,
+                fontFamily: "Nunito",
               ),
-              const SizedBox(
-                height: 8,
+              style: TextStyle(
+                color: TW3Colors.gray.shade300,
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.bold,
               ),
-              CupertinoTextField(
-                placeholder: "Enter a title...",
-                placeholderStyle: TextStyle(
-                  color: TW3Colors.gray.shade400,
-                  fontFamily: "Nunito",
-                ),
-                style: TextStyle(
-                  color: TW3Colors.gray.shade300,
-                  fontFamily: "Nunito",
-                  fontWeight: FontWeight.bold,
-                ),
-                decoration: BoxDecoration(
-                  color: TW3Colors.gray.shade500,
-                  borderRadius: BorderRadius.circular(8),
-                ),
+              decoration: BoxDecoration(
+                color: TW3Colors.gray.shade600,
+                borderRadius: BorderRadius.circular(8),
               ),
-              const SizedBox(
-                height: 8,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            CupertinoTextField(
+              placeholder: "Enter a description...",
+              placeholderStyle: TextStyle(
+                color: TW3Colors.gray.shade400,
+                fontFamily: "Nunito",
               ),
-              CupertinoTextField(
-                placeholder: "Enter a description...",
-                placeholderStyle: TextStyle(
-                  color: TW3Colors.gray.shade400,
-                  fontFamily: "Nunito",
-                ),
-                style: TextStyle(
-                  color: TW3Colors.gray.shade300,
-                  fontFamily: "Nunito",
-                  fontWeight: FontWeight.bold,
-                ),
-                decoration: BoxDecoration(
-                  color: TW3Colors.gray.shade500,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                maxLines: 6,
+              style: TextStyle(
+                color: TW3Colors.gray.shade300,
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+              decoration: BoxDecoration(
+                color: TW3Colors.gray.shade600,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              maxLines: 6,
+            ),
+          ],
         ),
         Positioned(
           bottom: 0,
