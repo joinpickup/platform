@@ -22,7 +22,7 @@ class PostScreen extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: TW3Colors.gray.shade600,
+        backgroundColor: TW3Colors.gray.shade700,
         title: const Text("View Post"),
         elevation: 0,
         actions: [
@@ -34,7 +34,7 @@ class PostScreen extends HookWidget {
           )
         ],
       ),
-      backgroundColor: TW3Colors.gray.shade600,
+      backgroundColor: TW3Colors.gray.shade700,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -78,7 +78,13 @@ Container _buildPost(BuildContext context, Post post) {
   return Container(
     decoration: BoxDecoration(
       color: TW3Colors.gray.shade700,
-      borderRadius: BorderRadius.circular(8),
+      border: Border.all(
+        color: TW3Colors.gray.shade500.withOpacity(.25),
+        width: 2.0,
+      ),
+      borderRadius: const BorderRadius.all(
+        Radius.circular(12),
+      ),
     ),
     padding: const EdgeInsets.all(16),
     child: Column(
@@ -210,7 +216,13 @@ Container _buildThread(BuildContext context, Post post) {
   return Container(
     decoration: BoxDecoration(
       color: TW3Colors.gray.shade700,
-      borderRadius: BorderRadius.circular(8),
+      border: Border.all(
+        color: TW3Colors.gray.shade500.withOpacity(.25),
+        width: 2.0,
+      ),
+      borderRadius: const BorderRadius.all(
+        Radius.circular(12),
+      ),
     ),
     padding: const EdgeInsets.all(16),
     child: Column(

@@ -2,9 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/mocks/interest.dart';
-import 'package:local/models/interest.dart';
-import 'package:local/models/post.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class AddPostScreen extends HookWidget {

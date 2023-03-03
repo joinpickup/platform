@@ -31,7 +31,7 @@ class DiscoverScreen extends HookWidget {
       drawer: const Drawer(
         child: GroupDrawer(),
       ),
-      backgroundColor: TW3Colors.gray.shade600,
+      backgroundColor: TW3Colors.gray.shade700,
       body: SafeArea(
         child: Column(
           children: [

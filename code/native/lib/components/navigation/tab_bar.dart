@@ -13,7 +13,15 @@ class CustomTabBar extends HookWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      color: TW3Colors.gray.shade700,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        border: Border(
+          bottom: BorderSide(
+            color: TW3Colors.gray.shade500.withOpacity(.25),
+            width: 1.0,
+          ),
+        ),
+      ),
       height: 65,
       width: double.maxFinite,
       child: SingleChildScrollView(

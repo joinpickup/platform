@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/mocks/group.dart';
@@ -13,45 +12,44 @@ class GroupSectionModel {
 }
 
 class GroupDrawerFeed extends HookWidget {
-  const GroupDrawerFeed({super.key});
+  GroupDrawerFeed({super.key});
+
+  final groupSections = [
+    GroupSectionModel(
+      groups: [climbingGroup, climbingGroup],
+      name: "Recent Groups",
+    ),
+    GroupSectionModel(
+      groups: [climbingGroup],
+      name: "Recommended Groups",
+    ),
+    GroupSectionModel(
+      groups: [],
+      name: "Your Groups",
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     // group sections
-    final recentGroups = useState(GroupSectionModel(
-      groups: [climbingGroup, climbingGroup],
-      name: "Recent Groups",
-    ));
-    final recommendedGroups = useState(GroupSectionModel(
-      groups: [climbingGroup],
-      name: "Recommended Groups",
-    ));
-    final yourGroups = useState(GroupSectionModel(
-      groups: [],
-      name: "Your Groups",
-    ));
-
-    final groupSections = useState([
-      recentGroups,
-      recommendedGroups,
-      yourGroups,
-    ]);
-
-    return Expanded(
-      child: ListView.separated(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        padding: const EdgeInsets.all(8),
-        itemBuilder: (BuildContext context, int index) {
-          return GroupSection(
-            section: groupSections.value[index].value,
-          );
-        },
-        shrinkWrap: true,
-        itemCount: groupSections.value.length,
-        separatorBuilder: (context, index) => const SizedBox(
-          height: 8,
-        ),
-      ),
+    return ReorderableListView(
+      onReorder: (oldIndex, newIndex) => {},
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: const EdgeInsets.all(8),
+      shrinkWrap: true,
+      children: groupSections.asMap().entries.map((entry) {
+        return Column(
+          key: ValueKey(entry.key),
+          children: [
+            GroupSection(
+              section: entry.value,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
 }

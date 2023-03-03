@@ -34,7 +34,7 @@ class EventsScreen extends HookWidget {
     final searchController = useTextEditingController(text: "");
 
     return Scaffold(
-      backgroundColor: TW3Colors.gray.shade600,
+      backgroundColor: TW3Colors.gray.shade700,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: EventsAppBar(

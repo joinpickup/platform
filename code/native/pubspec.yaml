@@ -21,6 +21,7 @@ dependencies:
   platform_maps_flutter: ^1.0.2
   custom_marker: ^1.0.0
   flutter_svg: ^1.1.6
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:

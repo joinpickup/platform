@@ -41,6 +41,10 @@ class EventCard extends HookWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: TW3Colors.gray.shade700,
+            border: Border.all(
+              color: TW3Colors.gray.shade500.withOpacity(.25),
+              width: 2.0,
+            ),
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),

@@ -26,13 +26,20 @@ class SettingsItem extends HookWidget {
         selected.value = true;
       },
       onTap: () {
-        action();
+        selected.value = true;
+        Future.delayed(const Duration(milliseconds: 50), () {
+          action();
+        });
       },
       onTapUp: (details) {
-        selected.value = false;
+        Future.delayed(const Duration(milliseconds: 100), () {
+          selected.value = false;
+        });
       },
       onTapCancel: () {
-        selected.value = false;
+        Future.delayed(const Duration(milliseconds: 100), () {
+          selected.value = false;
+        });
       },
       child: Container(
         padding: const EdgeInsets.all(8),
@@ -42,9 +49,20 @@ class SettingsItem extends HookWidget {
         ),
         child: Row(
           children: [
-            HeroIcon(
-              icon,
-              style: HeroIconStyle.solid,
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: selected.value
+                    ? TW3Colors.gray.shade500
+                    : TW3Colors.gray.shade600,
+                borderRadius: BorderRadius.circular(
+                  8,
+                ),
+              ),
+              child: HeroIcon(
+                icon,
+                style: HeroIconStyle.solid,
+              ),
             ),
             const SizedBox(
               width: 8,

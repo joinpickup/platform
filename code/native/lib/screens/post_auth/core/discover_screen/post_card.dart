@@ -40,7 +40,7 @@ class PostCard extends HookWidget {
             color: TW3Colors.gray.shade700,
             border: Border.all(
               color: TW3Colors.gray.shade500.withOpacity(.25),
-              width: 1.0,
+              width: 2.0,
             ),
             borderRadius: const BorderRadius.all(
               Radius.circular(12),

@@ -1,11 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/setting_item.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/settings_group.dart';
+import 'package:local/screens/post_auth/core/profile_screen/settings/theme_picker_screen.dart';
+import 'package:local/screens/post_auth/core/profile_screen/settings/verify_profile_screen.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _privacy = Uri.parse("https://joinpickup.com/apps/platform");
+final Uri _terms = Uri.parse('https://joinpickup.com/apps/platform');
+
+Future<void> _launchUrl(Uri url) async {
+  await launchUrl(url);
+}
 
 class ProfileScreen extends HookWidget {
   const ProfileScreen({super.key});
@@ -13,7 +25,7 @@ class ProfileScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TW3Colors.gray.shade600,
+      backgroundColor: TW3Colors.gray.shade700,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -85,8 +97,12 @@ Widget _buildProfileSettings(BuildContext context) {
           SettingsItem(
             icon: HeroIcons.check,
             name: "Verify Account",
-            action: () {},
-            hasArrow: false,
+            action: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const VerifyProfileScreen(),
+              ));
+            },
+            hasArrow: true,
           ),
           SettingsItem(
             icon: HeroIcons.user,
@@ -115,19 +131,28 @@ Widget _buildProfileSettings(BuildContext context) {
         name: "Application Settings",
         settings: [
           SettingsItem(
+            hasArrow: true,
             icon: HeroIcons.swatch,
             name: "Theme",
-            action: () {},
+            action: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ThemePickerScreen(),
+              ));
+            },
           ),
           SettingsItem(
             icon: HeroIcons.documentText,
             name: "Terms Of Service",
-            action: () {},
+            action: () {
+              _launchUrl(_terms);
+            },
           ),
           SettingsItem(
             icon: HeroIcons.eye,
             name: "Privacy Policy",
-            action: () {},
+            action: () {
+              _launchUrl(_privacy);
+            },
           ),
         ],
       ),
