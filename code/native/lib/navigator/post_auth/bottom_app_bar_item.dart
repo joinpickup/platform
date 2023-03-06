@@ -9,6 +9,7 @@ class CustomBottomAppBarItem extends HookWidget {
     super.key,
     required this.icon,
     required this.label,
+    required this.color,
     required this.index,
     required this.currentTab,
   });
@@ -16,6 +17,7 @@ class CustomBottomAppBarItem extends HookWidget {
   final HeroIcons icon;
   final String label;
   final ValueNotifier<int> currentTab;
+  final Color color;
   final int index;
 
   @override
@@ -41,9 +43,7 @@ class CustomBottomAppBarItem extends HookWidget {
               Expanded(
                 child: HeroIcon(
                   icon,
-                  color: active
-                      ? TW3Colors.gray.shade300
-                      : TW3Colors.gray.shade500,
+                  color: active ? color : TW3Colors.gray.shade500,
                   size: active ? 28 : 22,
                   style: active ? HeroIconStyle.solid : HeroIconStyle.outline,
                 ),
@@ -53,9 +53,7 @@ class CustomBottomAppBarItem extends HookWidget {
                   label,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: active
-                        ? TW3Colors.gray.shade300
-                        : TW3Colors.gray.shade500,
+                    color: active ? color : TW3Colors.gray.shade500,
                     fontSize: active ? 12 : 10,
                   ),
                 ),

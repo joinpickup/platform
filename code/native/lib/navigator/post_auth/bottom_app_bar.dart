@@ -35,24 +35,28 @@ class CustomBottomAppBar extends HookWidget {
         children: [
           CustomBottomAppBarItem(
             index: 0,
+            color: Theme.of(context).colorScheme.secondary,
             currentTab: currentTab,
             icon: HeroIcons.magnifyingGlass,
             label: "Discover",
           ),
           CustomBottomAppBarItem(
             index: 1,
+            color: TW3Colors.red.shade400,
             currentTab: currentTab,
             icon: HeroIcons.map,
             label: "Places",
           ),
           CustomBottomAppBarItem(
             index: 2,
+            color: Theme.of(context).colorScheme.primary,
             currentTab: currentTab,
             icon: HeroIcons.calendarDays,
             label: "Events",
           ),
           CustomBottomAppBarItem(
             index: 3,
+            color: TW3Colors.cyan,
             currentTab: currentTab,
             icon: HeroIcons.user,
             label: "Profile",

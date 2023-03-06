@@ -1,3 +1,5 @@
+import 'package:local/models/person.dart';
+
 import 'interest.dart';
 
 class Group {
@@ -8,6 +10,7 @@ class Group {
 
   // interest
   final Interest interest;
+  final List<Person> members;
 
   Group({
     required this.groupID,
@@ -15,5 +18,6 @@ class Group {
     required this.description,
     required this.slug,
     required this.interest,
+    required this.members,
   });
 }

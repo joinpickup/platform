@@ -16,24 +16,19 @@ class GroupDrawerFeed extends HookWidget {
 
   final groupSections = [
     GroupSectionModel(
-      groups: [climbingGroup, climbingGroup],
+      groups: [climbingGroup, climbingGroup2],
       name: "Recent Groups",
     ),
     GroupSectionModel(
-      groups: [climbingGroup],
+      groups: [climbingGroup, soccerGroup1, soccerGroup2],
       name: "Recommended Groups",
-    ),
-    GroupSectionModel(
-      groups: [],
-      name: "Your Groups",
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     // group sections
-    return ReorderableListView(
-      onReorder: (oldIndex, newIndex) => {},
+    return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       padding: const EdgeInsets.all(8),
       shrinkWrap: true,

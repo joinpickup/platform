@@ -4,8 +4,8 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/setting_item.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/settings_group.dart';
 
-class GroupSettings extends HookWidget {
-  const GroupSettings({super.key});
+class EventSettings extends HookWidget {
+  const EventSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class GroupSettings extends HookWidget {
         padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
-            _buildGroupSettings(context),
+            _buildEventSettings(context),
           ],
         ),
       ),
@@ -22,22 +22,22 @@ class GroupSettings extends HookWidget {
   }
 }
 
-Widget _buildGroupSettings(BuildContext context) {
+Widget _buildEventSettings(BuildContext context) {
   return Column(
     children: [
       SettingsGroup(
         includeName: false,
-        name: "Group Settings",
+        name: "Event Settings",
         settings: [
           SettingsItem(
             icon: HeroIcons.pencil,
-            name: "Group Details",
+            name: "Event Details",
             action: () {},
             hasArrow: true,
           ),
           SettingsItem(
             icon: HeroIcons.user,
-            name: "Edit Members",
+            name: "Edit Participants",
             action: () {},
             hasArrow: true,
           ),
@@ -66,12 +66,12 @@ Widget _buildGroupSettings(BuildContext context) {
         settings: [
           SettingsItem(
             icon: HeroIcons.archiveBox,
-            name: "Archive Group",
+            name: "Archive Event",
             action: () {},
           ),
           SettingsItem(
             icon: HeroIcons.xMark,
-            name: "Delete Group",
+            name: "Delete Event",
             action: () {},
           ),
         ],

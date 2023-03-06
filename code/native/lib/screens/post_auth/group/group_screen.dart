@@ -8,6 +8,7 @@ import 'package:local/screens/post_auth/core/discover_screen/post_feed.dart';
 import 'package:local/screens/post_auth/core/events_screen/add_event.dart';
 import 'package:local/screens/post_auth/core/events_screen/event_feed.dart';
 import 'package:local/screens/post_auth/group/group_settings.dart';
+import 'package:local/screens/post_auth/group/member_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 import '../../../components/navigation/tab_bar.dart';
@@ -41,6 +42,9 @@ class GroupScreen extends HookWidget {
                   },
                 ));
               },
+              backgroundColor: tab.value == 1
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.secondary,
               child: const HeroIcon(HeroIcons.plus),
             )
           : null,
@@ -67,7 +71,7 @@ class GroupScreen extends HookWidget {
             tab: tab,
             includeSettings: true,
           ),
-          _buildGroupFeed(tab, context),
+          _buildGroupFeed(group.value, tab, context),
         ],
       ),
     );
@@ -192,7 +196,11 @@ Widget _buildGroupActions(Group group, BuildContext context) {
   );
 }
 
-Widget _buildGroupFeed(ValueNotifier<int> tab, BuildContext context) {
+Widget _buildGroupFeed(
+  Group group,
+  ValueNotifier<int> tab,
+  BuildContext context,
+) {
   switch (tab.value) {
     case 0:
       return PostFeed();
@@ -200,6 +208,8 @@ Widget _buildGroupFeed(ValueNotifier<int> tab, BuildContext context) {
       return EventFeed(
         filter: EventFilter.upcoming,
       );
+    case 2:
+      return GroupMemberPage(members: group.members);
     case 3:
       return const GroupSettings();
     default:

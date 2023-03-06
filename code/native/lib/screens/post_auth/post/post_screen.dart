@@ -103,7 +103,7 @@ Container _buildPost(BuildContext context, Post post) {
         ),
         Text(
           post.body,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(
           height: 8,

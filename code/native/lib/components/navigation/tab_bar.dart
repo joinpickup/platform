@@ -2,9 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
+extension ExtendedWidgetList on List<Widget> {
+  /// Insert [widget] between each member of this list
+  List<Widget> insertBetween(Widget widget) {
+    if (length > 1) {
+      for (var i = length - 1; i > 0; i--) {
+        insert(i, widget);
+      }
+    }
+
+    return this;
+  }
+}
+
 class CustomTabBar extends HookWidget {
-  const CustomTabBar(
-      {super.key, required this.tab, required this.includeSettings});
+  const CustomTabBar({
+    super.key,
+    required this.tab,
+    required this.includeSettings,
+  });
 
   final ValueNotifier<int> tab;
   final bool includeSettings;
@@ -30,6 +46,7 @@ class CustomTabBar extends HookWidget {
           children: [
             CustomTab(
               label: "Posts",
+              activeColor: Theme.of(context).colorScheme.secondary,
               active: tab,
               tab: 0,
             ),
@@ -38,6 +55,7 @@ class CustomTabBar extends HookWidget {
             ),
             CustomTab(
               label: "Events",
+              activeColor: Theme.of(context).colorScheme.primary,
               active: tab,
               tab: 1,
             ),
@@ -45,6 +63,7 @@ class CustomTabBar extends HookWidget {
               width: 8,
             ),
             CustomTab(
+              activeColor: TW3Colors.gray.shade600,
               label: "Members",
               active: tab,
               tab: 2,
@@ -56,6 +75,7 @@ class CustomTabBar extends HookWidget {
                         width: 8,
                       ),
                       CustomTab(
+                        activeColor: TW3Colors.gray.shade600,
                         label: "Settings",
                         active: tab,
                         tab: 3,
@@ -75,11 +95,13 @@ class CustomTab extends HookWidget {
     super.key,
     required this.label,
     required this.active,
+    required this.activeColor,
     required this.tab,
   });
 
   final String label;
   final ValueNotifier<int> active;
+  final Color activeColor;
   final int tab;
 
   @override
@@ -104,7 +126,7 @@ class CustomTab extends HookWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: current ? TW3Colors.gray.shade600 : Colors.transparent,
+          color: current ? activeColor : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(

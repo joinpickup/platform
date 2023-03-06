@@ -62,6 +62,17 @@ Widget _buildGroupCardHeader(BuildContext context, Group group) {
   return Row(
     children: [
       // avatar
+      Container(
+        height: 36,
+        width: 36,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Colors.blue.shade400,
+        ),
+      ),
+      const SizedBox(
+        width: 8,
+      ),
       // poster information
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,6 +83,12 @@ Widget _buildGroupCardHeader(BuildContext context, Group group) {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           // location / visbility
+          Text(
+            "#${group.interest.name}",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
         ],
       )
     ],
