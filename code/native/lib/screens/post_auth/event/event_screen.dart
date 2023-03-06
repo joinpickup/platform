@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
+import 'package:local/components/navigation/tab_bar.dart';
 import 'package:local/mocks/event.dart';
+import 'package:local/models/event.dart';
 import 'package:local/screens/post_auth/core/discover_screen/add_post.dart';
 import 'package:local/screens/post_auth/core/discover_screen/post_feed.dart';
 import 'package:local/screens/post_auth/core/events_screen/add_event.dart';
 import 'package:local/screens/post_auth/core/events_screen/event_feed.dart';
 import 'package:local/screens/post_auth/event/event_settings.dart';
 import 'package:local/screens/post_auth/event/participant_page.dart';
-import 'package:local/screens/post_auth/group/group_settings.dart';
-import 'package:local/screens/post_auth/group/member_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
-
-import '../../../components/navigation/tab_bar.dart';
-import '../../../models/event.dart';
 
 class EventScreen extends HookWidget {
   const EventScreen({super.key, required this.eventID});
