@@ -3,34 +3,48 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/components/badge.dart';
 import 'package:local/models/person.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class GroupMemberPage extends HookWidget {
-  const GroupMemberPage({super.key, required this.members});
+  GroupMemberPage({super.key, required this.members});
 
   final List<Person> members;
 
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: members.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                MemberCard(
-                  member: members[index],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-              ],
-            );
-          },
+    final scrollController = useScrollController();
+
+    return Expanded(
+      child: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        controller: _refreshController,
+        child: Scrollbar(
+          thumbVisibility: true,
+          controller: scrollController,
+          child: ListView.separated(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: const EdgeInsets.all(8),
+            shrinkWrap: true,
+            itemCount: members.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  MemberCard(
+                    member: members[index],
+                  ),
+                ],
+              );
+            },
+            controller: scrollController,
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 8,
+            ),
+          ),
         ),
       ),
     );

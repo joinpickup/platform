@@ -19,11 +19,13 @@ class CustomTabBar extends HookWidget {
   const CustomTabBar({
     super.key,
     required this.tab,
-    required this.includeSettings,
+    this.small = false,
+    required this.tabs,
   });
 
   final ValueNotifier<int> tab;
-  final bool includeSettings;
+  final bool small;
+  final List<CustomTabModel> tabs;
 
   @override
   Widget build(BuildContext context) {
@@ -43,63 +45,51 @@ class CustomTabBar extends HookWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: [
-            CustomTab(
-              label: "Posts",
-              activeColor: Theme.of(context).colorScheme.secondary,
-              active: tab,
-              tab: 0,
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            CustomTab(
-              label: "Events",
-              activeColor: Theme.of(context).colorScheme.primary,
-              active: tab,
-              tab: 1,
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            CustomTab(
-              activeColor: TW3Colors.gray.shade600,
-              label: "Members",
-              active: tab,
-              tab: 2,
-            ),
-            includeSettings
-                ? Row(
-                    children: [
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      CustomTab(
-                        activeColor: TW3Colors.gray.shade600,
-                        label: "Settings",
-                        active: tab,
-                        tab: 3,
-                      ),
-                    ],
-                  )
-                : Container()
-          ],
+          children: tabs
+              // ignore: unnecessary_cast
+              .map((e) => CustomTab(
+                    active: tab,
+                    activeColor: e.activeColor,
+                    tab: e.tab,
+                    label: e.label,
+                    small: small,
+                  ) as Widget)
+              .toList()
+              .insertBetween(
+                const SizedBox(
+                  width: 8,
+                ),
+              ),
         ),
       ),
     );
   }
 }
 
+class CustomTabModel {
+  const CustomTabModel({
+    required this.label,
+    required this.activeColor,
+    required this.tab,
+  });
+
+  final String label;
+  final Color activeColor;
+  final int tab;
+}
+
 class CustomTab extends HookWidget {
   const CustomTab({
     super.key,
     required this.label,
+    this.small = false,
     required this.active,
     required this.activeColor,
     required this.tab,
   });
 
   final String label;
+  final bool small;
   final ValueNotifier<int> active;
   final Color activeColor;
   final int tab;
@@ -132,7 +122,7 @@ class CustomTab extends HookWidget {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: small ? 16 : 20,
             color:
                 TW3Colors.gray.shade300.withOpacity(selected.value ? .45 : 1),
           ),

@@ -86,7 +86,8 @@ Widget _buildBody(BuildContext context) {
           left: 0,
           right: 0,
           child: CustomButton(
-            tap: () {},
+            tap: () {
+            },
             text: "Create Post",
           ),
         ),

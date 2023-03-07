@@ -3,19 +3,30 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/setting_item.dart';
 import 'package:local/screens/post_auth/core/profile_screen/settings/settings_group.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class EventSettings extends HookWidget {
-  const EventSettings({super.key});
+  EventSettings({super.key});
 
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   @override
   Widget build(BuildContext context) {
+    final scrollController = useScrollController();
+
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(8),
-        child: ListView(
-          children: [
-            _buildEventSettings(context),
-          ],
+        child: SmartRefresher(
+          scrollController: scrollController,
+          enablePullDown: false,
+          enablePullUp: false,
+          controller: _refreshController,
+          child: ListView(
+            children: [
+              _buildEventSettings(context),
+            ],
+          ),
         ),
       ),
     );

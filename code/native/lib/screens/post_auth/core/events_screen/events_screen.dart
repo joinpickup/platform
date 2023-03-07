@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:local/components/navigation/tab_bar.dart';
 import 'package:local/screens/post_auth/core/events_screen/event_feed.dart';
 import 'package:local/screens/post_auth/core/events_screen/events_app_bar.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -32,9 +33,10 @@ class EventsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final searchController = useTextEditingController(text: "");
+    final tab = useState(0);
 
     return Scaffold(
-      backgroundColor: TW3Colors.gray.shade700,
+      backgroundColor: TW3Colors.gray.shade600,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: EventsAppBar(
@@ -43,7 +45,33 @@ class EventsScreen extends HookWidget {
       ),
       body: Column(
         children: [
-          tabs[0],
+          CustomTabBar(
+            tab: tab,
+            small: true,
+            tabs: [
+              CustomTabModel(
+                activeColor: TW3Colors.gray.shade600,
+                label: "Upcoming",
+                tab: 0,
+              ),
+              CustomTabModel(
+                activeColor: TW3Colors.gray.shade600,
+                label: "Saved",
+                tab: 1,
+              ),
+              CustomTabModel(
+                activeColor: TW3Colors.gray.shade600,
+                label: "Organized",
+                tab: 2,
+              ),
+              CustomTabModel(
+                activeColor: TW3Colors.gray.shade600,
+                label: "Premium",
+                tab: 3,
+              ),
+            ],
+          ),
+          tabs[tab.value],
         ],
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:local/models/location.dart';
 import 'package:local/models/person.dart';
 
 import 'interest.dart';
@@ -9,6 +10,7 @@ class Group {
   final String slug;
 
   // interest
+  final Location location;
   final Interest interest;
   final List<Person> members;
 
@@ -18,6 +20,7 @@ class Group {
     required this.description,
     required this.slug,
     required this.interest,
+    required this.location,
     required this.members,
   });
 }

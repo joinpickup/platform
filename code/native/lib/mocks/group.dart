@@ -1,3 +1,4 @@
+import 'package:local/mocks/location.dart';
 import 'package:local/mocks/person.dart';
 import 'package:local/models/group.dart';
 
@@ -6,6 +7,7 @@ import 'interest.dart';
 final climbingGroup = Group(
   members: [andrew, brian],
   groupID: 1,
+  location: eastRockClimb,
   name: "Climbing Group",
   description: "A group dedicated to climbing in the New York area.",
   slug: "climb",
@@ -14,6 +16,7 @@ final climbingGroup = Group(
 
 final climbingGroup2 = Group(
   members: [brian],
+  location: eastRockClimb,
   groupID: 2,
   name: "Climbing Group2",
   description: "A second group dedicated to climbing in the New York area.",
@@ -22,6 +25,7 @@ final climbingGroup2 = Group(
 );
 
 final soccerGroup1 = Group(
+  location: eastRockClimb,
   members: [andrew],
   groupID: 3,
   name: "Soccer Group",
@@ -32,6 +36,7 @@ final soccerGroup1 = Group(
 
 final soccerGroup2 = Group(
   members: [andrew],
+  location: eastRockClimb,
   groupID: 4,
   name: "Soccer Group 2",
   description: "A group for soccer players",

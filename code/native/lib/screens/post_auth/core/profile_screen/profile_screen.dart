@@ -25,13 +25,16 @@ class ProfileScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TW3Colors.gray.shade700,
+      backgroundColor: TW3Colors.gray.shade600,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: _buildAppBar(context),
+      ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16),
           child: ListView(
             children: [
-              _buildAppBar(context),
               SizedBox.fromSize(
                 size: const Size.fromHeight(8),
               ),
@@ -45,45 +48,50 @@ class ProfileScreen extends HookWidget {
 }
 
 Widget _buildAppBar(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const PersonScreen(
-          personID: 1,
-        ),
-      ));
-    },
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: Colors.blue.shade400,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  return Container(
+    padding: const EdgeInsets.all(16),
+    child: SafeArea(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const PersonScreen(
+              personID: 1,
+            ),
+          ));
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              "Andrew",
-              style: Theme.of(context).textTheme.titleLarge,
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.blue.shade400,
+              ),
             ),
-            Text(
-              "View Profile",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: Theme.of(context).colorScheme.primary),
+            const SizedBox(
+              width: 8,
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Andrew",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  "View Profile",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
+              ],
+            )
           ],
-        )
-      ],
+        ),
+      ),
     ),
   );
 }

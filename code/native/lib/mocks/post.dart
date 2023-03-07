@@ -1,6 +1,6 @@
 import 'package:local/mocks/interest.dart';
 import 'package:local/mocks/person.dart';
-import 'package:local/models/post.dart';
+import 'package:local/screens/post_auth/core/discover_screen/data/post.dart';
 
 final andrewPost = Post(
   postID: 1,

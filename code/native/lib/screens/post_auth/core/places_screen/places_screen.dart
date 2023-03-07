@@ -31,15 +31,6 @@ class PlacesScreen extends HookWidget {
             zoom: 16.0,
           ),
           markers: places.value,
-          polygons: {
-            Polygon(
-              fillColor: Colors.blue,
-              points: [
-                LatLng(41.3326, 73.2073),
-              ],
-              polygonId: PolygonId("test"),
-            ),
-          },
           mapType: MapType.satellite,
           compassEnabled: true,
           onMapCreated: (controller) async {
