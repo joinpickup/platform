@@ -1,4 +1,4 @@
-import 'package:local/models/location.dart';
+import 'package:local/repos/data/models/location.dart';
 
 class Person {
   final int personID;

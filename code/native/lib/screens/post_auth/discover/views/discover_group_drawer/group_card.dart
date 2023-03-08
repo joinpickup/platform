@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:local/models/group.dart';
-import 'package:local/screens/post_auth/group/group_screen.dart';
+import 'package:local/repos/data/models/group.dart';
+import 'package:local/screens/post_auth/group/views/group_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class GroupCard extends HookWidget {

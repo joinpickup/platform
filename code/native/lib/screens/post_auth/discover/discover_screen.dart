@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:local/screens/post_auth/core/discover_screen/presentation/discover_app_bar.dart';
-import 'package:local/screens/post_auth/core/discover_screen/views/discover_group_drawer/discover_group_drawer.dart';
-import 'package:local/screens/post_auth/core/discover_screen/presentation/post_feed.dart';
+import 'package:local/screens/post_auth/discover/views/discover_app_bar.dart';
+import 'package:local/screens/post_auth/discover/views/discover_group_drawer/discover_group_drawer.dart';
+import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class DiscoverScreen extends HookWidget {

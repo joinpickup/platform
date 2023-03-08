@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/setting_item.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/settings_group.dart';
+import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
+import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class EventSettings extends HookWidget {
-  EventSettings({super.key});
+class GroupSettings extends HookWidget {
+  GroupSettings({super.key});
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -24,7 +24,7 @@ class EventSettings extends HookWidget {
           controller: _refreshController,
           child: ListView(
             children: [
-              _buildEventSettings(context),
+              _buildGroupSettings(context),
             ],
           ),
         ),
@@ -33,22 +33,22 @@ class EventSettings extends HookWidget {
   }
 }
 
-Widget _buildEventSettings(BuildContext context) {
+Widget _buildGroupSettings(BuildContext context) {
   return Column(
     children: [
       SettingsGroup(
         includeName: false,
-        name: "Event Settings",
+        name: "Group Settings",
         settings: [
           SettingsItem(
             icon: HeroIcons.pencil,
-            name: "Event Details",
+            name: "Group Details",
             action: () {},
             hasArrow: true,
           ),
           SettingsItem(
             icon: HeroIcons.user,
-            name: "Edit Participants",
+            name: "Edit Members",
             action: () {},
             hasArrow: true,
           ),
@@ -77,12 +77,12 @@ Widget _buildEventSettings(BuildContext context) {
         settings: [
           SettingsItem(
             icon: HeroIcons.archiveBox,
-            name: "Archive Event",
+            name: "Archive Group",
             action: () {},
           ),
           SettingsItem(
             icon: HeroIcons.xMark,
-            name: "Delete Event",
+            name: "Delete Group",
             action: () {},
           ),
         ],

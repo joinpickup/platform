@@ -4,14 +4,14 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/components/detail_row.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/navigation/tab_bar.dart';
-import 'package:local/mocks/event.dart';
-import 'package:local/models/event.dart';
-import 'package:local/screens/post_auth/core/discover_screen/presentation/add_post.dart';
-import 'package:local/screens/post_auth/core/discover_screen/presentation/post_feed.dart';
-import 'package:local/screens/post_auth/core/events_screen/add_event.dart';
-import 'package:local/screens/post_auth/core/events_screen/event_feed.dart';
-import 'package:local/screens/post_auth/event/event_settings.dart';
-import 'package:local/screens/post_auth/event/participant_page.dart';
+import 'package:local/repos/data/mocks/event.dart';
+import 'package:local/repos/data/models/event.dart';
+import 'package:local/screens/post_auth/add_event/add_event_screen.dart';
+import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
+import 'package:local/screens/post_auth/discover/views/post_feed.dart';
+import 'package:local/screens/post_auth/event/views/event_settings.dart';
+import 'package:local/screens/post_auth/event/views/participant_page.dart';
+import 'package:local/screens/post_auth/events/views/event_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class EventScreen extends HookWidget {

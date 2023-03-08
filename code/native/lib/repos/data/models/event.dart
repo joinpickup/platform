@@ -1,6 +1,6 @@
-import 'package:local/models/interest.dart';
-import 'package:local/models/location.dart';
-import 'package:local/models/person.dart';
+import 'package:local/repos/data/models/interest.dart';
+import 'package:local/repos/data/models/location.dart';
+import 'package:local/repos/data/models/person.dart';
 
 class Event {
   final int eventID;

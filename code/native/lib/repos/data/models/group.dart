@@ -1,7 +1,6 @@
-import 'package:local/models/location.dart';
-import 'package:local/models/person.dart';
-
-import 'interest.dart';
+import 'package:local/repos/data/models/interest.dart';
+import 'package:local/repos/data/models/location.dart';
+import 'package:local/repos/data/models/person.dart';
 
 class Group {
   final int groupID;

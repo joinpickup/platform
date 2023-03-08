@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/edit_profile_screen.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/setting_item.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/settings_group.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/theme_picker_screen.dart';
-import 'package:local/screens/post_auth/core/profile_screen/settings/verify_profile_screen.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
+import 'package:local/screens/post_auth/profile/views/settings/edit_profile_screen.dart';
+import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
+import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
+import 'package:local/screens/post_auth/profile/views/settings/theme_picker_screen.dart';
+import 'package:local/screens/post_auth/profile/views/settings/verify_profile_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 

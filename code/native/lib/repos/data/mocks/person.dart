@@ -1,6 +1,5 @@
-import 'package:local/mocks/location.dart';
-
-import '../models/person.dart';
+import 'package:local/repos/data/mocks/location.dart';
+import 'package:local/repos/data/models/person.dart';
 
 final andrew = Person(
   personID: 1,

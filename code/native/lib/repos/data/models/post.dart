@@ -1,5 +1,5 @@
-import 'package:local/models/interest.dart';
-import 'package:local/models/person.dart';
+import 'package:local/repos/data/models/interest.dart';
+import 'package:local/repos/data/models/person.dart';
 
 enum PostVisibility { public, private, unlisted }
 

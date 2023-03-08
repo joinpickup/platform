@@ -1,5 +1,5 @@
-import 'package:local/mocks/interest.dart';
-import 'package:local/mocks/person.dart';
+import 'package:local/repos/data/mocks/interest.dart';
+import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/post.dart';
 
 final andrewPost = Post(

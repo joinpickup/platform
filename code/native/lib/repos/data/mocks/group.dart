@@ -1,6 +1,6 @@
-import 'package:local/mocks/location.dart';
-import 'package:local/mocks/person.dart';
-import 'package:local/models/group.dart';
+import 'package:local/repos/data/mocks/location.dart';
+import 'package:local/repos/data/mocks/person.dart';
+import 'package:local/repos/data/models/group.dart';
 
 import 'interest.dart';
 

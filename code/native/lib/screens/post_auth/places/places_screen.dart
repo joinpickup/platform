@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:local/screens/post_auth/core/places_screen/places_app_bar.dart';
+import 'package:local/screens/post_auth/places/views/places_app_bar.dart';
 import 'package:platform_maps_flutter/platform_maps_flutter.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
