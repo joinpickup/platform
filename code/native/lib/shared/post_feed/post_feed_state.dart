@@ -6,10 +6,12 @@ class PostFeedState extends Equatable {
   const PostFeedState({
     this.status = PostFeedStatus.initial,
     this.posts = const <Post>[],
+    this.error = "",
   });
 
   final PostFeedStatus status;
   final List<Post> posts;
+  final String error;
 
   @override
   List<Object> get props => [];
