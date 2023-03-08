@@ -5,7 +5,7 @@ import 'package:local/components/input/button.dart';
 import 'package:local/components/navigation/tab_bar.dart';
 import 'package:local/mocks/person.dart';
 import 'package:local/models/person.dart';
-import 'package:local/screens/post_auth/core/discover_screen/post_feed.dart';
+import 'package:local/screens/post_auth/core/discover_screen/presentation/post_feed.dart';
 import 'package:local/screens/post_auth/core/events_screen/event_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/mocks/post.dart';
-import 'package:local/models/post.dart';
-import 'package:local/screens/post_auth/core/discover_screen/post_card.dart';
+import 'package:local/repos/data/models/post.dart';
+import 'package:local/screens/post_auth/core/discover_screen/presentation/post_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostFeed extends HookWidget {

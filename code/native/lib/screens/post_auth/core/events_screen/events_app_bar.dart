@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/input/input.dart';
-import 'package:local/screens/post_auth/core/discover_screen/add_post.dart';
 import 'package:local/screens/post_auth/core/events_screen/add_event.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

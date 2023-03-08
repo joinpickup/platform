@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:local/models/event.dart';
-import 'package:local/screens/post_auth/core/discover_screen/data/post.dart';
+import 'package:local/repos/data/models/post.dart';
 import 'package:local/screens/post_auth/event/event_screen.dart';
 import 'package:local/screens/post_auth/event/event_screen.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
