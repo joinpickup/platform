@@ -53,11 +53,48 @@ class _PersonScreenState extends State<PersonScreen> {
       ],
       child: BlocBuilder<TabBarBloc, TabBarState>(
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
+          return _buildPage(context, state);
+        },
+      ),
+    );
+  }
+
+  Scaffold _buildPage(BuildContext context, TabBarState state) {
+    return Scaffold(
+      backgroundColor: TW3Colors.gray.shade600,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
               backgroundColor: TW3Colors.gray.shade700,
               title: const Text("View Person"),
+              pinned: true,
               elevation: 0,
+              expandedHeight: 378,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _buildPersonInfo(person as Person, context),
+                    _buildPersonActions(person as Person, context),
+                    CustomTabBar(
+                      tabs: [
+                        CustomTab(
+                          activeColor: TW3Colors.gray.shade600,
+                          label: "Posts",
+                          tab: 0,
+                        ),
+                        CustomTab(
+                          activeColor: TW3Colors.gray.shade600,
+                          label: "Events",
+                          tab: 1,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               actions: [
                 IconButton(
                   onPressed: () {},
@@ -67,31 +104,14 @@ class _PersonScreenState extends State<PersonScreen> {
                 )
               ],
             ),
-            backgroundColor: TW3Colors.gray.shade600,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildPersonInfo(person as Person, context),
-                _buildPersonActions(person as Person, context),
-                CustomTabBar(
-                  tabs: [
-                    CustomTab(
-                      activeColor: TW3Colors.gray.shade600,
-                      label: "Posts",
-                      tab: 0,
-                    ),
-                    CustomTab(
-                      activeColor: TW3Colors.gray.shade600,
-                      label: "Events",
-                      tab: 1,
-                    ),
-                  ],
-                ),
-                _buildPersonFeed(person as Person, state.tab, context),
-              ],
-            ),
-          );
+          ];
         },
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildPersonFeed(person as Person, state.tab, context),
+          ],
+        ),
       ),
     );
   }

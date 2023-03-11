@@ -52,13 +52,13 @@ class _GroupScreenState extends State<GroupScreen> {
       ],
       child: BlocBuilder<TabBarBloc, TabBarState>(
         builder: (context, state) {
-          return _buildPageWithPostTab(state.tab, context, group as Group);
+          return _buildPage(state.tab, context, group as Group);
         },
       ),
     );
   }
 
-  Widget _buildPageWithPostTab(int tab, BuildContext context, Group group) {
+  Widget _buildPage(int tab, BuildContext context, Group group) {
     return Scaffold(
       floatingActionButton: tab == 0 || tab == 1
           ? FloatingActionButton(

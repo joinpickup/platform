@@ -1,6 +1,6 @@
 import 'package:local/repos/data/models/interest.dart';
-import 'package:local/repos/data/models/location.dart';
 import 'package:local/repos/data/models/person.dart';
+import 'package:local/repos/data/models/place.dart';
 
 class Event {
   final int eventID;
@@ -13,7 +13,7 @@ class Event {
   final String endTime;
 
   // generated
-  final Location location;
+  final Place place;
   final Interest interest;
   final List<Person> participants;
 
@@ -23,7 +23,7 @@ class Event {
     required this.description,
     required this.interest,
     required this.participants,
-    required this.location,
+    required this.place,
     required this.startDate,
     required this.startTime,
     required this.endDate,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:local/repos/data/mocks/post.dart';
 import 'package:local/repos/data/models/post.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
+import 'package:local/screens/post_auth/post/views/thread_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';
 
@@ -31,53 +32,58 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: TW3Colors.gray.shade700,
-        title: const Text("View Post"),
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.more_vert,
-            ),
-          )
-        ],
-      ),
       backgroundColor: TW3Colors.gray.shade600,
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildPost(context, post as Post),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Threads",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return _buildThread(context, post as Post);
-                  },
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 8,
-                    );
-                  },
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              backgroundColor: TW3Colors.gray.shade700,
+              title: const Text("View Post"),
+              elevation: 0,
+              pinned: true,
+              expandedHeight: 250,
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.more_vert,
+                  ),
+                ),
+              ],
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      _buildPost(context, post as Post),
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ];
+        },
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ThreadFeed(
+              postID: widget.postID,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // _buildPage(context),
+  SafeArea _buildPage(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [],
         ),
       ),
     );
@@ -85,16 +91,6 @@ class _PostScreenState extends State<PostScreen> {
 
   Container _buildPost(BuildContext context, Post post) {
     return Container(
-      decoration: BoxDecoration(
-        color: TW3Colors.gray.shade700,
-        border: Border.all(
-          color: TW3Colors.gray.shade500.withOpacity(.25),
-          width: 2.0,
-        ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(12),
-        ),
-      ),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,31 +214,6 @@ class _PostScreenState extends State<PostScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Container _buildThread(BuildContext context, Post post) {
-    return Container(
-      decoration: BoxDecoration(
-        color: TW3Colors.gray.shade700,
-        border: Border.all(
-          color: TW3Colors.gray.shade500.withOpacity(.25),
-          width: 2.0,
-        ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(12),
-        ),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Thread Title",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ],
-      ),
     );
   }
 }

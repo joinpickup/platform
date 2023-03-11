@@ -160,7 +160,7 @@ class _EventScreenState extends State<EventScreen> {
           const SizedBox(
             height: 8,
           ),
-          DetailRow(icon: HeroIcons.map, text: event.location.commonName),
+          DetailRow(icon: HeroIcons.map, text: event.place.name),
           const SizedBox(
             height: 8,
           ),

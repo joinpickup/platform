@@ -1,11 +1,11 @@
 import 'package:local/repos/data/mocks/interest.dart';
-import 'package:local/repos/data/mocks/location.dart';
 import 'package:local/repos/data/mocks/person.dart';
+import 'package:local/repos/data/mocks/place.dart';
 import 'package:local/repos/data/models/event.dart';
 
 final climbingSession1 = Event(
   eventID: 1,
-  location: eastRockClimb,
+  place: eastRockClimb,
   description: "Just one of your basic climbing session for all ages.",
   name: "Climbing Session",
   startDate: DateTime.now(),
@@ -18,7 +18,7 @@ final climbingSession1 = Event(
 
 final climbingSession2 = Event(
   eventID: 2,
-  location: eastRockClimb,
+  place: eastRockClimb,
   description: "Not much climbing, really just a get together for fun!",
   name: "Climbing Social",
   participants: [andrew, brian],

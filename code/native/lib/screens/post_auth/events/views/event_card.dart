@@ -93,7 +93,7 @@ Widget _buildEventCardHeader(BuildContext context, Event event) {
         height: 4,
       ),
       Text(
-        event.location.commonName,
+        event.place.name,
         style: TextStyle(
           color: Theme.of(context).colorScheme.primary,
           fontStyle: FontStyle.italic,

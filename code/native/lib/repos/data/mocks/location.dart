@@ -1,6 +1,6 @@
 import 'package:local/repos/data/models/location.dart';
 
-final eastRockClimb = Location(
+final eastRock = Location(
   locationID: 1,
-  commonName: "East Rock Climb",
+  commonName: "East Rock",
 );

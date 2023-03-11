@@ -6,7 +6,7 @@ final andrew = Person(
   createdAt: DateTime.now(),
   name: "Andrew",
   username: "andyrewco",
-  location: eastRockClimb,
+  location: eastRock,
 );
 
 final brian = Person(
@@ -14,7 +14,7 @@ final brian = Person(
   createdAt: DateTime.now(),
   name: "Brian",
   username: "windswept",
-  location: eastRockClimb,
+  location: eastRock,
 );
 
 final allPersons = [andrew, brian];
