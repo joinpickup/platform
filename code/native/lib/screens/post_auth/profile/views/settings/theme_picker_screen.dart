@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ThemePickerScreen extends HookWidget {
+class ThemePickerScreen extends StatelessWidget {
   const ThemePickerScreen({super.key});
 
   @override

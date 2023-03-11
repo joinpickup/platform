@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class CustomBadge extends HookWidget {
+class CustomBadge extends StatelessWidget {
   const CustomBadge({super.key, required this.text});
 
   final String text;

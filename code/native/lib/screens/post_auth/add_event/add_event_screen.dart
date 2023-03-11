@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class AddEventScreen extends HookWidget {
+class AddEventScreen extends StatelessWidget {
   const AddEventScreen({super.key});
 
   @override

@@ -1,61 +1,61 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:local/repos/data/mocks/event.dart';
-import 'package:local/repos/data/models/event.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/screens/post_auth/events/views/event_card.dart';
+import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 enum EventFilter { upcoming, organized, saved, premium }
 
-class EventFeed extends HookWidget {
-  EventFeed({super.key, required this.filter});
+class EventFeed extends StatefulWidget {
+  const EventFeed({super.key});
 
-  final EventFilter filter;
+  @override
+  State<EventFeed> createState() => _EventFeedState();
+}
 
+class _EventFeedState extends State<EventFeed> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  void _onRefresh(ValueNotifier<List<Event>> events) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    events.value = [...events.value];
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    _refreshController.loadComplete();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final events = useState([
-      climbingSession1,
-      climbingSession2,
-    ]);
-
-    return Expanded(
-      child: SmartRefresher(
-        onRefresh: () => _onRefresh(events),
-        onLoading: () => _onLoading(),
-        enablePullDown: true,
-        enablePullUp: true,
-        controller: _refreshController,
-        child: ListView.separated(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.all(8),
-          itemBuilder: (BuildContext context, int index) {
-            return EventCard(
-              event: events.value[index],
+    return BlocBuilder<EventFeedBloc, EventFeedState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case EventFeedStatus.success:
+            return Expanded(
+              child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                onRefresh: () => context
+                    .read<EventFeedBloc>()
+                    .add(RefreshEvents(refreshController: _refreshController)),
+                onLoading: () => context
+                    .read<EventFeedBloc>()
+                    .add(LoadEvents(refreshController: _refreshController)),
+                controller: _refreshController,
+                child: ListView.separated(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: const EdgeInsets.all(8),
+                  itemBuilder: (BuildContext context, int index) {
+                    return EventCard(
+                      event: state.events[index],
+                    );
+                  },
+                  shrinkWrap: true,
+                  itemCount: state.events.length,
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 8,
+                  ),
+                ),
+              ),
             );
-          },
-          shrinkWrap: true,
-          itemCount: events.value.length,
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 8,
-          ),
-        ),
-      ),
+          default:
+            return Container();
+        }
+      },
     );
   }
 }

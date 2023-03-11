@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class SettingsItem extends HookWidget {
+class SettingsItem extends StatefulWidget {
   const SettingsItem({
     super.key,
     required this.icon,
@@ -18,41 +17,67 @@ class SettingsItem extends HookWidget {
   final bool hasArrow;
 
   @override
-  Widget build(BuildContext context) {
-    final selected = useState(false);
+  State<SettingsItem> createState() => _SettingsItemState();
+}
 
+class _SettingsItemState extends State<SettingsItem> {
+  bool selected = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (details) {
-        selected.value = true;
+        if (mounted) {
+          setState(() {
+            selected = true;
+          });
+        }
       },
       onTap: () {
-        selected.value = true;
+        if (mounted) {
+          setState(() {
+            selected = true;
+          });
+        }
         Future.delayed(const Duration(milliseconds: 50), () {
-          action();
+          widget.action();
         });
       },
       onTapUp: (details) {
         Future.delayed(const Duration(milliseconds: 100), () {
-          selected.value = false;
+          if (mounted) {
+            setState(() {
+              selected = false;
+            });
+          }
         });
       },
       onTapCancel: () {
         Future.delayed(const Duration(milliseconds: 100), () {
-          selected.value = false;
+          if (mounted) {
+            setState(() {
+              selected = false;
+            });
+          }
         });
       },
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: selected.value ? TW3Colors.gray.shade600 : Colors.transparent,
+          color: selected ? TW3Colors.gray.shade600 : Colors.transparent,
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: selected.value
+                color: selected
                     ? TW3Colors.gray.shade500
                     : TW3Colors.gray.shade600,
                 borderRadius: BorderRadius.circular(
@@ -60,7 +85,7 @@ class SettingsItem extends HookWidget {
                 ),
               ),
               child: HeroIcon(
-                icon,
+                widget.icon,
                 style: HeroIconStyle.solid,
               ),
             ),
@@ -69,11 +94,11 @@ class SettingsItem extends HookWidget {
             ),
             Expanded(
               child: Text(
-                name,
+                widget.name,
               ),
             ),
             Container(
-              child: hasArrow
+              child: widget.hasArrow
                   ? const HeroIcon(
                       HeroIcons.chevronRight,
                       style: HeroIconStyle.solid,

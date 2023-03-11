@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/repos/data/mocks/group.dart';
 import 'package:local/repos/data/models/group.dart';
 import 'package:local/screens/post_auth/discover/views/discover_group_drawer/group_card.dart';
@@ -11,9 +10,14 @@ class GroupSectionModel {
   GroupSectionModel({required this.name, required this.groups});
 }
 
-class GroupDrawerFeed extends HookWidget {
-  GroupDrawerFeed({super.key});
+class GroupDrawerFeed extends StatefulWidget {
+  const GroupDrawerFeed({super.key});
 
+  @override
+  State<GroupDrawerFeed> createState() => _GroupDrawerFeedState();
+}
+
+class _GroupDrawerFeedState extends State<GroupDrawerFeed> {
   final groupSections = [
     GroupSectionModel(
       groups: [climbingGroup, climbingGroup2],
@@ -49,7 +53,7 @@ class GroupDrawerFeed extends HookWidget {
   }
 }
 
-class GroupSection extends HookWidget {
+class GroupSection extends StatelessWidget {
   const GroupSection({super.key, required this.section});
 
   final GroupSectionModel section;

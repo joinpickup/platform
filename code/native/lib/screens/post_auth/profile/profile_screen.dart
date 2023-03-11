@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
@@ -9,6 +8,7 @@ import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
 import 'package:local/screens/post_auth/profile/views/settings/theme_picker_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/verify_profile_screen.dart';
+import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,7 +19,7 @@ Future<void> _launchUrl(Uri url) async {
   await launchUrl(url);
 }
 
-class ProfileScreen extends HookWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
@@ -32,7 +32,7 @@ class ProfileScreen extends HookWidget {
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: ListView(
             children: [
               SizedBox.fromSize(
@@ -127,7 +127,9 @@ Widget _buildProfileSettings(BuildContext context) {
           SettingsItem(
             icon: HeroIcons.arrowLeftOnRectangle,
             name: "Logout",
-            action: () {},
+            action: () {
+              context.read<AuthBloc>().add(Logout());
+            },
             hasArrow: false,
           ),
         ],

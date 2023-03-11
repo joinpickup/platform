@@ -15,7 +15,7 @@ extension ExtendedWidgetList on List<Widget> {
   }
 }
 
-class SettingsGroup extends HookWidget {
+class SettingsGroup extends StatefulWidget {
   const SettingsGroup({
     super.key,
     required this.name,
@@ -28,17 +28,22 @@ class SettingsGroup extends HookWidget {
   final List<Widget> settings;
 
   @override
+  State<SettingsGroup> createState() => _SettingsGroupState();
+}
+
+class _SettingsGroupState extends State<SettingsGroup> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          includeName
+          widget.includeName
               ? Column(
                   children: [
                     Text(
-                      name,
+                      widget.name,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     SizedBox.fromSize(
@@ -60,7 +65,7 @@ class SettingsGroup extends HookWidget {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: settings.insertBetween(
+              children: widget.settings.insertBetween(
                 const SizedBox(
                   height: 4,
                 ),

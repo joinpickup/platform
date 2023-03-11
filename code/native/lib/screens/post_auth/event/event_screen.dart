@@ -1,54 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/detail_row.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/navigation/tab_bar.dart';
+import 'package:local/components/navigation/tab_bar/custom_tab.dart';
+import 'package:local/components/navigation/tab_bar/tab_bar.dart';
 import 'package:local/repos/data/mocks/event.dart';
 import 'package:local/repos/data/models/event.dart';
-import 'package:local/screens/post_auth/add_event/add_event_screen.dart';
 import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/event/views/event_settings.dart';
 import 'package:local/screens/post_auth/event/views/participant_page.dart';
-import 'package:local/screens/post_auth/events/views/event_feed.dart';
+import 'package:local/shared/post_feed/post_feed_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class EventScreen extends HookWidget {
+class EventScreen extends StatefulWidget {
   const EventScreen({super.key, required this.eventID});
 
   final int eventID;
 
   @override
-  Widget build(BuildContext context) {
-    final tab = useState(0);
-    final event =
-        useState(allEvents.firstWhere((event) => event.eventID == eventID));
+  State<EventScreen> createState() => _EventScreenState();
+}
 
-    return _buildPageWithPostTab(tab, context, event);
-    // : _buildPageOther(tab, context, event);
+class _EventScreenState extends State<EventScreen> {
+  final tab = 0;
+  Event? event;
+
+  @override
+  void initState() {
+    super.initState();
+    event = allEvents.firstWhere((event) => event.eventID == widget.eventID);
   }
 
-  Scaffold _buildPageWithPostTab(ValueNotifier<int> tab, BuildContext context,
-      ValueNotifier<Event> event) {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<PostFeedBloc>.value(
+        value: PostFeedBloc()..add(LoadPosts()),
+        child: _buildPageWithPostTab(tab, context, event as Event));
+  }
+
+  Scaffold _buildPageWithPostTab(int tab, BuildContext context, Event event) {
     return Scaffold(
-      floatingActionButton: tab.value == 0 || tab.value == 1
+      floatingActionButton: tab == 0 || tab == 1
           ? FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    switch (tab.value) {
+                    switch (tab) {
                       case 0:
                         return const AddPostScreen();
-                      case 1:
-                        return const AddEventScreen();
                       default:
                         return const AddPostScreen();
                     }
                   },
                 ));
               },
-              backgroundColor: tab.value == 1
+              backgroundColor: tab == 1
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondary,
               child: const HeroIcon(HeroIcons.plus),
@@ -69,8 +78,8 @@ class EventScreen extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    _buildEventInfo(event.value, context),
-                    _buildEventActions(event.value, context),
+                    _buildEventInfo(event, context),
+                    _buildEventActions(event, context),
                     _buildTabBar(tab),
                   ],
                 ),
@@ -88,16 +97,21 @@ class EventScreen extends HookWidget {
         },
         body: Column(
           children: [
-            _buildEventFeed(event.value, tab, context),
+            _buildEventFeed(event, tab, context),
           ],
         ),
       ),
     );
   }
 
-  CustomTabBar _buildTabBar(ValueNotifier<int> tab) {
+  CustomTabBar _buildTabBar(int tab) {
     return CustomTabBar(
       tab: tab,
+      setTab: (newTab) {
+        setState(() {
+          tab = newTab;
+        });
+      },
       tabs: [
         CustomTabModel(
           activeColor: TW3Colors.gray.shade600,
@@ -106,18 +120,13 @@ class EventScreen extends HookWidget {
         ),
         CustomTabModel(
           activeColor: TW3Colors.gray.shade600,
-          label: "Events",
+          label: "Participants",
           tab: 1,
         ),
         CustomTabModel(
           activeColor: TW3Colors.gray.shade600,
-          label: "Participants",
-          tab: 2,
-        ),
-        CustomTabModel(
-          activeColor: TW3Colors.gray.shade600,
           label: "Settings",
-          tab: 3,
+          tab: 2,
         ),
       ],
     );
@@ -182,19 +191,15 @@ class EventScreen extends HookWidget {
 
   Widget _buildEventFeed(
     Event event,
-    ValueNotifier<int> tab,
+    int tab,
     BuildContext context,
   ) {
-    switch (tab.value) {
+    switch (tab) {
       case 0:
         return PostFeed();
       case 1:
-        return EventFeed(
-          filter: EventFilter.upcoming,
-        );
-      case 2:
         return EventParticipantPage(participants: event.participants);
-      case 3:
+      case 2:
         return EventSettings();
       default:
         return Container();

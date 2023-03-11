@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/input/input.dart';
 import 'package:local/screens/post_auth/discover/views/discover_group_drawer/add_group.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-import '../../../../../components/input/icon_button.dart';
-
-class GroupDrawerAppBar extends HookWidget {
-  const GroupDrawerAppBar({super.key, required this.searchController});
+class GroupDrawerAppBar extends StatelessWidget {
+  const GroupDrawerAppBar({
+    super.key,
+    required this.searchController,
+  });
 
   final TextEditingController searchController;
 

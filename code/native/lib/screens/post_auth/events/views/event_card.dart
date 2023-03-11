@@ -1,40 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:local/repos/data/models/event.dart';
 import 'package:local/screens/post_auth/event/event_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class EventCard extends HookWidget {
-  const EventCard({super.key, required this.event});
+class EventCard extends StatefulWidget {
+  const EventCard({
+    super.key,
+    required this.event,
+  });
 
   final Event event;
 
   @override
-  Widget build(BuildContext context) {
-    final opacity = useState(1.0);
+  State<EventCard> createState() => _EventCardState();
+}
 
+class _EventCardState extends State<EventCard> {
+  double opacity = 1.0;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (details) {
-        opacity.value = 0.6;
+        setState(() {
+          opacity = 0.6;
+        });
       },
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                EventScreen(eventID: event.eventID),
+                EventScreen(eventID: widget.event.eventID),
           ),
         );
       },
       onTapUp: (details) {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       onTapCancel: () {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
-        opacity: opacity.value,
+        opacity: opacity,
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -50,15 +63,15 @@ class EventCard extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildEventCardHeader(context, event),
+              _buildEventCardHeader(context, widget.event),
               const SizedBox(
                 height: 8,
               ),
-              _buildEventCardContent(context, event),
+              _buildEventCardContent(context, widget.event),
               const SizedBox(
                 height: 8,
               ),
-              _buildEventCardFooter(context, event),
+              _buildEventCardFooter(context, widget.event),
             ],
           ),
         ),

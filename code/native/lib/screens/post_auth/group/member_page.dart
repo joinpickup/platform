@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/components/badge.dart';
 import 'package:local/repos/data/models/person.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class GroupMemberPage extends HookWidget {
-  GroupMemberPage({super.key, required this.members});
+class GroupMemberPage extends StatefulWidget {
+  const GroupMemberPage({super.key, required this.members});
 
   final List<Person> members;
 
+  @override
+  State<GroupMemberPage> createState() => _GroupMemberPageState();
+}
+
+class _GroupMemberPageState extends State<GroupMemberPage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  final scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    final scrollController = useScrollController();
-
     return Expanded(
       child: SmartRefresher(
         enablePullDown: true,
@@ -30,12 +34,12 @@ class GroupMemberPage extends HookWidget {
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.all(8),
             shrinkWrap: true,
-            itemCount: members.length,
+            itemCount: widget.members.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
                   MemberCard(
-                    member: members[index],
+                    member: widget.members[index],
                   ),
                 ],
               );
@@ -51,36 +55,47 @@ class GroupMemberPage extends HookWidget {
   }
 }
 
-class MemberCard extends HookWidget {
+class MemberCard extends StatefulWidget {
   const MemberCard({super.key, required this.member});
 
   final Person member;
 
   @override
-  Widget build(BuildContext context) {
-    final opacity = useState(1.0);
+  State<MemberCard> createState() => _MemberCardState();
+}
 
+class _MemberCardState extends State<MemberCard> {
+  double opacity = 1.0;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (details) {
-        opacity.value = 0.6;
+        setState(() {
+          opacity = 0.6;
+        });
       },
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                PersonScreen(personID: member.personID),
+                PersonScreen(personID: widget.member.personID),
           ),
         );
       },
       onTapUp: (details) {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       onTapCancel: () {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
-        opacity: opacity.value,
+        opacity: opacity,
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -111,11 +126,11 @@ class MemberCard extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      member.name,
+                      widget.member.name,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
-                      member.username,
+                      widget.member.username,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Theme.of(context).colorScheme.primary),
                     ),

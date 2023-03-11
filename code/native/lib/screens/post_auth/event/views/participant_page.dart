@@ -6,18 +6,22 @@ import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class EventParticipantPage extends HookWidget {
+class EventParticipantPage extends StatefulWidget {
   EventParticipantPage({super.key, required this.participants});
 
   final List<Person> participants;
 
+  @override
+  State<EventParticipantPage> createState() => _EventParticipantPageState();
+}
+
+class _EventParticipantPageState extends State<EventParticipantPage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = useScrollController();
-
     return Expanded(
       child: SmartRefresher(
         enablePullDown: true,
@@ -25,22 +29,22 @@ class EventParticipantPage extends HookWidget {
         controller: _refreshController,
         child: Scrollbar(
           thumbVisibility: true,
-          controller: scrollController,
+          controller: _scrollController,
           child: ListView.separated(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.all(8),
-            itemCount: participants.length,
+            itemCount: widget.participants.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Column(
                 children: [
                   Participant(
-                    participant: participants[index],
+                    participant: widget.participants[index],
                   ),
                 ],
               );
             },
-            controller: scrollController,
+            controller: _scrollController,
             separatorBuilder: (context, index) => const SizedBox(
               height: 8,
             ),
@@ -51,36 +55,49 @@ class EventParticipantPage extends HookWidget {
   }
 }
 
-class Participant extends HookWidget {
-  const Participant({super.key, required this.participant});
+class Participant extends StatefulWidget {
+  const Participant({
+    super.key,
+    required this.participant,
+  });
 
   final Person participant;
 
   @override
-  Widget build(BuildContext context) {
-    final opacity = useState(1.0);
+  State<Participant> createState() => _ParticipantState();
+}
 
+class _ParticipantState extends State<Participant> {
+  double opacity = 1.0;
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (details) {
-        opacity.value = 0.6;
+        setState(() {
+          opacity = 0.6;
+        });
       },
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                PersonScreen(personID: participant.personID),
+                PersonScreen(personID: widget.participant.personID),
           ),
         );
       },
       onTapUp: (details) {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       onTapCancel: () {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
-        opacity: opacity.value,
+        opacity: opacity,
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -111,11 +128,11 @@ class Participant extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      participant.name,
+                      widget.participant.name,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
-                      participant.username,
+                      widget.participant.username,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Theme.of(context).colorScheme.primary),
                     ),

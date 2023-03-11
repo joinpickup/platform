@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class AddGroupScreen extends HookWidget {
+class AddGroupScreen extends StatelessWidget {
   const AddGroupScreen({super.key});
 
   @override

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/input/input.dart';
 import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class DiscoverAppBar extends HookWidget {
-  const DiscoverAppBar({super.key, required this.searchController});
+class DiscoverAppBar extends StatelessWidget {
+  const DiscoverAppBar({
+    super.key,
+    required this.searchController,
+    required this.onSearch,
+  });
 
   final TextEditingController searchController;
+  final Function(String) onSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class DiscoverAppBar extends HookWidget {
             child: CustomInput(
               placeholder: "Search for a post...",
               controller: searchController,
+              onSearch: onSearch,
             ),
           ),
           Expanded(

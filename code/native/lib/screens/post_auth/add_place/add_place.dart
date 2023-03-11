@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class AddPlaceScreen extends HookWidget {
+class AddPlaceScreen extends StatelessWidget {
   const AddPlaceScreen({super.key});
 
   @override

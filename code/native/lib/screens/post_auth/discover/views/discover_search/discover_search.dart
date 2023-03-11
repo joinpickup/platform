@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/post_feed.dart';
+import 'package:local/shared/post_feed/post_feed_bloc.dart';
+import 'package:tailwind_colors/tailwind_colors.dart';
+
+class DiscoverSearch extends StatelessWidget {
+  const DiscoverSearch({super.key, required this.search});
+
+  final String search;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<PostFeedBloc>.value(
+      value: PostFeedBloc()..add(LoadPosts()),
+      child: _buildScreen(),
+    );
+  }
+
+  Scaffold _buildScreen() {
+    return Scaffold(
+      backgroundColor: TW3Colors.gray.shade600,
+      appBar: AppBar(
+        title: const Text("Search Posts"),
+        backgroundColor: TW3Colors.gray.shade700,
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            PostFeed(),
+          ],
+        ),
+      ),
+    );
+  }
+}

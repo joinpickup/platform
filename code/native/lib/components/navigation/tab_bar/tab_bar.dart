@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 extension ExtendedWidgetList on List<Widget> {
@@ -15,15 +15,17 @@ extension ExtendedWidgetList on List<Widget> {
   }
 }
 
-class CustomTabBar extends HookWidget {
+class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
     super.key,
     required this.tab,
+    required this.setTab,
     this.small = false,
     required this.tabs,
   });
 
-  final ValueNotifier<int> tab;
+  final int tab;
+  final Function(int) setTab;
   final bool small;
   final List<CustomTabModel> tabs;
 
@@ -49,6 +51,7 @@ class CustomTabBar extends HookWidget {
               // ignore: unnecessary_cast
               .map((e) => CustomTab(
                     active: tab,
+                    setActive: setTab,
                     activeColor: e.activeColor,
                     tab: e.tab,
                     label: e.label,
@@ -60,72 +63,6 @@ class CustomTabBar extends HookWidget {
                   width: 8,
                 ),
               ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTabModel {
-  const CustomTabModel({
-    required this.label,
-    required this.activeColor,
-    required this.tab,
-  });
-
-  final String label;
-  final Color activeColor;
-  final int tab;
-}
-
-class CustomTab extends HookWidget {
-  const CustomTab({
-    super.key,
-    required this.label,
-    this.small = false,
-    required this.active,
-    required this.activeColor,
-    required this.tab,
-  });
-
-  final String label;
-  final bool small;
-  final ValueNotifier<int> active;
-  final Color activeColor;
-  final int tab;
-
-  @override
-  Widget build(BuildContext context) {
-    final current = active.value == tab;
-
-    final selected = useState(false);
-
-    return GestureDetector(
-      onTapDown: (details) {
-        selected.value = true;
-      },
-      onTapUp: (details) {
-        selected.value = false;
-      },
-      onTapCancel: () {
-        selected.value = false;
-      },
-      onTap: () {
-        active.value = tab;
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: current ? activeColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: small ? 16 : 20,
-            color:
-                TW3Colors.gray.shade300.withOpacity(selected.value ? .45 : 1),
-          ),
         ),
       ),
     );

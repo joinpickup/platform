@@ -5,8 +5,21 @@ abstract class PostFeedEvent extends Equatable {
   List<Post> get props => [];
 }
 
-class RefreshPosts extends PostFeedEvent {}
+class RefreshPosts extends PostFeedEvent {
+  RefreshPosts({required this.refreshController});
 
-class LoadPosts extends PostFeedEvent {}
+  final RefreshController refreshController;
+}
 
-class SearchPosts extends PostFeedEvent {}
+class LoadPosts extends PostFeedEvent {
+  LoadPosts({this.refreshController});
+
+  final RefreshController? refreshController;
+}
+
+class SearchPosts extends PostFeedEvent {
+  SearchPosts({required this.context, required this.query});
+
+  final BuildContext context;
+  final String query;
+}

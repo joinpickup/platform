@@ -1,10 +1,10 @@
 part of "post_feed_bloc.dart";
 
-enum PostFeedStatus { initial, loading, success, failure }
+enum PostFeedStatus { loading, success, failure }
 
 class PostFeedState extends Equatable {
   const PostFeedState({
-    this.status = PostFeedStatus.initial,
+    this.status = PostFeedStatus.loading,
     this.posts = const <Post>[],
     this.error = "",
   });
@@ -14,7 +14,7 @@ class PostFeedState extends Equatable {
   final String error;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [status, posts, error];
 
   PostFeedState copyWith({
     PostFeedStatus? status,

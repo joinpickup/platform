@@ -1,39 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/repos/data/models/group.dart';
 import 'package:local/screens/post_auth/group/views/group_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class GroupCard extends HookWidget {
+class GroupCard extends StatefulWidget {
   const GroupCard({super.key, required this.group});
 
   final Group group;
 
   @override
-  Widget build(BuildContext context) {
-    final opacity = useState(1.0);
+  State<GroupCard> createState() => _GroupCardState();
+}
 
+class _GroupCardState extends State<GroupCard> {
+  double opacity = 1.0;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (details) {
-        opacity.value = 0.6;
+        setState(() {
+          opacity = 0.6;
+        });
       },
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (BuildContext context) =>
-                GroupScreen(groupID: group.groupID),
+            builder: (BuildContext context) => GroupScreen(
+              groupID: widget.group.groupID,
+            ),
           ),
         );
       },
       onTapUp: (details) {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       onTapCancel: () {
-        opacity.value = 1;
+        setState(() {
+          opacity = 1;
+        });
       },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
-        opacity: opacity.value,
+        opacity: opacity,
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -49,7 +60,7 @@ class GroupCard extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildGroupCardHeader(context, group),
+              _buildGroupCardHeader(context, widget.group),
             ],
           ),
         ),

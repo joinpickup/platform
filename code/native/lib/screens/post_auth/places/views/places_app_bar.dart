@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/input/input.dart';
 import 'package:local/screens/post_auth/add_place/add_place.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class PlacesAppbar extends HookWidget {
-  const PlacesAppbar({super.key, required this.searchController});
+class PlacesAppBar extends StatefulWidget {
+  const PlacesAppBar({super.key, required this.searchController});
 
   final TextEditingController searchController;
 
+  @override
+  State<PlacesAppBar> createState() => _PlacesAppBarState();
+}
+
+class _PlacesAppBarState extends State<PlacesAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +34,7 @@ class PlacesAppbar extends HookWidget {
             flex: 1,
             child: CustomInput(
               placeholder: "Search for a place...",
-              controller: searchController,
+              controller: widget.searchController,
             ),
           ),
           Expanded(

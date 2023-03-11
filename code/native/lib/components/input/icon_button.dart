@@ -3,29 +3,45 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class CustomIconButton extends HookWidget {
-  const CustomIconButton(
-      {super.key, required this.icon, required this.size, required this.tap});
+class CustomIconButton extends StatefulWidget {
+  const CustomIconButton({
+    super.key,
+    required this.icon,
+    required this.size,
+    required this.tap,
+  });
+
   final HeroIcons icon;
   final Function tap;
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final selected = useState(false);
+  State<CustomIconButton> createState() => _CustomIconButtonState();
+}
 
+class _CustomIconButtonState extends State<CustomIconButton> {
+  bool selected = false;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (details) {
-        selected.value = true;
+        setState(() {
+          selected = true;
+        });
       },
       onTap: () {
-        tap();
+        widget.tap();
       },
       onTapUp: (details) {
-        selected.value = false;
+        setState(() {
+          selected = false;
+        });
       },
       onTapCancel: () {
-        selected.value = false;
+        setState(() {
+          selected = false;
+        });
       },
       child: Container(
         padding: const EdgeInsets.all(4.0),
@@ -33,10 +49,10 @@ class CustomIconButton extends HookWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: HeroIcon(
-          icon,
+          widget.icon,
           color: TWColors.gray.shade400,
-          size: size,
-          style: selected.value ? HeroIconStyle.solid : HeroIconStyle.outline,
+          size: widget.size,
+          style: selected ? HeroIconStyle.solid : HeroIconStyle.outline,
         ),
       ),
     );

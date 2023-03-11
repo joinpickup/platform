@@ -5,20 +5,26 @@ import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class EventSettings extends HookWidget {
+class EventSettings extends StatefulWidget {
   EventSettings({super.key});
 
+  @override
+  State<EventSettings> createState() => _EventSettingsState();
+}
+
+class _EventSettingsState extends State<EventSettings> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+
+  final _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    final scrollController = useScrollController();
-
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(8),
         child: SmartRefresher(
-          scrollController: scrollController,
+          scrollController: _scrollController,
           enablePullDown: false,
           enablePullUp: false,
           controller: _refreshController,

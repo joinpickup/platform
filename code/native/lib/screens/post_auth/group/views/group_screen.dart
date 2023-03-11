@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/detail_row.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/navigation/tab_bar.dart';
+import 'package:local/components/navigation/tab_bar/custom_tab.dart';
+import 'package:local/components/navigation/tab_bar/tab_bar.dart';
 import 'package:local/repos/data/mocks/group.dart';
 import 'package:local/repos/data/models/group.dart';
 import 'package:local/screens/post_auth/add_event/add_event_screen.dart';
@@ -12,32 +14,52 @@ import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/events/views/event_feed.dart';
 import 'package:local/screens/post_auth/group/member_page.dart';
 import 'package:local/screens/post_auth/group/views/group_settings.dart';
+import 'package:local/shared/event_feed/event_feed_bloc.dart';
+import 'package:local/shared/post_feed/post_feed_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class GroupScreen extends HookWidget {
+class GroupScreen extends StatefulWidget {
   const GroupScreen({super.key, required this.groupID});
 
   final int groupID;
 
   @override
-  Widget build(BuildContext context) {
-    final tab = useState(0);
-    final group =
-        useState(allGroups.firstWhere((group) => group.groupID == groupID));
+  State<GroupScreen> createState() => _GroupScreenState();
+}
 
-    return _buildPageWithPostTab(tab, context, group);
-    // : _buildPageOther(tab, context, event);
+class _GroupScreenState extends State<GroupScreen> {
+  Group? group;
+  int tab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    group = allGroups.firstWhere((group) => group.groupID == widget.groupID);
   }
 
-  Scaffold _buildPageWithPostTab(ValueNotifier<int> tab, BuildContext context,
-      ValueNotifier<Group> group) {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: PostFeedBloc()..add(LoadPosts()),
+        ),
+        BlocProvider.value(
+          value: EventFeedBloc()..add(LoadEvents()),
+        ),
+      ],
+      child: _buildPageWithPostTab(tab, context, group as Group),
+    );
+  }
+
+  Scaffold _buildPageWithPostTab(int tab, BuildContext context, Group group) {
     return Scaffold(
-      floatingActionButton: tab.value == 0 || tab.value == 1
+      floatingActionButton: tab == 0 || tab == 1
           ? FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    switch (tab.value) {
+                    switch (tab) {
                       case 0:
                         return const AddPostScreen();
                       case 1:
@@ -48,7 +70,7 @@ class GroupScreen extends HookWidget {
                   },
                 ));
               },
-              backgroundColor: tab.value == 1
+              backgroundColor: tab == 1
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondary,
               child: const HeroIcon(HeroIcons.plus),
@@ -69,8 +91,8 @@ class GroupScreen extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    _buildGroupInfo(group.value, context),
-                    _buildGroupActions(group.value, context),
+                    _buildGroupInfo(group, context),
+                    _buildGroupActions(group, context),
                     _buildTabBar(tab),
                   ],
                 ),
@@ -88,15 +110,18 @@ class GroupScreen extends HookWidget {
         },
         body: Column(
           children: [
-            _buildEventFeed(group.value, tab, context),
+            _buildEventFeed(group, tab, context),
           ],
         ),
       ),
     );
   }
 
-  CustomTabBar _buildTabBar(ValueNotifier<int> tab) {
+  CustomTabBar _buildTabBar(int tab) {
     return CustomTabBar(
+      setTab: (newTab) {
+        tab = newTab;
+      },
       tab: tab,
       tabs: [
         CustomTabModel(
@@ -182,16 +207,14 @@ class GroupScreen extends HookWidget {
 
   Widget _buildEventFeed(
     Group group,
-    ValueNotifier<int> tab,
+    int tab,
     BuildContext context,
   ) {
-    switch (tab.value) {
+    switch (tab) {
       case 0:
         return PostFeed();
       case 1:
-        return EventFeed(
-          filter: EventFilter.upcoming,
-        );
+        return const EventFeed();
       case 2:
         return GroupMemberPage(members: group.members);
       case 3:
