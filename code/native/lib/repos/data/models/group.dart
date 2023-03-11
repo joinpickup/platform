@@ -5,6 +5,7 @@ import 'package:local/repos/data/models/person.dart';
 class Group {
   final int groupID;
   final String name;
+  final String icon;
   final String description;
   final String slug;
 
@@ -16,6 +17,7 @@ class Group {
   Group({
     required this.groupID,
     required this.name,
+    required this.icon,
     required this.description,
     required this.slug,
     required this.interest,

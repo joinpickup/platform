@@ -29,4 +29,16 @@ final brianPost = Post(
   interest: rockClimbingInterest,
 );
 
-final allPosts = [andrewPost, brianPost];
+final jayPost = Post(
+  postID: 3,
+  createdAt: DateTime.now().subtract(
+    const Duration(minutes: 45),
+  ),
+  title: "Looking to play some catan?",
+  body: "Really want to play some catan if anyone is around this weekend",
+  visibility: PostVisibility.public,
+  poster: jay,
+  interest: catanInterest,
+);
+
+final allPosts = [andrewPost, brianPost, jayPost];

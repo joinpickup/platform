@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:local/repos/data/models/group.dart';
 import 'package:local/screens/post_auth/group/views/group_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -73,12 +74,13 @@ Widget _buildGroupCardHeader(BuildContext context, Group group) {
   return Row(
     children: [
       // avatar
-      Container(
-        height: 36,
-        width: 36,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Colors.blue.shade400,
+      ClipOval(
+        child: SizedBox.fromSize(
+          size: const Size.fromRadius(14),
+          child: SvgPicture.asset(
+            group.icon,
+            color: TW3Colors.gray.shade400,
+          ),
         ),
       ),
       const SizedBox(

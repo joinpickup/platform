@@ -34,6 +34,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/pin.svg
+    - assets/avatars/
+    - assets/covers/
+    - assets/icons/
 
   fonts:
     - family: Nunito

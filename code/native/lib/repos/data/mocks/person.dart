@@ -3,6 +3,7 @@ import 'package:local/repos/data/models/person.dart';
 
 final andrew = Person(
   personID: 1,
+  avatar: "assets/avatars/fox_cropped.png",
   createdAt: DateTime.now(),
   name: "Andrew",
   username: "andyrewco",
@@ -11,10 +12,20 @@ final andrew = Person(
 
 final brian = Person(
   personID: 2,
+  avatar: "assets/avatars/koala_cropped.png",
   createdAt: DateTime.now(),
   name: "Brian",
   username: "windswept",
   location: eastRock,
 );
 
-final allPersons = [andrew, brian];
+final jay = Person(
+  personID: 3,
+  avatar: "assets/avatars/panda_cropped.png",
+  createdAt: DateTime.now(),
+  name: "Jay",
+  username: "jay",
+  location: eastRock,
+);
+
+final allPersons = [andrew, brian, jay];

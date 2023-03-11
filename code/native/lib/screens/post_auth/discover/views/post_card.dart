@@ -83,12 +83,10 @@ class _PostCardState extends State<PostCard> {
     return Row(
       children: [
         // avatar
-        Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: Colors.blue.shade400,
+        ClipOval(
+          child: SizedBox.fromSize(
+            size: const Size.fromRadius(20), 
+            child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(

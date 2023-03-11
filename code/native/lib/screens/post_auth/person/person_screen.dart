@@ -125,12 +125,10 @@ class _PersonScreenState extends State<PersonScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.blue.shade400,
+          ClipOval(
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(36),
+              child: Image.asset(person.avatar, fit: BoxFit.cover),
             ),
           ),
           const SizedBox(

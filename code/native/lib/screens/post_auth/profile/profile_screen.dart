@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:local/repos/data/mocks/person.dart';
+import 'package:local/repos/data/models/person.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
@@ -19,55 +21,64 @@ Future<void> _launchUrl(Uri url) async {
   await launchUrl(url);
 }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: TW3Colors.gray.shade600,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: _buildAppBar(context),
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: ListView(
-            children: [
-              SizedBox.fromSize(
-                size: const Size.fromHeight(8),
-              ),
-              _buildProfileSettings(context),
-            ],
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        final person =
+            allPersons.firstWhere((p) => p.personID == state.user!.personID);
+        return Scaffold(
+          backgroundColor: TW3Colors.gray.shade600,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(100),
+            child: _buildAppBar(context, person),
           ),
-        ),
-      ),
+          body: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: ListView(
+                children: [
+                  SizedBox.fromSize(
+                    size: const Size.fromHeight(8),
+                  ),
+                  _buildProfileSettings(context),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
 
-Widget _buildAppBar(BuildContext context) {
+Widget _buildAppBar(BuildContext context, Person person) {
   return Container(
     padding: const EdgeInsets.all(16),
     child: SafeArea(
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const PersonScreen(
-              personID: 1,
+            builder: (context) => PersonScreen(
+              personID: person.personID,
             ),
           ));
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: Colors.blue.shade400,
+            ClipOval(
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(36),
+                child: Image.asset(person.avatar, fit: BoxFit.cover),
               ),
             ),
             const SizedBox(
@@ -75,9 +86,10 @@ Widget _buildAppBar(BuildContext context) {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Andrew",
+                  person.name,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Text(

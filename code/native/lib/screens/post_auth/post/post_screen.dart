@@ -77,18 +77,6 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  // _buildPage(context),
-  SafeArea _buildPage(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [],
-        ),
-      ),
-    );
-  }
-
   Container _buildPost(BuildContext context, Post post) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -141,12 +129,10 @@ class _PostScreenState extends State<PostScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             // avatar
-            Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: Colors.blue.shade400,
+            ClipOval(
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(24),
+                child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
               ),
             ),
             const SizedBox(

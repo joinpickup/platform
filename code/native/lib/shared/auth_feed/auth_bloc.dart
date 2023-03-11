@@ -39,7 +39,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await state.userRepository.persistToken(token);
     emit(
       state.copyWith(
-        user: User(email: event.email, password: event.password),
+        user: User(
+          userID: 1,
+          personID: 1,
+          email: event.email,
+          password: event.password,
+        ),
         status: AuthStateStatus.authenticated,
       ),
     );
