@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 extension ExtendedWidgetList on List<Widget> {
@@ -18,16 +17,12 @@ extension ExtendedWidgetList on List<Widget> {
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
     super.key,
-    required this.tab,
-    required this.setTab,
     this.small = false,
     required this.tabs,
   });
 
-  final int tab;
-  final Function(int) setTab;
   final bool small;
-  final List<CustomTabModel> tabs;
+  final List<Widget> tabs;
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +42,11 @@ class CustomTabBar extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: tabs
-              // ignore: unnecessary_cast
-              .map((e) => CustomTab(
-                    active: tab,
-                    setActive: setTab,
-                    activeColor: e.activeColor,
-                    tab: e.tab,
-                    label: e.label,
-                    small: small,
-                  ) as Widget)
-              .toList()
-              .insertBetween(
-                const SizedBox(
-                  width: 8,
-                ),
-              ),
+          children: tabs.insertBetween(
+            const SizedBox(
+              width: 8,
+            ),
+          ),
         ),
       ),
     );

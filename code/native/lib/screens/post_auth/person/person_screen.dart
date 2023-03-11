@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar.dart';
+import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/person.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
@@ -26,7 +26,6 @@ class PersonScreen extends StatefulWidget {
 }
 
 class _PersonScreenState extends State<PersonScreen> {
-  int tab = 0;
   Person? person;
 
   @override
@@ -48,48 +47,51 @@ class _PersonScreenState extends State<PersonScreen> {
         BlocProvider.value(
           value: EventFeedBloc()..add(LoadEvents()),
         ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: TW3Colors.gray.shade700,
-          title: const Text("View Person"),
-          elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.more_vert,
-              ),
-            )
-          ],
+        BlocProvider<TabBarBloc>.value(
+          value: TabBarBloc()..add(InitializeTabBar()),
         ),
-        backgroundColor: TW3Colors.gray.shade600,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPersonInfo(person as Person, context),
-            _buildPersonActions(person as Person, context),
-            CustomTabBar(
-              tab: tab,
-              setTab: (newTab) {
-                tab = newTab;
-              },
-              tabs: [
-                CustomTabModel(
-                  activeColor: TW3Colors.gray.shade600,
-                  label: "Posts",
-                  tab: 0,
-                ),
-                CustomTabModel(
-                  activeColor: TW3Colors.gray.shade600,
-                  label: "Events",
-                  tab: 1,
-                ),
+      ],
+      child: BlocBuilder<TabBarBloc, TabBarState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: TW3Colors.gray.shade700,
+              title: const Text("View Person"),
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.more_vert,
+                  ),
+                )
               ],
             ),
-            _buildPersonFeed(person as Person, tab, context),
-          ],
-        ),
+            backgroundColor: TW3Colors.gray.shade600,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildPersonInfo(person as Person, context),
+                _buildPersonActions(person as Person, context),
+                CustomTabBar(
+                  tabs: [
+                    CustomTab(
+                      activeColor: TW3Colors.gray.shade600,
+                      label: "Posts",
+                      tab: 0,
+                    ),
+                    CustomTab(
+                      activeColor: TW3Colors.gray.shade600,
+                      label: "Events",
+                      tab: 1,
+                    ),
+                  ],
+                ),
+                _buildPersonFeed(person as Person, state.tab, context),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

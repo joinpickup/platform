@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/detail_row.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar.dart';
+import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/event.dart';
 import 'package:local/repos/data/models/event.dart';
 import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
@@ -25,7 +25,6 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
-  final tab = 0;
   Event? event;
 
   @override
@@ -36,9 +35,21 @@ class _EventScreenState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PostFeedBloc>.value(
-        value: PostFeedBloc()..add(LoadPosts()),
-        child: _buildPageWithPostTab(tab, context, event as Event));
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PostFeedBloc>.value(
+          value: PostFeedBloc()..add(LoadPosts()),
+        ),
+        BlocProvider<TabBarBloc>.value(
+          value: TabBarBloc()..add(InitializeTabBar()),
+        ),
+      ],
+      child: BlocBuilder<TabBarBloc, TabBarState>(
+        builder: (context, state) {
+          return _buildPageWithPostTab(state.tab, context, event as Event);
+        },
+      ),
+    );
   }
 
   Scaffold _buildPageWithPostTab(int tab, BuildContext context, Event event) {
@@ -106,24 +117,18 @@ class _EventScreenState extends State<EventScreen> {
 
   CustomTabBar _buildTabBar(int tab) {
     return CustomTabBar(
-      tab: tab,
-      setTab: (newTab) {
-        setState(() {
-          tab = newTab;
-        });
-      },
       tabs: [
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Posts",
           tab: 0,
         ),
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Participants",
           tab: 1,
         ),
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Settings",
           tab: 2,

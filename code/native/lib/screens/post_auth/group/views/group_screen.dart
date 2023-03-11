@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/detail_row.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar.dart';
+import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/group.dart';
 import 'package:local/repos/data/models/group.dart';
 import 'package:local/screens/post_auth/add_event/add_event_screen.dart';
@@ -29,7 +29,6 @@ class GroupScreen extends StatefulWidget {
 
 class _GroupScreenState extends State<GroupScreen> {
   Group? group;
-  int tab = 0;
 
   @override
   void initState() {
@@ -41,18 +40,25 @@ class _GroupScreenState extends State<GroupScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(
-          value: PostFeedBloc()..add(LoadPosts()),
+        BlocProvider(
+          create: (context) => PostFeedBloc()..add(LoadPosts()),
         ),
-        BlocProvider.value(
-          value: EventFeedBloc()..add(LoadEvents()),
+        BlocProvider(
+          create: (context) => EventFeedBloc()..add(LoadEvents()),
+        ),
+        BlocProvider(
+          create: (context) => TabBarBloc()..add(InitializeTabBar()),
         ),
       ],
-      child: _buildPageWithPostTab(tab, context, group as Group),
+      child: BlocBuilder<TabBarBloc, TabBarState>(
+        builder: (context, state) {
+          return _buildPageWithPostTab(state.tab, context, group as Group);
+        },
+      ),
     );
   }
 
-  Scaffold _buildPageWithPostTab(int tab, BuildContext context, Group group) {
+  Widget _buildPageWithPostTab(int tab, BuildContext context, Group group) {
     return Scaffold(
       floatingActionButton: tab == 0 || tab == 1
           ? FloatingActionButton(
@@ -119,27 +125,23 @@ class _GroupScreenState extends State<GroupScreen> {
 
   CustomTabBar _buildTabBar(int tab) {
     return CustomTabBar(
-      setTab: (newTab) {
-        tab = newTab;
-      },
-      tab: tab,
       tabs: [
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Posts",
           tab: 0,
         ),
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Events",
           tab: 1,
         ),
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Participants",
           tab: 2,
         ),
-        CustomTabModel(
+        CustomTab(
           activeColor: TW3Colors.gray.shade600,
           label: "Settings",
           tab: 3,
