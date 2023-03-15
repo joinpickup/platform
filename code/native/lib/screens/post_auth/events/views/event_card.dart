@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:local/repos/data/models/event.dart';
+import 'package:local/repos/data/models/event/event.dart';
 import 'package:local/screens/post_auth/event/event_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

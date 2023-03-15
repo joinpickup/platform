@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/navigator/post_auth/bottom_app_bar.dart';
 import 'package:local/navigator/post_auth/post_auth_navigator/post_auth_navigator_bloc.dart';
+import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_screen.dart';
 import 'package:local/screens/post_auth/events/events_screen.dart';
 import 'package:local/screens/post_auth/places/places_screen.dart';
@@ -19,6 +19,7 @@ class PostAuthNavigator extends StatefulWidget {
 
 class _PostAuthNavigatorState extends State<PostAuthNavigator> {
   List<Widget> items = [];
+  final _postRepository = PostRepository();
 
   @override
   void initState() {
@@ -37,7 +38,7 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PostFeedBloc>(
-          create: (context) => PostFeedBloc()..add(LoadPosts()),
+          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
         ),
         BlocProvider<PostAuthNavigatorBloc>(
           create: (context) => PostAuthNavigatorBloc()..add(InitializePage()),

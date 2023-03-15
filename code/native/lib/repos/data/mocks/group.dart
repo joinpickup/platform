@@ -1,11 +1,21 @@
 import 'package:local/repos/data/mocks/location.dart';
 import 'package:local/repos/data/mocks/person.dart';
-import 'package:local/repos/data/models/group.dart';
+import 'package:local/repos/data/models/group/group.dart';
+import 'package:local/repos/data/models/group/group_member.dart';
 
 import 'interest.dart';
 
 final climbingGroup = Group(
-  members: [andrew, brian],
+  members: [
+    GroupMember(
+      person: andrew,
+      memberType: GroupMemberType.admin,
+    ),
+    GroupMember(
+      person: brian,
+      memberType: GroupMemberType.member,
+    ),
+  ],
   groupID: 1,
   icon: "assets/icons/climbing-1.svg",
   location: eastRock,
@@ -16,7 +26,16 @@ final climbingGroup = Group(
 );
 
 final climbingGroup2 = Group(
-  members: [brian],
+  members: [
+    GroupMember(
+      person: andrew,
+      memberType: GroupMemberType.member,
+    ),
+    GroupMember(
+      person: brian,
+      memberType: GroupMemberType.admin,
+    ),
+  ],
   location: eastRock,
   groupID: 2,
   icon: "assets/icons/climbing-2.svg",
@@ -29,7 +48,16 @@ final climbingGroup2 = Group(
 final soccerGroup1 = Group(
   icon: "assets/icons/soccer-1.svg",
   location: eastRock,
-  members: [andrew],
+  members: [
+    GroupMember(
+      person: jay,
+      memberType: GroupMemberType.member,
+    ),
+    GroupMember(
+      person: andrew,
+      memberType: GroupMemberType.admin,
+    ),
+  ],
   groupID: 3,
   name: "Soccer Group",
   description: "A group for soccer players",
@@ -38,7 +66,16 @@ final soccerGroup1 = Group(
 );
 
 final soccerGroup2 = Group(
-  members: [andrew],
+  members: [
+    GroupMember(
+      person: jay,
+      memberType: GroupMemberType.admin,
+    ),
+    GroupMember(
+      person: brian,
+      memberType: GroupMemberType.member,
+    ),
+  ],
   location: eastRock,
   groupID: 4,
   icon: "assets/icons/soccer-2.svg",

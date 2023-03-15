@@ -36,25 +36,25 @@ class CustomBottomAppBar extends StatelessWidget {
             children: [
               CustomBottomAppBarItem(
                 index: 0,
-                color: Theme.of(context).colorScheme.secondary,
+                color: TW3Colors.gray.shade300,
                 icon: HeroIcons.magnifyingGlass,
                 label: "Discover",
               ),
               CustomBottomAppBarItem(
                 index: 1,
-                color: TW3Colors.red.shade400,
+                color: TW3Colors.gray.shade300,
                 icon: HeroIcons.map,
                 label: "Places",
               ),
               CustomBottomAppBarItem(
                 index: 2,
-                color: Theme.of(context).colorScheme.primary,
+                color: TW3Colors.gray.shade300,
                 icon: HeroIcons.calendarDays,
                 label: "Events",
               ),
-              const CustomBottomAppBarItem(
+              CustomBottomAppBarItem(
                 index: 3,
-                color: TW3Colors.cyan,
+                color: TW3Colors.gray.shade300,
                 icon: HeroIcons.user,
                 label: "Profile",
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local/repos/data/mocks/group.dart';
-import 'package:local/repos/data/models/group.dart';
+import 'package:local/repos/data/models/group/group.dart';
 import 'package:local/screens/post_auth/discover/views/discover_group_drawer/group_card.dart';
 
 class GroupSectionModel {

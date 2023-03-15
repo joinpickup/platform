@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tailwind_colors/tailwind_colors.dart';
+
+enum CustomButtonType { outlined, contained }
 
 class CustomButton extends StatefulWidget {
-  const CustomButton({super.key, required this.tap, required this.text});
+  CustomButton({
+    super.key,
+    required this.tap,
+    required this.text,
+    this.color,
+    this.buttonType = CustomButtonType.contained,
+  });
 
   final Function tap;
   final String text;
+  late Color? color;
+  final CustomButtonType buttonType;
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -13,9 +24,14 @@ class CustomButton extends StatefulWidget {
 
 class _CustomButtonState extends State<CustomButton> {
   bool selected = false;
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
+    if (widget.color == null) {
+      color = Theme.of(context).colorScheme.secondary;
+    }
+
     return GestureDetector(
       onTapDown: (details) {
         setState(() {
@@ -37,14 +53,22 @@ class _CustomButtonState extends State<CustomButton> {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            8,
-          ),
-          color: Theme.of(context).colorScheme.secondary.withOpacity(
-                selected ? 0.80 : 1,
+        decoration: widget.buttonType == CustomButtonType.contained
+            ? BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  8,
+                ),
+                color: (widget.color ?? color)!.withOpacity(
+                  selected ? 0.75 : 1,
+                ),
+              )
+            : BoxDecoration(
+                border: Border.all(width: 2, color: TW3Colors.gray.shade600),
+                borderRadius: BorderRadius.circular(
+                  8,
+                ),
+                color: selected ? TW3Colors.gray.shade600 : Colors.transparent,
               ),
-        ),
         child: Text(
           widget.text,
           style: Theme.of(context).textTheme.bodyLarge,

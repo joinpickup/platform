@@ -1,20 +1,27 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/repos/data/models/user.dart';
+import 'package:local/repos/data/models/user/user.dart';
+import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/user_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required this.userRepository})
-      : super(AuthState(userRepository: userRepository)) {
+  AuthBloc({
+    required this.userRepository,
+    required this.personRepository,
+  }) : super(AuthState(
+          userRepository: userRepository,
+          personRepository: personRepository,
+        )) {
     on<AppStart>(_onAppStart);
     on<Login>(_onLogin);
     on<Logout>(_onLogout);
   }
 
   final UserRepository userRepository;
+  final PersonRepository personRepository;
 
   Future<void> _onAppStart(
     AppStart event,

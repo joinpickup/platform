@@ -16,3 +16,9 @@ class LoadEvents extends EventFeedEvent {
 
   final RefreshController? refreshController;
 }
+
+class FilterEvents extends EventFeedEvent {
+  FilterEvents({required this.filter});
+
+  final EventFilter filter;
+}

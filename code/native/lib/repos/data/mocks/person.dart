@@ -1,9 +1,9 @@
 import 'package:local/repos/data/mocks/location.dart';
-import 'package:local/repos/data/models/person.dart';
+import 'package:local/repos/data/models/user/person.dart';
 
 final andrew = Person(
   personID: 1,
-  avatar: "assets/avatars/fox_cropped.png",
+  avatar: "assets/avatars/fox_ai.png",
   createdAt: DateTime.now(),
   name: "Andrew",
   username: "andyrewco",

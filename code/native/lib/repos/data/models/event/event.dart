@@ -1,7 +1,11 @@
-import 'package:local/repos/data/models/interest.dart';
-import 'package:local/repos/data/models/person.dart';
-import 'package:local/repos/data/models/place.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:local/repos/data/models/space/interest.dart';
+import 'package:local/repos/data/models/location/place.dart';
+import 'package:local/repos/data/models/user/person.dart';
 
+part 'event.g.dart';
+
+@JsonSerializable()
 class Event {
   final int eventID;
   final String name;
@@ -29,4 +33,8 @@ class Event {
     required this.endDate,
     required this.endTime,
   });
+
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventToJson(this);
 }

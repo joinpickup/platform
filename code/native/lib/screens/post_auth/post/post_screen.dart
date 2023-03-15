@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:local/repos/data/mocks/post.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
+import 'package:local/screens/post_auth/post/post_bloc.dart';
 import 'package:local/screens/post_auth/post/views/thread_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';
@@ -19,18 +21,83 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  Post? post;
-
-  @override
-  void initState() {
-    post = allPosts.firstWhere(
-      (post) => post.postID == widget.postID,
-    );
-    super.initState();
-  }
+  final _postRepository = PostRepository();
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          PostBloc(_postRepository)..add(LoadPost(postID: widget.postID)),
+      child: BlocBuilder<PostBloc, PostState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case PostStatus.success:
+              return _buildSuccess(state);
+            case PostStatus.loading:
+              return _buildLoading();
+            default:
+              return _buildError();
+          }
+        },
+      ),
+    );
+  }
+
+  Scaffold _buildLoading() {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TW3Colors.gray.shade700,
+        title: const Text("View Post"),
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: TW3Colors.gray.shade600,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            "Loading Post",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildError() {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TW3Colors.gray.shade700,
+        title: const Text("View Post"),
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: TW3Colors.gray.shade600,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            "Error loading post",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildSuccess(PostState state) {
     return Scaffold(
       backgroundColor: TW3Colors.gray.shade600,
       body: NestedScrollView(
@@ -57,7 +124,7 @@ class _PostScreenState extends State<PostScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      _buildPost(context, post as Post),
+                      _buildPost(context, state.post as Post),
                     ],
                   ),
                 ),
@@ -117,7 +184,7 @@ class _PostScreenState extends State<PostScreen> {
           MaterialPageRoute(
             builder: (context) {
               return PersonScreen(
-                personID: post.poster.personID,
+                personID: post.poster!.personID,
               );
             },
           ),
@@ -132,7 +199,7 @@ class _PostScreenState extends State<PostScreen> {
             ClipOval(
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(24),
-                child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
+                child: Image.asset(post.poster!.avatar, fit: BoxFit.cover),
               ),
             ),
             const SizedBox(
@@ -144,7 +211,7 @@ class _PostScreenState extends State<PostScreen> {
               children: [
                 // name
                 Text(
-                  post.poster.name,
+                  post.poster!.name,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 // location / visbility
@@ -187,7 +254,7 @@ class _PostScreenState extends State<PostScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "#${post.interest.name}",
+          "#${post.interest!.name}",
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
           ),

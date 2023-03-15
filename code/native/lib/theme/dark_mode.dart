@@ -2,6 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:local/theme/colors.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
+final TextTheme textTheme = TextTheme(
+  bodyLarge: TextStyle(
+    color: TW3Colors.gray.shade300,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  ),
+  bodyMedium: TextStyle(
+    color: TW3Colors.gray.shade300,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  ),
+  titleLarge: TextStyle(
+    color: TW3Colors.gray.shade300,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ),
+  titleMedium: TextStyle(
+    color: TW3Colors.gray.shade400,
+    fontSize: 14,
+    fontStyle: FontStyle.italic,
+    fontWeight: FontWeight.bold,
+  ),
+  titleSmall: TextStyle(
+    color: TW3Colors.gray.shade400,
+    fontStyle: FontStyle.italic,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  ),
+  bodySmall: TextStyle(
+    color: TW3Colors.gray.shade300,
+    fontWeight: FontWeight.bold,
+  ),
+);
+
 final darkTheme = ThemeData(
   colorScheme: ColorScheme(
     background: TW3Colors.gray.shade700,
@@ -21,37 +55,5 @@ final darkTheme = ThemeData(
     onSurface: createMaterialColor(TW3Colors.gray.shade300),
   ),
   fontFamily: "Nunito",
-  textTheme: TextTheme(
-    bodyLarge: TextStyle(
-      color: TW3Colors.gray.shade300,
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-    ),
-    bodyMedium: TextStyle(
-      color: TW3Colors.gray.shade300,
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-    ),
-  titleLarge: TextStyle(
-      color: TW3Colors.gray.shade300,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-    titleMedium: TextStyle(
-      color: TW3Colors.gray.shade400,
-      fontSize: 14,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.bold,
-    ),
-    titleSmall: TextStyle(
-      color: TW3Colors.gray.shade400,
-      fontStyle: FontStyle.italic,
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-    ),
-    bodySmall: TextStyle(
-      color: TW3Colors.gray.shade300,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
+  textTheme: textTheme,
 );

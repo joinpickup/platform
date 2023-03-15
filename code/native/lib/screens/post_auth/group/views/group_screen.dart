@@ -7,7 +7,8 @@ import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/group.dart';
-import 'package:local/repos/data/models/group.dart';
+import 'package:local/repos/data/models/group/group.dart';
+import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/add_event/add_event_screen.dart';
 import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
@@ -29,6 +30,7 @@ class GroupScreen extends StatefulWidget {
 
 class _GroupScreenState extends State<GroupScreen> {
   Group? group;
+  final _postRepository = PostRepository();
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _GroupScreenState extends State<GroupScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => PostFeedBloc()..add(LoadPosts()),
+          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
         ),
         BlocProvider(
           create: (context) => EventFeedBloc()..add(LoadEvents()),
@@ -220,7 +222,7 @@ class _GroupScreenState extends State<GroupScreen> {
       case 2:
         return GroupMemberPage(members: group.members);
       case 3:
-        return GroupSettings();
+        return const GroupSettings();
       default:
         return Container();
     }

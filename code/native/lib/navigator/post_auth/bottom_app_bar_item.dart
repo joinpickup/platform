@@ -65,7 +65,7 @@ class _CustomBottomAppBarItemState extends State<CustomBottomAppBarItem> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: active ? widget.color : TW3Colors.gray.shade500,
-                        fontSize: active ? 12 : 10,
+                        fontSize: active ? 13 : 10,
                       ),
                     ),
                   ),

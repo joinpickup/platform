@@ -1,7 +1,7 @@
 import 'package:local/repos/data/mocks/interest.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/mocks/place.dart';
-import 'package:local/repos/data/models/event.dart';
+import 'package:local/repos/data/models/event/event.dart';
 
 final climbingSession1 = Event(
   eventID: 1,

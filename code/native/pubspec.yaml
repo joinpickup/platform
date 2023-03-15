@@ -25,15 +25,20 @@ dependencies:
   url_launcher: ^6.1.10
   equatable: ^2.0.5
   flutter_secure_storage: ^8.0.0
+  json_annotation: ^4.8.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.0
 
 flutter:
   assets:
-    - assets/pin.svg
+    - assets/pickup-logo.png
     - assets/avatars/
     - assets/covers/
     - assets/icons/
@@ -50,6 +55,5 @@ flutter:
         - asset: fonts/Nunito-Regular.ttf
         - asset: fonts/Nunito-Italic.ttf
           style: italic
-
 
   uses-material-design: true

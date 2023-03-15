@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/input/input.dart';
-import 'package:local/shared/auth_feed/auth_bloc.dart';
+import 'package:local/navigator/pre_auth/login/login_screen.dart';
+import 'package:local/navigator/pre_auth/onboard/info_navigator.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class PreAuthNavigator extends StatefulWidget {
@@ -14,41 +12,59 @@ class PreAuthNavigator extends StatefulWidget {
 }
 
 class _PreAuthNavigatorState extends State<PreAuthNavigator> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TW3Colors.gray.shade700,
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
+          height: double.maxFinite,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomInput(
-                controller: _emailController,
-                placeholder: "Enter your email...",
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/pickup-logo.png",
+                    height: 200,
+                    width: 200,
+                  ),
+                  Text(
+                    "Local",
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              CustomInput(
-                controller: _passwordController,
-                placeholder: "Enter your password...",
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              CustomButton(
-                tap: () {
-                  context.read<AuthBloc>().add(Login(
-                        email: _emailController.text,
-                        password: _passwordController.text,
+              Column(
+                children: [
+                  CustomButton(
+                    tap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return const InfoNavigator();
+                        },
                       ));
-                },
-                text: "Login",
+                    },
+                    text: "Continue",
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  CustomButton(
+                    buttonType: CustomButtonType.outlined,
+                    tap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return const LoginScreen();
+                        },
+                      ));
+                    },
+                    text: "Log In",
+                  ),
+                ],
               )
             ],
           ),

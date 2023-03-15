@@ -1,5 +1,11 @@
-import 'package:local/repos/data/models/location.dart';
+import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
+import 'package:local/repos/data/models/location/location.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable()
 class Person {
   final int personID;
   final DateTime createdAt;
@@ -18,5 +24,8 @@ class Person {
     required this.location,
     required this.username,
   });
-  // generated
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
 }

@@ -1,4 +1,4 @@
-import 'package:local/repos/data/models/location.dart';
+import 'package:local/repos/data/models/location/location.dart';
 
 final eastRock = Location(
   locationID: 1,

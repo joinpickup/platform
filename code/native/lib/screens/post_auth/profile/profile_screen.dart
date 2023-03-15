@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/repos/data/mocks/person.dart';
-import 'package:local/repos/data/models/person.dart';
+import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';

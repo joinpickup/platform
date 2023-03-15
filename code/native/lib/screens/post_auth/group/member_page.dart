@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local/components/badge.dart';
-import 'package:local/repos/data/models/person.dart';
+import 'package:local/repos/data/models/group/group_member.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -8,7 +8,7 @@ import 'package:tailwind_colors/tailwind_colors.dart';
 class GroupMemberPage extends StatefulWidget {
   const GroupMemberPage({super.key, required this.members});
 
-  final List<Person> members;
+  final List<GroupMember> members;
 
   @override
   State<GroupMemberPage> createState() => _GroupMemberPageState();
@@ -58,7 +58,7 @@ class _GroupMemberPageState extends State<GroupMemberPage> {
 class MemberCard extends StatefulWidget {
   const MemberCard({super.key, required this.member});
 
-  final Person member;
+  final GroupMember member;
 
   @override
   State<MemberCard> createState() => _MemberCardState();
@@ -79,7 +79,7 @@ class _MemberCardState extends State<MemberCard> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                PersonScreen(personID: widget.member.personID),
+                PersonScreen(personID: widget.member.person.personID),
           ),
         );
       },
@@ -126,20 +126,22 @@ class _MemberCardState extends State<MemberCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.member.name,
+                      widget.member.person.name,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
-                      widget.member.username,
+                      widget.member.person.username,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Theme.of(context).colorScheme.primary),
                     ),
                   ],
                 ),
               ),
-              const CustomBadge(
-                text: "Admin",
-              ),
+              widget.member.memberType == GroupMemberType.admin
+                  ? const CustomBadge(
+                      text: "Admin",
+                    )
+                  : Container(),
             ],
           ),
         ),

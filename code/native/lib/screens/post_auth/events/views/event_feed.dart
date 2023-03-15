@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/components/skelaton/event_card_skelaton.dart';
 import 'package:local/screens/post_auth/events/views/event_card.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -52,6 +53,8 @@ class _EventFeedState extends State<EventFeed> {
                 ),
               ),
             );
+          case EventFeedStatus.loading:
+            return const EventCardSkelaton();
           default:
             return Container();
         }

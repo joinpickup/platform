@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:local/repos/data/models/group.dart';
+import 'package:local/repos/data/models/group/group.dart';
 import 'package:local/screens/post_auth/group/views/group_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

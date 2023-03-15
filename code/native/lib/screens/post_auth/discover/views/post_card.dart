@@ -31,7 +31,7 @@ class _PostCardState extends State<PostCard> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                PostScreen(postID: widget.post.postID),
+                PostScreen(postID: widget.post.postID as int),
           ),
         );
       },
@@ -85,8 +85,8 @@ class _PostCardState extends State<PostCard> {
         // avatar
         ClipOval(
           child: SizedBox.fromSize(
-            size: const Size.fromRadius(20), 
-            child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
+            size: const Size.fromRadius(20),
+            child: Image.asset(post.poster!.avatar, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(
@@ -98,16 +98,14 @@ class _PostCardState extends State<PostCard> {
           children: [
             // name
             Text(
-              post.poster.name,
+              post.poster!.name,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             // location / visbility
             Row(
               children: [
-                Text(
-                  "East Rock",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
+                Text("East Rock",
+                    style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(
                   width: 8,
                 ),
@@ -155,7 +153,7 @@ class _PostCardState extends State<PostCard> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "#${post.interest.name}",
+          "#${post.interest!.name}",
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
           ),
