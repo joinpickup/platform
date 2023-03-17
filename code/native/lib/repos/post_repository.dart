@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 
 class PostRepository {
   PostRepository() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/post.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/post/post_bloc.dart';
@@ -9,26 +9,26 @@ import 'package:local/screens/post_auth/post/views/comment_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';
 
-class PostScreen extends StatefulWidget {
-  const PostScreen({
+class CommentScreen extends StatefulWidget {
+  const CommentScreen({
     super.key,
-    required this.postID,
+    required this.commentID,
   });
 
-  final int postID;
+  final int commentID;
 
   @override
-  State<PostScreen> createState() => _PostScreenState();
+  State<CommentScreen> createState() => _CommentScreenState();
 }
 
-class _PostScreenState extends State<PostScreen> {
+class _CommentScreenState extends State<CommentScreen> {
   final _postRepository = PostRepository();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          PostBloc(_postRepository)..add(LoadPost(postID: widget.postID)),
+          PostBloc(_postRepository)..add(LoadPost(postID: widget.commentID)),
       child: BlocBuilder<PostBloc, PostState>(
         builder: (context, state) {
           switch (state.status) {
@@ -48,7 +48,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TW3Colors.gray.shade700,
-        title: const Text("View Post"),
+        title: const Text("View Comment"),
         elevation: 0,
         actions: [
           IconButton(
@@ -103,7 +103,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TW3Colors.gray.shade700,
-        title: const Text("View Post"),
+        title: const Text("View Comment"),
         elevation: 0,
         actions: [
           IconButton(
@@ -118,7 +118,7 @@ class _PostScreenState extends State<PostScreen> {
       body: SafeArea(
         child: Center(
           child: Text(
-            "Error loading post",
+            "Error loading comment",
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -128,13 +128,13 @@ class _PostScreenState extends State<PostScreen> {
 
   Scaffold _buildSuccess(PostState state) {
     return Scaffold(
-      backgroundColor: TW3Colors.gray.shade700,
+      backgroundColor: TW3Colors.gray.shade600,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
               backgroundColor: TW3Colors.gray.shade700,
-              title: const Text("View Post"),
+              title: const Text("View Comment"),
               elevation: 0,
               pinned: true,
               expandedHeight: state.post!.body.length >= 100 ? 276 : 224,

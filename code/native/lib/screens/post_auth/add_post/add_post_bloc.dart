@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
 

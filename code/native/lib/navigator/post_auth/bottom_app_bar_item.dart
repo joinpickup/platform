@@ -41,7 +41,8 @@ class _CustomBottomAppBarItemState extends State<CustomBottomAppBarItem> {
                   .add(ChangeTab(tab: widget.index));
               HapticFeedback.lightImpact();
             },
-            child: AnimatedContainer(
+            child: 
+            AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),

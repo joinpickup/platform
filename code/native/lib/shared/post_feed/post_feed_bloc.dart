@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/repos/data/mocks/post.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/views/discover_search/discover_search.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/user/person.dart';
+import 'package:local/screens/post_auth/messages/messages_screen.dart';
+import 'package:local/screens/post_auth/notifications/notifications_screen.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
+import 'package:local/screens/post_auth/profile/views/modules/module.dart';
 import 'package:local/screens/post_auth/profile/views/settings/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
@@ -45,8 +48,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.all(8),
               child: ListView(
                 children: [
-                  SizedBox.fromSize(
-                    size: const Size.fromHeight(8),
+                  const Text("Modules"),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Module(
+                        icon: HeroIcons.chatBubbleLeft,
+                        text: "Messages",
+                        action: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const MessagesScreen();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Module(
+                        icon: HeroIcons.bell,
+                        text: "Notifications",
+                        action: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const NotificationsScreen();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const Text("Settings"),
+                  const SizedBox(
+                    height: 8,
                   ),
                   _buildProfileSettings(context),
                 ],

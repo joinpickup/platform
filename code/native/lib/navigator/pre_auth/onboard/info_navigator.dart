@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
+import 'package:local/navigator/pre_auth/onboard/onboard_bloc.dart';
 import 'package:local/navigator/pre_auth/onboard/onboard_navigator.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
@@ -44,9 +46,11 @@ class _InfoNavigatorState extends State<InfoNavigator> {
               CustomButton(
                 tap: () {
                   if (tab == tabs.length - 1) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const OnboardNavigator(),
-                    ));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const OnboardNavigator(),
+                      ),
+                    );
                   } else {
                     setState(() {
                       tab++;

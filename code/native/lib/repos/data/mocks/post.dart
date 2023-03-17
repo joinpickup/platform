@@ -1,6 +1,6 @@
 import 'package:local/repos/data/mocks/interest.dart';
 import 'package:local/repos/data/mocks/person.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 
 final andrewPost = Post(
   postID: 1,

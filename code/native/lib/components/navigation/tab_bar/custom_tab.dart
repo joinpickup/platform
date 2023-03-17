@@ -58,7 +58,7 @@ class _CustomTabState extends State<CustomTab> {
             child: Text(
               widget.label,
               style: TextStyle(
-                fontSize: widget.small ? 16 : 20,
+                fontSize: widget.small ? 14 : 20,
                 color: TW3Colors.gray.shade300.withOpacity(selected ? .45 : 1),
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
 
 part 'post_event.dart';
@@ -16,7 +16,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     Emitter<PostState> emit,
   ) async {
     Post? post = await state.postRepository.getPost(postID: event.postID);
-    print(post);
 
     if (post == null) {
       emit(state.copyWith(

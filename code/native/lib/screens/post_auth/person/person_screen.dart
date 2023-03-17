@@ -43,14 +43,14 @@ class _PersonScreenState extends State<PersonScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(
-          value: PostFeedBloc(_postRepository)..add(LoadPosts()),
+        BlocProvider(
+          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
         ),
-        BlocProvider.value(
-          value: EventFeedBloc()..add(LoadEvents()),
+        BlocProvider(
+          create: (context) => EventFeedBloc()..add(LoadEvents()),
         ),
-        BlocProvider<TabBarBloc>.value(
-          value: TabBarBloc()..add(InitializeTabBar()),
+        BlocProvider(
+          create: (context) => TabBarBloc()..add(InitializeTabBar()),
         ),
       ],
       child: BlocBuilder<TabBarBloc, TabBarState>(
@@ -91,6 +91,11 @@ class _PersonScreenState extends State<PersonScreen> {
                           activeColor: TW3Colors.gray.shade600,
                           label: "Events",
                           tab: 1,
+                        ),
+                        CustomTab(
+                          activeColor: TW3Colors.gray.shade600,
+                          label: "Interests",
+                          tab: 2,
                         ),
                       ],
                     ),

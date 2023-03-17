@@ -19,8 +19,8 @@ class _DiscoverSearchState extends State<DiscoverSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PostFeedBloc>.value(
-      value: PostFeedBloc(_postRepository)..add(LoadPosts()),
+    return BlocProvider(
+      create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
       child: _buildScreen(),
     );
   }

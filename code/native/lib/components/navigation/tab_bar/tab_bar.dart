@@ -37,7 +37,7 @@ class CustomTabBar extends StatelessWidget {
           ),
         ),
       ),
-      height: 65,
+      height: small ? 50 : 65,
       width: double.maxFinite,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

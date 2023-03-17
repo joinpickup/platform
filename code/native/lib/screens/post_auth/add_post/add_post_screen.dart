@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/repos/data/mocks/interest.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/add_post/add_post_bloc.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -156,6 +156,20 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 const SizedBox(
                   height: 8,
                 ),
+                Text(
+                  "Group",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Group",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
               ],
             ),
             Positioned(
@@ -179,7 +193,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         ),
                       );
                 },
-                text: "Create Post",
+                text: "Next",
               ),
             ),
           ],

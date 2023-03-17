@@ -39,11 +39,11 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PostFeedBloc>.value(
-          value: PostFeedBloc(_postRepository)..add(LoadPosts()),
+        BlocProvider(
+          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
         ),
-        BlocProvider<TabBarBloc>.value(
-          value: TabBarBloc()..add(InitializeTabBar()),
+        BlocProvider(
+          create: (context) => TabBarBloc()..add(InitializeTabBar()),
         ),
       ],
       child: BlocBuilder<TabBarBloc, TabBarState>(
@@ -127,13 +127,18 @@ class _EventScreenState extends State<EventScreen> {
         ),
         CustomTab(
           activeColor: TW3Colors.gray.shade600,
-          label: "Participants",
+          label: "Suggestions",
           tab: 1,
         ),
         CustomTab(
           activeColor: TW3Colors.gray.shade600,
-          label: "Settings",
+          label: "Participants",
           tab: 2,
+        ),
+        CustomTab(
+          activeColor: TW3Colors.gray.shade600,
+          label: "Settings",
+          tab: 3,
         ),
       ],
     );
@@ -205,8 +210,10 @@ class _EventScreenState extends State<EventScreen> {
       case 0:
         return PostFeed();
       case 1:
-        return EventParticipantPage(participants: event.participants);
+        return Container();
       case 2:
+        return EventParticipantPage(participants: event.participants);
+      case 3:
         return EventSettings();
       default:
         return Container();

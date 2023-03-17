@@ -104,7 +104,7 @@ class _PostCardState extends State<PostCard> {
             // location / visbility
             Row(
               children: [
-                Text("East Rock",
+                Text(post.poster!.location.commonName,
                     style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(
                   width: 8,
@@ -141,7 +141,9 @@ class _PostCardState extends State<PostCard> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         Text(
-          post.body,
+          post.body.length <= 120
+              ? post.body
+              : "${post.body.substring(0, 120)}...",
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ],

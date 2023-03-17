@@ -7,7 +7,7 @@ import 'package:local/navigator/post_auth/post_auth_navigator/post_auth_navigato
 import 'package:local/navigator/pre_auth/pre_auth_navigator.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/mocks/post.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';

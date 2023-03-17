@@ -25,7 +25,10 @@ class OnboardNavigator extends StatelessWidget {
             {
               showDialog(
                 context: context,
-                builder: (context) => const CancelDialog(),
+                builder: (context) => BlocProvider.value(
+                  value: context.read<OnboardBloc>(),
+                  child: const CancelDialog(),
+                ),
               )
             }
         },
@@ -33,20 +36,3 @@ class OnboardNavigator extends StatelessWidget {
     );
   }
 }
-// WillPopScope(
-//       onWillPop: () async => false,
-//       child: Scaffold(
-//         backgroundColor: TW3Colors.gray.shade700,
-//         appBar: AppBar(
-//           leading: IconButton(
-//             icon: const Icon(Icons.close),
-//             onPressed: () => Navigator.of(context).pop(),
-//           ),
-//           backgroundColor: TW3Colors.gray.shade700,
-//           elevation: 0,
-//         ),
-//         body: SafeArea(
-//           child: Container(),
-//         ),
-//       ),
-//     )
