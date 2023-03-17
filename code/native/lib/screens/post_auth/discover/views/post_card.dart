@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';

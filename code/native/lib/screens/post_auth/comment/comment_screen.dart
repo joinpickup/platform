@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/repos/data/models/post.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/post/post_bloc.dart';
