@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
-import 'package:local/repos/data/models/user/person.dart';
+import 'package:local/repos/data/mocks/user.dart';
+import 'package:local/repos/data/models/user/user.dart';
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 
 class UserRepository {
   const UserRepository();
@@ -14,8 +14,38 @@ class UserRepository {
     required String email,
     required String password,
   }) async {
-    await Future.delayed(const Duration(seconds: 1));
-    return "token";
+    User user = await getUserFromEmail(email: email);
+    if (user.password == password) {
+      return user.email;
+    } else {
+      return Future.error("Invalid email or password.");
+    }
+  }
+
+  Future<User> getUserFromEmail({
+    required String email,
+  }) async {
+    final user = allUsers.firstWhereOrNull(
+      (user) => user.email == email,
+    );
+    if (user == null) {
+      return Future.error("No user exists with that email.");
+    } else {
+      return user;
+    }
+  }
+
+  Future<User> getUserFromToken({
+    required String token,
+  }) async {
+    final user = allUsers.firstWhereOrNull(
+      (user) => user.email == token,
+    );
+    if (user == null) {
+      return Future.error("Could not get user.");
+    } else {
+      return user;
+    }
   }
 
   Future<void> deleteToken() async {

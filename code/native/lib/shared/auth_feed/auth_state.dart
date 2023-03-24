@@ -1,6 +1,6 @@
 part of 'auth_bloc.dart';
 
-enum AuthStateStatus { authenticated, unauthenticated }
+enum AuthStateStatus { authenticated, unauthenticated, error }
 
 class AuthState extends Equatable {
   const AuthState({
@@ -8,12 +8,14 @@ class AuthState extends Equatable {
     this.userRepository = const UserRepository(),
     required this.personRepository,
     this.user,
+    this.error = "",
   });
 
   final UserRepository userRepository;
   final PersonRepository personRepository;
   final AuthStateStatus status;
   final User? user;
+  final String error;
 
   @override
   List<Object?> get props => [status, user];
@@ -22,6 +24,7 @@ class AuthState extends Equatable {
     UserRepository? userRepository,
     PersonRepository? personRepository,
     AuthStateStatus? status,
+    String? error,
     User? user,
   }) {
     return AuthState(
@@ -29,6 +32,7 @@ class AuthState extends Equatable {
       personRepository: personRepository ?? this.personRepository,
       status: status ?? this.status,
       user: user ?? this.user,
+      error: error ?? this.error,
     );
   }
 }

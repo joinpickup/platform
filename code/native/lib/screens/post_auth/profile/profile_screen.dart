@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final person =
-            allPersons.firstWhere((p) => p.personID == state.user!.personID);
+            allPersons.firstWhere((p) => p.userID == state.user!.userID);
         return Scaffold(
           backgroundColor: TW3Colors.gray.shade600,
           appBar: PreferredSize(

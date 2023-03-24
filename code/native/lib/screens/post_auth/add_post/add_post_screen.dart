@@ -187,8 +187,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             createdAt: DateTime.now(),
                             interestID: 1,
                             interest: rockClimbingInterest,
+                            // TODO: fix this
                             posterID:
-                                context.read<AuthBloc>().state.user!.personID,
+                                context.read<AuthBloc>().state.user!.userID,
                           ),
                         ),
                       );

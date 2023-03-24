@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:local/repos/data/models/location/location.dart';
 
@@ -8,6 +6,7 @@ part 'person.g.dart';
 @JsonSerializable()
 class Person {
   final int personID;
+  final int userID;
   final DateTime createdAt;
   final String name;
   final String username;
@@ -19,6 +18,7 @@ class Person {
   Person({
     required this.personID,
     required this.createdAt,
+    required this.userID,
     required this.name,
     required this.avatar,
     required this.location,

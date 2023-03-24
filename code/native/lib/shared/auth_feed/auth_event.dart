@@ -17,4 +17,12 @@ class Login extends AuthEvent {
   final String password;
 }
 
+class Authenticate extends AuthEvent {
+  Authenticate({
+    required this.token,
+  });
+
+  final String token;
+}
+
 class Logout extends AuthEvent {}

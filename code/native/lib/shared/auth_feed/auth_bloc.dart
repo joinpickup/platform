@@ -16,7 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           personRepository: personRepository,
         )) {
     on<AppStart>(_onAppStart);
-    on<Login>(_onLogin);
+    on<Authenticate>(_onAuthenticate);
     on<Logout>(_onLogout);
   }
 
@@ -36,25 +36,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  Future<void> _onLogin(
-    Login event,
+  Future<void> _onAuthenticate(
+    Authenticate event,
     Emitter<AuthState> emit,
   ) async {
-    String token = await state.userRepository
-        .authenticate(email: event.email, password: event.password);
+    try {
+      await state.userRepository.persistToken(event.token);
 
-    await state.userRepository.persistToken(token);
-    emit(
-      state.copyWith(
-        user: User(
-          userID: 1,
-          personID: 1,
-          email: event.email,
-          password: event.password,
+      User user =
+          await state.userRepository.getUserFromToken(token: event.token);
+
+      emit(
+        state.copyWith(
+          user: user,
+          status: AuthStateStatus.authenticated,
         ),
-        status: AuthStateStatus.authenticated,
-      ),
-    );
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          user: null,
+          status: AuthStateStatus.error,
+          error: e.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _onLogout(
