@@ -49,6 +49,19 @@ class _InfoScreenState extends State<InfoScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TW3Colors.gray.shade700,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            pageData.length,
+            (index) => Container(
+              padding: const EdgeInsets.all(4),
+              child: DotIndicator(
+                isActive: index == _pageIndex,
+              ),
+            ),
+          ),
+        ),
         elevation: 0,
       ),
       backgroundColor: TW3Colors.gray.shade700,
@@ -70,18 +83,6 @@ class _InfoScreenState extends State<InfoScreen> {
                     image: pageData[index].image,
                     title: pageData[index].title,
                     description: pageData[index].description,
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  pageData.length,
-                  (index) => Container(
-                    padding: const EdgeInsets.all(4),
-                    child: DotIndicator(
-                      isActive: index == _pageIndex,
-                    ),
                   ),
                 ),
               ),

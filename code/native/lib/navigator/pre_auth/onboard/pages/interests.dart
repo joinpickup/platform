@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/navigator/pre_auth/onboard/onboard_bloc.dart';
 
-class Interests extends StatelessWidget {
-  const Interests({Key? key}) : super(key: key);
+class SelectInterestPage extends StatefulWidget {
+  const SelectInterestPage({Key? key}) : super(key: key);
 
   @override
+  State<SelectInterestPage> createState() => _SelectInterestPageState();
+}
+
+class _SelectInterestPageState extends State<SelectInterestPage> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: TW3Colors.gray.shade700,
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Container(),
-      ),
+    return BlocConsumer<OnboardBloc, OnboardState>(
+      listener: (context, state) async {},
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            children: [
+              const Text("Interests"),
+            ],
+          ),
+        );
+      },
     );
   }
 }

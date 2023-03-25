@@ -2,7 +2,7 @@ name: local
 description: Go local and get connected to your community.
 publish_to: "none"
 
-version: 1.0.0+1
+version: 0.1.1+1
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -28,6 +28,7 @@ dependencies:
   json_annotation: ^4.8.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  location: ^4.2.0
 
 dev_dependencies:
   flutter_test:

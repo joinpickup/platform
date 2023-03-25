@@ -10,12 +10,14 @@ class CustomButton extends StatefulWidget {
     super.key,
     required this.tap,
     required this.text,
+    this.hasError = false,
     this.color,
     this.buttonType = CustomButtonType.contained,
   });
 
   final Function tap;
   final String text;
+  final bool hasError;
   late Color? color;
   final CustomButtonType buttonType;
 
@@ -62,15 +64,29 @@ class _CustomButtonState extends State<CustomButton> {
                 borderRadius: BorderRadius.circular(
                   8,
                 ),
+                border: widget.hasError
+                    ? Border.all(
+                        color: TW3Colors.red.shade500,
+                        width: 2,
+                      )
+                    : null,
                 color: (widget.color ?? color)!.withOpacity(
                   selected ? 0.75 : 1,
                 ),
               )
             : BoxDecoration(
-                border: Border.all(width: 2, color: TW3Colors.gray.shade600),
                 borderRadius: BorderRadius.circular(
                   8,
                 ),
+                border: widget.hasError
+                    ? Border.all(
+                        color: TW3Colors.red.shade500,
+                        width: 2,
+                      )
+                    : Border.all(
+                        width: 2,
+                        color: TW3Colors.gray.shade600,
+                      ),
                 color: selected ? TW3Colors.gray.shade600 : Colors.transparent,
               ),
         child: Text(

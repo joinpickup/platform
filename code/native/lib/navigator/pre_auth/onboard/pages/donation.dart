@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/navigator/pre_auth/onboard/onboard_bloc.dart';
 
-class Donation extends StatelessWidget {
-  const Donation({Key? key}) : super(key: key);
+class DonationPage extends StatelessWidget {
+  const DonationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: TW3Colors.gray.shade700,
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Container(),
-      ),
+    return BlocConsumer<OnboardBloc, OnboardState>(
+      listener: (context, state) => {},
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            children: [
+              const Text("Donation"),
+            ],
+          ),
+        );
+      },
     );
   }
 }
