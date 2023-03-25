@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/navigator/pre_auth/onboard/onboard_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class CancelDialog extends StatelessWidget {
@@ -31,7 +29,6 @@ class CancelDialog extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     tap: () {
-                      context.read<OnboardBloc>().add(StopCancel());
                       Navigator.of(context).pop();
                     },
                     buttonType: CustomButtonType.outlined,
@@ -44,9 +41,7 @@ class CancelDialog extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     color: TW3Colors.red.shade600,
-                    tap: () {
-                      context.read<OnboardBloc>().add(ConfirmCancel());
-                    },
+                    tap: () {},
                     text: "Cancel",
                   ),
                 ),

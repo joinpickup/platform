@@ -1,36 +1,30 @@
 part of 'onboard_bloc.dart';
 
-enum OnboardPage {
-  basicInfo,
-  locationSettings,
-  interests,
-  accountInfo,
-  donation
+enum OnboardPageStatus {
+  success,
+  error,
+  initial,
 }
 
 class OnboardState extends Equatable {
-  final OnboardPage page;
+  final OnboardPageStatus status;
   final OnboardUser? user;
-  final bool onboardDialog;
 
   const OnboardState({
-    required this.page,
-    this.onboardDialog = false,
+    this.status = OnboardPageStatus.initial,
     this.user,
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [status, user];
 
   OnboardState copyWith({
-    OnboardPage? page,
+    OnboardPageStatus? status,
     OnboardUser? user,
-    bool? onboardDialog,
   }) {
     return OnboardState(
-      page: page ?? this.page,
+      status: status ?? this.status,
       user: user ?? this.user,
-      onboardDialog: onboardDialog ?? this.onboardDialog,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/navigator/pre_auth/login/login_screen.dart';
-import 'package:local/navigator/pre_auth/onboard/info_navigator.dart';
+import 'package:local/navigator/pre_auth/onboard/info_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class PreAuthNavigator extends StatefulWidget {
@@ -44,7 +44,7 @@ class _PreAuthNavigatorState extends State<PreAuthNavigator> {
                     tap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) {
-                          return const InfoNavigator();
+                          return const InfoScreen();
                         },
                       ));
                     },

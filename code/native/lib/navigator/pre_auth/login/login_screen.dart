@@ -122,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     state.error as String,
                                     style: TextStyle(
                                       color: TW3Colors.gray.shade700,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),

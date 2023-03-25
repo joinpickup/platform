@@ -4,6 +4,7 @@ import 'package:tailwind_colors/tailwind_colors.dart';
 
 enum CustomButtonType { outlined, contained }
 
+// ignore: must_be_immutable
 class CustomButton extends StatefulWidget {
   CustomButton({
     super.key,
@@ -50,7 +51,10 @@ class _CustomButtonState extends State<CustomButton> {
         });
       },
       onTap: () => widget.tap(),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(
+          milliseconds: 300,
+        ),
         width: double.infinity,
         padding: const EdgeInsets.all(8),
         decoration: widget.buttonType == CustomButtonType.contained

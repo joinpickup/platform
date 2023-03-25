@@ -5,13 +5,7 @@ abstract class OnboardEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CancelOnboarding extends OnboardEvent {}
-
-class ConfirmCancel extends OnboardEvent {}
-
-class StopCancel extends OnboardEvent {}
-
-class BackPage extends OnboardEvent {}
+class HandleNextPage extends OnboardEvent {}
 
 class HandleBasicInfo extends OnboardEvent {}
 

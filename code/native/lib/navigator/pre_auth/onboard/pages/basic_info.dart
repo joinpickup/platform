@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/navigator/pre_auth/onboard/onboard_bloc.dart';
+import 'package:local/navigator/pre_auth/onboard/pages/location_settings.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class BasicInfo extends StatelessWidget {
@@ -9,7 +10,19 @@ class BasicInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OnboardBloc, OnboardState>(
+    return BlocConsumer<OnboardBloc, OnboardState>(
+      listener: (context, state) => {
+        if (state.status == OnboardPageStatus.success)
+          {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return const LocationSetting();
+                },
+              ),
+            )
+          }
+      },
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async => false,
@@ -18,18 +31,22 @@ class BasicInfo extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 icon: const Icon(Icons.close),
-                onPressed: () =>
-                    context.read<OnboardBloc>().add(CancelOnboarding()),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
               backgroundColor: TW3Colors.gray.shade700,
               elevation: 0,
             ),
             body: SafeArea(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  const Text("Basic Info"),
+                  const Spacer(),
                   CustomButton(
-                    tap: () {},
+                    tap: () {
+                      context.read<OnboardBloc>().add(HandleBasicInfo());
+                    },
                     text: "Next",
                   )
                 ],
