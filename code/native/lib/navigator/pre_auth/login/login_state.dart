@@ -6,6 +6,22 @@ enum LoginScreenStatus {
   success,
 }
 
+enum LoginScreenErrorType {
+  email,
+  password,
+  submit,
+}
+
+class LoginError extends Equatable {
+  final String error;
+  final LoginScreenErrorType errorType;
+
+  const LoginError(this.error, this.errorType);
+
+  @override
+  List<Object?> get props => [error, errorType];
+}
+
 class LoginState extends Equatable {
   const LoginState({
     this.status = LoginScreenStatus.initial,
@@ -16,7 +32,7 @@ class LoginState extends Equatable {
 
   final LoginScreenStatus status;
   final UserRepository userRepository;
-  final String? error;
+  final LoginError? error;
   final String? token;
 
   @override
@@ -25,14 +41,14 @@ class LoginState extends Equatable {
   LoginState copyWith({
     LoginScreenStatus? status,
     UserRepository? userRepository,
-    String? error,
+    LoginError? error,
     String? token,
   }) {
     return LoginState(
       status: status ?? this.status,
-      token: token ?? this.token,
       userRepository: userRepository ?? this.userRepository,
       error: error ?? this.error,
+      token: token ?? this.token,
     );
   }
 }

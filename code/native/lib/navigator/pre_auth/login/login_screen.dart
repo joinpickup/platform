@@ -46,6 +46,10 @@ class _LoginScreenState extends State<LoginScreen> {
             }
           },
           builder: (context, state) {
+            bool hasError =
+                state.status == LoginScreenStatus.error && state.error != null;
+            LoginScreenErrorType? errorType = state.error?.errorType;
+
             return Scaffold(
               backgroundColor: TW3Colors.gray.shade700,
               appBar: AppBar(
@@ -74,10 +78,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontFamily: "Nunito",
                           fontWeight: FontWeight.bold,
                         ),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: TW3Colors.gray.shade600,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                            color: TW3Colors.gray.shade600,
+                            borderRadius: BorderRadius.circular(8),
+                            border: hasError &&
+                                    errorType == LoginScreenErrorType.email
+                                ? Border.all(
+                                    color: TW3Colors.red.shade500,
+                                    width: 2,
+                                  )
+                                : null),
                       ),
                       const SizedBox(
                         height: 8,
@@ -88,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onChanged: (value) =>
                             context.read<LoginBloc>().add(ResetValidation()),
                         placeholder: "Enter your password...",
+                        padding: const EdgeInsets.all(12),
                         placeholderStyle: TextStyle(
                           color: TW3Colors.gray.shade400,
                           fontFamily: "Nunito",
@@ -98,40 +110,48 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                         decoration: BoxDecoration(
-                          color: TW3Colors.gray.shade600,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                            color: TW3Colors.gray.shade600,
+                            borderRadius: BorderRadius.circular(8),
+                            border: hasError &&
+                                    errorType == LoginScreenErrorType.password
+                                ? Border.all(
+                                    color: TW3Colors.red.shade500,
+                                    width: 2,
+                                  )
+                                : null),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      state.status == LoginScreenStatus.error
+                      hasError && errorType == LoginScreenErrorType.submit
                           ? Column(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: TW3Colors.red.shade400,
-                                    border: Border.all(
-                                      color: TW3Colors.red.shade600,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    state.error as String,
-                                    style: TextStyle(
-                                      color: TW3Colors.gray.shade700,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(
                                   height: 8,
+                                ),
+                                Container(
+                                  width: double.maxFinite,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: TW3Colors.red.shade400,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: hasError &&
+                                              errorType ==
+                                                  LoginScreenErrorType.submit
+                                          ? Border.all(
+                                              color: TW3Colors.red.shade600,
+                                              width: 2,
+                                            )
+                                          : null),
+                                  child: Text(
+                                    state.error?.error as String,
+                                    style: TextStyle(
+                                        color: TW3Colors.gray.shade700),
+                                  ),
                                 ),
                               ],
                             )
                           : Container(),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       CustomButton(
                         tap: () {
                           context.read<LoginBloc>().add(SubmitLogin(

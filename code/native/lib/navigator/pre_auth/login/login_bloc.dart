@@ -15,7 +15,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<ResetValidation>(_onResetValidation);
   }
 
-  FutureOr<void> _onLoginSubmitted(
+  Future<void> _onLoginSubmitted(
     SubmitLogin event,
     Emitter<LoginState> emit,
   ) async {
@@ -27,7 +27,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event.email == "" || !emailValid) {
       emit(
         state.copyWith(
-          error: "Please enter a valid email.",
+          error: LoginError(
+            "Please enter a valid email.",
+            LoginScreenErrorType.email,
+          ),
           status: LoginScreenStatus.error,
         ),
       );
@@ -35,7 +38,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event.password == "") {
       emit(
         state.copyWith(
-          error: "Please enter a password.",
+          error: LoginError(
+            "Please enter a password.",
+            LoginScreenErrorType.password,
+          ),
           status: LoginScreenStatus.error,
         ),
       );
@@ -43,7 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else {
       try {
         String token = await state.userRepository
-            .authenticate(email: event.email, password: event.password);
+            .login(email: event.email, password: event.password);
 
         emit(
           state.copyWith(
@@ -55,7 +61,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } catch (e) {
         emit(
           state.copyWith(
-            error: e.toString(),
+            error: LoginError(
+              e.toString(),
+              LoginScreenErrorType.submit,
+            ),
             status: LoginScreenStatus.error,
           ),
         );
@@ -63,7 +72,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  FutureOr<void> _onResetValidation(
+  Future<void> _onResetValidation(
     ResetValidation event,
     Emitter<LoginState> emit,
   ) async {

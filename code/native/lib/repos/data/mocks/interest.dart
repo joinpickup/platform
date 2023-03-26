@@ -1,13 +1,28 @@
 import 'package:local/repos/data/models/space/interest.dart';
 
-final rockClimbingInterest = Interest(interestID: 1, name: "Rock-Climbing");
-final soccerInterest = Interest(interestID: 2, name: "Soccer");
-final baseballInterest = Interest(interestID: 3, name: "Baseball");
-final tennisInterest = Interest(interestID: 3, name: "Tennis");
+const rockClimbingInterest = Interest(interestID: 1, name: "Rock-Climbing");
+const soccerInterest = Interest(interestID: 2, name: "Soccer");
+const baseballInterest = Interest(interestID: 3, name: "Baseball");
+const tennisInterest = Interest(interestID: 4, name: "Tennis");
 
-final triviaInterest = Interest(interestID: 3, name: "Trivia");
+const triviaInterest = Interest(interestID: 5, name: "Trivia");
 
-final catanInterest = Interest(interestID: 4, name: "Settlers-Of-Catan");
+const catanInterest = Interest(interestID: 6, name: "Settlers-Of-Catan");
+
+final sportsInterests = [
+  rockClimbingInterest,
+  soccerInterest,
+  baseballInterest,
+  tennisInterest,
+];
+
+final casualInterests = [
+  triviaInterest,
+];
+
+final tabletopInterest = [
+  catanInterest,
+];
 
 final allInterests = [
   rockClimbingInterest,

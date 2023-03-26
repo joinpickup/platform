@@ -1,13 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'interest.g.dart';
 
 @JsonSerializable()
-class Interest {
+class Interest extends Equatable {
   final int interestID;
   final String name;
 
-  Interest({
+  const Interest({
     required this.interestID,
     required this.name,
   });
@@ -16,4 +17,7 @@ class Interest {
       _$InterestFromJson(json);
 
   Map<String, dynamic> toJson() => _$InterestToJson(this);
+
+  @override
+  List<Object?> get props => [interestID];
 }

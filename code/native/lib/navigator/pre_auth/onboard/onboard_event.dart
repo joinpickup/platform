@@ -9,7 +9,7 @@ class HandleNextPage extends OnboardEvent {}
 
 class HandleBackPage extends OnboardEvent {}
 
-class ResetErrors extends OnboardEvent {}
+class ResetOnboardPage extends OnboardEvent {}
 
 class HandleBasicInfo extends OnboardEvent {
   final String name;

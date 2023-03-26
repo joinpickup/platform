@@ -10,7 +10,18 @@ class UserRepository {
   // Create storage
   final storage = const FlutterSecureStorage();
 
-  Future<String> authenticate({
+  Future<String> register({
+    required String email,
+    required String password,
+  }) async {
+    if (email == "acohen@joinpickup.com") {
+      return email;
+    } else {
+      return Future.error("Could not register");
+    }
+  }
+
+  Future<String> login({
     required String email,
     required String password,
   }) async {

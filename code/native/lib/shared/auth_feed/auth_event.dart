@@ -17,6 +17,16 @@ class Login extends AuthEvent {
   final String password;
 }
 
+class Register extends AuthEvent {
+  Register({
+    required this.email,
+    required this.password,
+  });
+
+  final String email;
+  final String password;
+}
+
 class Authenticate extends AuthEvent {
   Authenticate({
     required this.token,
