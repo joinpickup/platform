@@ -11,6 +11,7 @@ class PostRepository {
   late Box postStorage;
 
   Future<List<Post>> getPostsFromStore() async {
+    await Future.delayed(const Duration(milliseconds: 300));
     String jsonPosts = postStorage.get("posts");
     List<dynamic> dynamicPosts = jsonDecode(jsonPosts);
     List<Post> posts = dynamicPosts.map((e) => Post.fromJson(e)).toList();

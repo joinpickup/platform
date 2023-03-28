@@ -14,6 +14,7 @@ import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/event/views/event_settings.dart';
 import 'package:local/screens/post_auth/event/views/participant_page.dart';
 import 'package:local/shared/post_feed/post_feed_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class EventScreen extends StatefulWidget {
@@ -40,7 +41,8 @@ class _EventScreenState extends State<EventScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
+          create: (context) =>
+              PostFeedBloc(_postRepository)..add(LoadPostsPost()),
         ),
         BlocProvider(
           create: (context) => TabBarBloc()..add(InitializeTabBar()),
@@ -208,7 +210,10 @@ class _EventScreenState extends State<EventScreen> {
   ) {
     switch (tab) {
       case 0:
-        return PostFeed();
+        return PostFeed(
+          posts: const [],
+          refreshController: RefreshController(),
+        );
       case 1:
         return Container();
       case 2:

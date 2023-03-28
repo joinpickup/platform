@@ -31,4 +31,14 @@ final jay = Person(
   location: eastRock,
 );
 
-final allPersons = [andrew, brian, jay];
+final stef = Person(
+  personID: 4,
+  userID: 4,
+  avatar: "assets/avatars/panda_cropped.png",
+  createdAt: DateTime.now(),
+  name: "Stef",
+  username: "stef",
+  location: eastRock,
+);
+
+final allPersons = [andrew, brian, jay, stef];

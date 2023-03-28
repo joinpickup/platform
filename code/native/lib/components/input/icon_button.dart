@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter/services.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
@@ -47,6 +47,7 @@ class _CustomIconButtonState extends State<CustomIconButton> {
         padding: const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
+          color: selected ? TW3Colors.gray.shade600 : Colors.transparent,
         ),
         child: HeroIcon(
           widget.icon,

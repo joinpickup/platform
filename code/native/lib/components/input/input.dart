@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:local/screens/post_auth/discover/views/discover_search/discover_search.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class CustomInput extends StatelessWidget {
-  const CustomInput(
-      {super.key,
-      required this.controller,
-      required this.placeholder,
-      this.onSearch,
-      this.focus,
-      this.hintColor,
-      this.backgroundColor});
+  const CustomInput({
+    super.key,
+    required this.controller,
+    required this.placeholder,
+    this.onSearch,
+    this.onChanged,
+    this.focus,
+    this.hintColor,
+    this.backgroundColor,
+  });
 
   final TextEditingController controller;
   final FocusNode? focus;
@@ -19,6 +19,7 @@ class CustomInput extends StatelessWidget {
   final String placeholder;
   final Color? hintColor;
   final Function? onSearch;
+  final Function? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +32,6 @@ class CustomInput extends StatelessWidget {
         onSubmitted: (value) {
           if (onSearch != null) {
             onSearch!(value);
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => DiscoverSearch(
-                search: value,
-              ),
-            ));
           }
         },
         placeholder: placeholder,

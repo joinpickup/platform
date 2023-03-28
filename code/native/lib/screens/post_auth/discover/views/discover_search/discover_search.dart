@@ -20,7 +20,7 @@ class _DiscoverSearchState extends State<DiscoverSearch> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
+      create: (context) => PostFeedBloc(_postRepository)..add(LoadPostsPost()),
       child: _buildScreen(),
     );
   }
@@ -34,9 +34,7 @@ class _DiscoverSearchState extends State<DiscoverSearch> {
       ),
       body: SafeArea(
         child: Column(
-          children: [
-            PostFeed(),
-          ],
+          children: [],
         ),
       ),
     );

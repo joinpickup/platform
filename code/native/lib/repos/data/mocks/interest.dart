@@ -8,6 +8,8 @@ const tennisInterest = Interest(interestID: 4, name: "Tennis");
 const triviaInterest = Interest(interestID: 5, name: "Trivia");
 
 const catanInterest = Interest(interestID: 6, name: "Settlers-Of-Catan");
+const monopolyInterest = Interest(interestID: 7, name: "Monopoly");
+const chessInterest = Interest(interestID: 8, name: "Chess");
 
 final sportsInterests = [
   rockClimbingInterest,
@@ -22,6 +24,8 @@ final casualInterests = [
 
 final tabletopInterest = [
   catanInterest,
+  monopolyInterest,
+  chessInterest,
 ];
 
 final allInterests = [

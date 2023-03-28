@@ -11,8 +11,8 @@ class RefreshPosts extends PostFeedEvent {
   final RefreshController refreshController;
 }
 
-class LoadPosts extends PostFeedEvent {
-  LoadPosts({this.refreshController});
+class LoadPostsPost extends PostFeedEvent {
+  LoadPostsPost({this.refreshController});
 
   final RefreshController? refreshController;
 }

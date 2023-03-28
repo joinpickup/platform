@@ -173,8 +173,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             SafeArea(
               child: CustomButton(
                   tap: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-
                     context.read<AccountInfoPageBloc>().add(
                           SubmitAccountInfo(
                             _emailController.text,

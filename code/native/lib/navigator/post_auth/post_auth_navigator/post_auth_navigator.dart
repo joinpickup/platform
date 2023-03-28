@@ -38,7 +38,8 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PostFeedBloc>(
-          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
+          create: (context) =>
+              PostFeedBloc(_postRepository)..add(LoadPostsPost()),
         ),
         BlocProvider<PostAuthNavigatorBloc>(
           create: (context) => PostAuthNavigatorBloc()..add(InitializePage()),

@@ -12,6 +12,7 @@ import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/events/views/event_feed.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:local/shared/post_feed/post_feed_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class PersonScreen extends StatefulWidget {
@@ -44,7 +45,8 @@ class _PersonScreenState extends State<PersonScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => PostFeedBloc(_postRepository)..add(LoadPosts()),
+          create: (context) =>
+              PostFeedBloc(_postRepository)..add(LoadPostsPost()),
         ),
         BlocProvider(
           create: (context) => EventFeedBloc()..add(LoadEvents()),
@@ -236,7 +238,10 @@ Widget _buildPersonFeed(
 ) {
   switch (tab) {
     case 0:
-      return PostFeed();
+      return PostFeed(
+        refreshController: RefreshController(),
+        posts: const [],
+      );
     case 1:
       return const EventFeed();
     default:

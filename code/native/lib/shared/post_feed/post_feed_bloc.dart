@@ -14,13 +14,13 @@ class PostFeedBloc extends Bloc<PostFeedEvent, PostFeedState> {
       : super(PostFeedState(
           postRepository: postRepository,
         )) {
-    on<LoadPosts>(_onLoadPosts);
+    on<LoadPostsPost>(_onLoadPosts);
     on<RefreshPosts>(_onRefreshPosts);
     on<SearchPosts>(_onSearchPosts);
   }
 
   Future<void> _onLoadPosts(
-    LoadPosts event,
+    LoadPostsPost event,
     Emitter<PostFeedState> emit,
   ) async {
     await Future.delayed(const Duration(milliseconds: 250));

@@ -22,7 +22,7 @@ final andrewPost = Post(
 final brianPost = Post(
   postID: 2,
   interestID: 1,
-  posterID: 1,
+  posterID: 2,
   createdAt: DateTime.now().subtract(
     const Duration(minutes: 25),
   ),
@@ -37,7 +37,7 @@ final brianPost = Post(
 final jayPost = Post(
   postID: 3,
   interestID: 1,
-  posterID: 1,
+  posterID: 3,
   createdAt: DateTime.now().subtract(
     const Duration(minutes: 45),
   ),
@@ -49,4 +49,18 @@ final jayPost = Post(
   interest: catanInterest,
 );
 
-final allPosts = [andrewPost, brianPost, jayPost];
+final stefPost = Post(
+  postID: 4,
+  interestID: 1,
+  posterID: 4,
+  createdAt: DateTime.now().subtract(
+    const Duration(minutes: 45),
+  ),
+  title: "Looking to go to a concert",
+  body: "Doesn't really matter which concert. Just anything with music",
+  visibility: PostVisibility.public,
+  poster: stef,
+  interest: catanInterest,
+);
+
+final allPosts = [andrewPost, brianPost, jayPost, stefPost];

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/navigator/pre_auth/onboard/info_screen.dart';
@@ -96,6 +94,7 @@ class _OnboardNavigatorState extends State<OnboardNavigator> {
                   );
             }
 
+            FocusManager.instance.primaryFocus?.unfocus();
             _pageController.nextPage(
                 curve: Curves.ease,
                 duration: const Duration(milliseconds: 400));

@@ -27,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event.email == "" || !emailValid) {
       emit(
         state.copyWith(
-          error: LoginError(
+          error: const LoginError(
             "Please enter a valid email.",
             LoginScreenErrorType.email,
           ),
@@ -38,7 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event.password == "") {
       emit(
         state.copyWith(
-          error: LoginError(
+          error: const LoginError(
             "Please enter a password.",
             LoginScreenErrorType.password,
           ),
