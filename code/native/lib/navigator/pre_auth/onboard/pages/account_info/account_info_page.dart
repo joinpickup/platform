@@ -171,16 +171,19 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 : Container(),
             const Spacer(),
             SafeArea(
-              child: CustomButton(
-                  tap: () {
-                    context.read<AccountInfoPageBloc>().add(
-                          SubmitAccountInfo(
-                            _emailController.text,
-                            _passwordController.text,
-                          ),
-                        );
-                  },
-                  text: "Register"),
+              child: SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                    tap: () {
+                      context.read<AccountInfoPageBloc>().add(
+                            SubmitAccountInfo(
+                              _emailController.text,
+                              _passwordController.text,
+                            ),
+                          );
+                    },
+                    text: "Register"),
+              ),
             ),
           ],
         );

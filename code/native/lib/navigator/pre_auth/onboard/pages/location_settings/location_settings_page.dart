@@ -68,26 +68,32 @@ class _LocationSettingsPageState extends State<LocationSettingsPage> {
             const Spacer(),
             state.locationEnabled
                 ? Container()
-                : CustomButton(
-                    hasError: state.status == LocationSettingsStatus.error,
-                    buttonType: CustomButtonType.outlined,
-                    tap: () {
-                      context
-                          .read<LocationSettingsPageBloc>()
-                          .add(EnableLocation());
-                    },
-                    text: "Enable Location",
+                : SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      hasError: state.status == LocationSettingsStatus.error,
+                      buttonType: CustomButtonType.outlined,
+                      tap: () {
+                        context
+                            .read<LocationSettingsPageBloc>()
+                            .add(EnableLocation());
+                      },
+                      text: "Enable Location",
+                    ),
                   ),
             const Spacer(),
             state.locationEnabled
                 ? SafeArea(
-                    child: CustomButton(
-                      text: "Continue",
-                      tap: () {
-                        context
-                            .read<LocationSettingsPageBloc>()
-                            .add(SubmitLocation());
-                      },
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        text: "Continue",
+                        tap: () {
+                          context
+                              .read<LocationSettingsPageBloc>()
+                              .add(SubmitLocation());
+                        },
+                      ),
                     ),
                   )
                 : Container(),

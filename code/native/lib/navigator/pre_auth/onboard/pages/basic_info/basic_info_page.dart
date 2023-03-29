@@ -39,6 +39,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
       },
       builder: (context, state) {
         return Column(
+          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,29 +97,35 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
             const SizedBox(
               height: 8,
             ),
-            CustomButton(
-              hasError: state.status == BasicInfoPageStatus.error &&
-                  state.error == BasicInfoPageError.birthday,
-              buttonType: CustomButtonType.outlined,
-              text: birthday == null
-                  ? "Select your birthday."
-                  : DateFormat.yMMMMd('en_US').format(birthday as DateTime),
-              tap: () {
-                showIOSDatePicker(context);
-              },
+            SizedBox(
+              width: double.infinity,
+              child: CustomButton(
+                hasError: state.status == BasicInfoPageStatus.error &&
+                    state.error == BasicInfoPageError.birthday,
+                buttonType: CustomButtonType.outlined,
+                text: birthday == null
+                    ? "Select your birthday."
+                    : DateFormat.yMMMMd('en_US').format(birthday as DateTime),
+                tap: () {
+                  showIOSDatePicker(context);
+                },
+              ),
             ),
             const Spacer(),
             SafeArea(
-              child: CustomButton(
-                  tap: () {
-                    context.read<BasicInfoPageBloc>().add(
-                          SubmitBasicInfo(
-                            _nameController.text,
-                            birthday,
-                          ),
-                        );
-                  },
-                  text: "Continue"),
+              child: SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                    tap: () {
+                      context.read<BasicInfoPageBloc>().add(
+                            SubmitBasicInfo(
+                              _nameController.text,
+                              birthday,
+                            ),
+                          );
+                    },
+                    text: "Continue"),
+              ),
             ),
           ],
         );
@@ -131,6 +138,7 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
       context: context,
       builder: (_) => Container(
         height: 400,
+        width: double.infinity,
         padding: const EdgeInsets.all(8),
         color: TW3Colors.gray.shade700,
         child: SafeArea(
@@ -156,11 +164,14 @@ class _BasicInfoPageState extends State<BasicInfoPage> {
               const SizedBox(
                 height: 8,
               ),
-              CustomButton(
-                text: "Confirm",
-                tap: () {
-                  Navigator.of(context).pop();
-                },
+              SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                  text: "Confirm",
+                  tap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
             ],
           ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
-import 'package:local/components/input/input.dart';
 import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/discover_filter_bar.dart';
@@ -140,8 +139,6 @@ class DiscoverSearchBar extends StatelessWidget {
               : Expanded(
                   flex: 0,
                   child: CustomIconButton(
-                    size: 24,
-                    icon: HeroIcons.plus,
                     tap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -149,6 +146,7 @@ class DiscoverSearchBar extends StatelessWidget {
                         ),
                       );
                     },
+                    child: const HeroIcon(HeroIcons.plus),
                   ),
                 ),
         ],

@@ -6,14 +6,12 @@ import 'package:tailwind_colors/tailwind_colors.dart';
 class CustomIconButton extends StatefulWidget {
   const CustomIconButton({
     super.key,
-    required this.icon,
-    required this.size,
+    required this.child,
     required this.tap,
   });
 
-  final HeroIcons icon;
+  final Widget child;
   final Function tap;
-  final double size;
 
   @override
   State<CustomIconButton> createState() => _CustomIconButtonState();
@@ -51,12 +49,7 @@ class _CustomIconButtonState extends State<CustomIconButton> {
           borderRadius: BorderRadius.circular(8),
           color: selected ? TW3Colors.gray.shade600 : Colors.transparent,
         ),
-        child: HeroIcon(
-          widget.icon,
-          color: TWColors.gray.shade400,
-          size: widget.size,
-          style: selected ? HeroIconStyle.solid : HeroIconStyle.outline,
-        ),
+        child: widget.child,
       ),
     );
   }

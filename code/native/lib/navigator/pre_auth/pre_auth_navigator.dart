@@ -20,6 +20,7 @@ class _PreAuthNavigatorState extends State<PreAuthNavigator> {
         child: Container(
           padding: const EdgeInsets.all(8),
           height: double.maxFinite,
+          width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -39,30 +40,37 @@ class _PreAuthNavigatorState extends State<PreAuthNavigator> {
                 ],
               ),
               Column(
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  CustomButton(
-                    tap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return const InfoScreen();
-                        },
-                      ));
-                    },
-                    text: "Continue",
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      tap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const InfoScreen();
+                          },
+                        ));
+                      },
+                      text: "Get Started",
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  CustomButton(
-                    buttonType: CustomButtonType.outlined,
-                    tap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return const LoginScreen();
-                        },
-                      ));
-                    },
-                    text: "Log In",
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      buttonType: CustomButtonType.outlined,
+                      tap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const LoginScreen();
+                          },
+                        ));
+                      },
+                      text: "Log In",
+                    ),
                   ),
                 ],
               )

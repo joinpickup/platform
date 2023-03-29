@@ -120,7 +120,16 @@ class DiscoverFilterBar extends StatelessWidget {
                 ),
                 FilterItem(
                   tap: () {
-                    showAgeModal(context);
+                    if (state.user!.hasSubscription) {
+                      showAgeModal(context);
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) {
+                          return const SubscriptionPopup();
+                        },
+                      ));
+                    }
                   },
                   active: false,
                   child: Row(

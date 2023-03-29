@@ -42,21 +42,27 @@ class DonationPage extends StatelessWidget {
               SafeArea(
                 child: Column(
                   children: [
-                    CustomButton(
-                      tap: () {},
-                      text: "Donate",
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        tap: () {},
+                        text: "Donate",
+                      ),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    CustomButton(
-                      buttonType: CustomButtonType.outlined,
-                      tap: () {
-                        Navigator.of(context).popUntil(
-                          (route) => route.isFirst,
-                        );
-                      },
-                      text: "Skip",
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        buttonType: CustomButtonType.outlined,
+                        tap: () {
+                          Navigator.of(context).popUntil(
+                            (route) => route.isFirst,
+                          );
+                        },
+                        text: "Skip",
+                      ),
                     ),
                   ],
                 ),

@@ -94,13 +94,16 @@ class _SelectInterestPageState extends State<SelectInterestPage> {
                 ? SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: CustomButton(
-                        tap: () {
-                          context.read<InterestsPageBloc>().add(
-                                SubmitInterests(),
-                              );
-                        },
-                        text: "Continue",
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: CustomButton(
+                          tap: () {
+                            context.read<InterestsPageBloc>().add(
+                                  SubmitInterests(),
+                                );
+                          },
+                          text: "Continue",
+                        ),
                       ),
                     ),
                   )

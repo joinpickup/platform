@@ -90,25 +90,28 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 16,
               ),
               SafeArea(
-                child: CustomButton(
-                  tap: () {
-                    if (_pageIndex != pageData.length - 1) {
-                      _pageController.nextPage(
-                          curve: Curves.ease,
-                          duration: const Duration(milliseconds: 300));
-                    } else {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const OnboardNavigator();
-                          },
-                        ),
-                      );
-                    }
-                  },
-                  text: _pageIndex != pageData.length - 1
-                      ? "Next"
-                      : "Get Started",
+                child: SizedBox(
+                  width: double.infinity,
+                  child: CustomButton(
+                    tap: () {
+                      if (_pageIndex != pageData.length - 1) {
+                        _pageController.nextPage(
+                            curve: Curves.ease,
+                            duration: const Duration(milliseconds: 300));
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const OnboardNavigator();
+                            },
+                          ),
+                        );
+                      }
+                    },
+                    text: _pageIndex != pageData.length - 1
+                        ? "Next"
+                        : "Get Started",
+                  ),
                 ),
               ),
             ],

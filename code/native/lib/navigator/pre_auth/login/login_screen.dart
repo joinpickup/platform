@@ -152,14 +152,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 8,
                       ),
-                      CustomButton(
-                        tap: () {
-                          context.read<LoginBloc>().add(SubmitLogin(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ));
-                        },
-                        text: "Login",
+                      SizedBox(
+                        width: double.infinity,
+                        child: CustomButton(
+                          tap: () {
+                            context.read<LoginBloc>().add(SubmitLogin(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ));
+                          },
+                          text: "Login",
+                        ),
                       )
                     ],
                   ),

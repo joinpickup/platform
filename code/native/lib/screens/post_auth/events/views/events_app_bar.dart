@@ -35,8 +35,6 @@ class EventsAppBar extends StatelessWidget {
           Expanded(
             flex: 0,
             child: CustomIconButton(
-              size: 24,
-              icon: HeroIcons.plus,
               tap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -44,6 +42,7 @@ class EventsAppBar extends StatelessWidget {
                   ),
                 );
               },
+              child: const HeroIcon(HeroIcons.plus),
             ),
           ),
         ]),
