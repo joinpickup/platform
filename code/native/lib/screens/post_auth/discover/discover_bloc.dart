@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/constants/filters.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -17,15 +18,22 @@ class DiscoverScreenBloc
             postRepository: postRepository,
           ),
         ) {
+    // loading
     on<LoadPosts>(_onLoadPosts);
+    on<HandleLoadMore>(_onHandleLoadMore);
+    on<HandleRefresh>(_onHandleRefresh);
+
+    // search
     on<BeginSearch>(_onBeginSearch);
     on<HandleSearch>(_onHandleSearch,
         transformer: (events, mapper) => events
             .debounceTime(const Duration(milliseconds: 100))
             .switchMap(mapper));
     on<ResetScreen>(_onResetSearch);
-    on<HandleLoadMore>(_onHandleLoadMore);
-    on<HandleRefresh>(_onHandleRefresh);
+
+    // filters
+    on<FilterPostsByAge>(_onFilterPostsByAge);
+    on<ResetAgeFilterForPosts>(_onResetFiltersForPosts);
   }
 
   Future<void> _onLoadPosts(
@@ -158,5 +166,33 @@ class DiscoverScreenBloc
     );
 
     event.refreshController.refreshCompleted();
+  }
+
+  Future<void> _onFilterPostsByAge(
+    FilterPostsByAge event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        ageFilter: DiscoverAgeFilterState(
+          start: event.start,
+          end: event.end,
+          filterStatus: true,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onResetFiltersForPosts(
+    ResetAgeFilterForPosts event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        ageFilter: const DiscoverAgeFilterState(filterStatus: false),
+      ),
+    );
   }
 }

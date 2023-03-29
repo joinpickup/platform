@@ -2,17 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:local/components/input/button.dart';
+import 'package:local/constants/filters.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-int min = 18;
-int max = 80;
-List<int> availableAges = List.generate(max - min + 1, (index) {
-  return index + min;
+List<int> availableAges =
+    List.generate(kAgeFilterEnd - kAgeFilterStart + 1, (index) {
+  return index + kAgeFilterStart;
 });
 
-void showAgeModal(BuildContext context) {
+void showAgeModal(
+  BuildContext context,
+  Function onFilter,
+  Function onClear,
+  int start,
+  int end,
+) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -21,7 +26,12 @@ void showAgeModal(BuildContext context) {
     ),
     backgroundColor: TW3Colors.gray.shade700,
     builder: (context) {
-      return const AgeModal();
+      return AgeModal(
+        onFilter: onFilter,
+        onClear: onClear,
+        start: start,
+        end: end,
+      );
     },
   );
 }
@@ -29,24 +39,40 @@ void showAgeModal(BuildContext context) {
 class AgeModal extends StatefulWidget {
   const AgeModal({
     super.key,
+    required this.onFilter,
+    required this.onClear,
+    required this.start,
+    required this.end,
   });
+
+  final Function onFilter;
+  final Function onClear;
+  final int start;
+  final int end;
 
   @override
   State<AgeModal> createState() => _AgeModalState();
 }
 
 class _AgeModalState extends State<AgeModal> {
-  int start = min;
-  int end = max;
+  int start = kAgeFilterStart;
+  int end = kAgeFilterEnd;
 
-  final FixedExtentScrollController _startPicker =
+  FixedExtentScrollController _startPicker =
       FixedExtentScrollController(initialItem: 0);
-  final FixedExtentScrollController _endPicker =
-      FixedExtentScrollController(initialItem: max - min);
+  FixedExtentScrollController _endPicker =
+      FixedExtentScrollController(initialItem: kAgeFilterEnd - kAgeFilterStart);
 
   @override
   void initState() {
     super.initState();
+
+    start = widget.start;
+    end = widget.end;
+    _startPicker =
+        FixedExtentScrollController(initialItem: start - kAgeFilterStart);
+    _endPicker =
+        FixedExtentScrollController(initialItem: end - kAgeFilterStart);
   }
 
   @override
@@ -109,7 +135,7 @@ class _AgeModalState extends State<AgeModal> {
                       squeeze: 1.2,
                       onSelectedItemChanged: (value) {
                         // need to do this to account for min
-                        int valueWithOffset = value + min;
+                        int valueWithOffset = value + kAgeFilterStart;
 
                         if (valueWithOffset >= end) {
                           Future.delayed(const Duration(milliseconds: 1000),
@@ -121,7 +147,8 @@ class _AgeModalState extends State<AgeModal> {
                                 start = end - 1;
 
                                 // need to account for the min offset with the picker
-                                _startPicker.jumpToItem(end - min - 1);
+                                _startPicker
+                                    .jumpToItem(end - kAgeFilterStart - 1);
                               });
                             }
                           });
@@ -144,7 +171,7 @@ class _AgeModalState extends State<AgeModal> {
                       squeeze: 1.2,
                       onSelectedItemChanged: (value) {
                         // need to do this to account for min
-                        int valueWithOffset = value + min;
+                        int valueWithOffset = value + kAgeFilterStart;
 
                         if (valueWithOffset <= start) {
                           Future.delayed(const Duration(milliseconds: 1000),
@@ -156,7 +183,8 @@ class _AgeModalState extends State<AgeModal> {
                                 end = start + 1;
 
                                 // need to account for the min offset with the picker
-                                _endPicker.jumpToItem(start - min + 1);
+                                _endPicker
+                                    .jumpToItem(start - kAgeFilterStart + 1);
                               });
                             }
                           });
@@ -184,13 +212,15 @@ class _AgeModalState extends State<AgeModal> {
                   buttonType: CustomButtonType.outlined,
                   tap: () {
                     setState(() {
-                      start = min;
-                      end = max;
+                      start = kAgeFilterStart;
+                      end = kAgeFilterEnd;
 
                       // with offset
-                      _startPicker.jumpToItem(start - min);
-                      _endPicker.jumpToItem(end - min);
+                      _startPicker.jumpToItem(start - kAgeFilterStart);
+                      _endPicker.jumpToItem(end - kAgeFilterStart);
                     });
+
+                    widget.onClear();
                   },
                   text: "Clear",
                 ),
@@ -199,7 +229,9 @@ class _AgeModalState extends State<AgeModal> {
                 ),
                 Expanded(
                   child: CustomButton(
-                    tap: () {},
+                    tap: () {
+                      widget.onFilter(start, end);
+                    },
                     text: "Filter",
                   ),
                 ),
