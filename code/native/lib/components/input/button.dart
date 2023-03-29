@@ -57,7 +57,6 @@ class _CustomButtonState extends State<CustomButton> {
         duration: const Duration(
           milliseconds: 300,
         ),
-        width: double.infinity,
         padding: const EdgeInsets.all(8),
         decoration: widget.buttonType == CustomButtonType.contained
             ? BoxDecoration(

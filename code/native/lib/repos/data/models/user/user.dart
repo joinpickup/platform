@@ -8,10 +8,12 @@ class User {
     required this.email,
     required this.password,
     required this.userID,
+    required this.hasSubscription,
   });
 
   final String email;
   final String password;
+  final bool hasSubscription;
   final int userID;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
