@@ -7,7 +7,7 @@ abstract class DiscoverScreenEvent extends Equatable {
 
 class BeginSearch extends DiscoverScreenEvent {}
 
-class ResetSearch extends DiscoverScreenEvent {}
+class ResetScreen extends DiscoverScreenEvent {}
 
 class HandleSearch extends DiscoverScreenEvent {
   final String query;
@@ -15,4 +15,18 @@ class HandleSearch extends DiscoverScreenEvent {
   HandleSearch(this.query);
 }
 
+class HandleLoadMore extends DiscoverScreenEvent {
+  final RefreshController refreshController;
+
+  HandleLoadMore(this.refreshController);
+}
+
+class HandleRefresh extends DiscoverScreenEvent {
+  final RefreshController refreshController;
+
+  HandleRefresh(this.refreshController);
+}
+
 class LoadPosts extends DiscoverScreenEvent {}
+
+class SortPosts extends DiscoverScreenEvent {}

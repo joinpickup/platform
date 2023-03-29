@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:local/navigator/post_auth/post_auth_navigator/post_auth_navigator.dart';
+import 'package:local/navigator/post_auth/post_auth_navigator.dart';
 import 'package:local/navigator/pre_auth/pre_auth_navigator.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/mocks/post.dart';

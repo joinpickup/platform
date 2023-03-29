@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
-import 'package:local/screens/post_auth/discover/views/discover_search/discover_search.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 part 'post_feed_event.dart';
@@ -16,7 +15,6 @@ class PostFeedBloc extends Bloc<PostFeedEvent, PostFeedState> {
         )) {
     on<LoadPostsPost>(_onLoadPosts);
     on<RefreshPosts>(_onRefreshPosts);
-    on<SearchPosts>(_onSearchPosts);
   }
 
   Future<void> _onLoadPosts(
@@ -56,25 +54,5 @@ class PostFeedBloc extends Bloc<PostFeedEvent, PostFeedState> {
     );
 
     event.refreshController.refreshCompleted();
-  }
-
-  Future<void> _onSearchPosts(
-    SearchPosts event,
-    Emitter<PostFeedState> emit,
-  ) async {
-    Navigator.of(event.context).push(
-      MaterialPageRoute(
-        builder: (context) => DiscoverSearch(
-          search: event.query,
-        ),
-      ),
-    );
-
-    emit(
-      state.copyWith(
-        posts: state.posts,
-        status: PostFeedStatus.success,
-      ),
-    );
   }
 }

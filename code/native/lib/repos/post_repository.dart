@@ -32,6 +32,18 @@ class PostRepository {
     return post;
   }
 
+  Future<List<Post>> searchPosts({
+    required String query,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    List<Post> posts = await getPostsFromStore();
+    return posts
+        .where(
+          (element) => element.body.contains(query),
+        )
+        .toList();
+  }
+
   Future<Post> addPost({
     required Post post,
   }) async {

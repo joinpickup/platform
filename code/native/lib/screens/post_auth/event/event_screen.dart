@@ -211,6 +211,9 @@ class _EventScreenState extends State<EventScreen> {
     switch (tab) {
       case 0:
         return PostFeed(
+          scrollController: ScrollController(),
+          canRefresh: false,
+          canLoad: false,
           posts: const [],
           refreshController: RefreshController(),
         );

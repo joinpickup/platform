@@ -31,6 +31,7 @@ class _CustomIconButtonState extends State<CustomIconButton> {
         });
       },
       onTap: () {
+        HapticFeedback.lightImpact();
         widget.tap();
       },
       onTapUp: (details) {
@@ -43,7 +44,8 @@ class _CustomIconButtonState extends State<CustomIconButton> {
           selected = false;
         });
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

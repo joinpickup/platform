@@ -239,6 +239,9 @@ Widget _buildPersonFeed(
   switch (tab) {
     case 0:
       return PostFeed(
+        scrollController: ScrollController(),
+        canLoad: false,
+        canRefresh: false,
         refreshController: RefreshController(),
         posts: const [],
       );

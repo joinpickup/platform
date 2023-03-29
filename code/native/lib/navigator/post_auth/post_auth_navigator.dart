@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/navigator/post_auth/bottom_app_bar.dart';
-import 'package:local/navigator/post_auth/post_auth_navigator/post_auth_navigator_bloc.dart';
 import 'package:local/repos/post_repository.dart';
+import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/discover_screen.dart';
 import 'package:local/screens/post_auth/events/events_screen.dart';
 import 'package:local/screens/post_auth/places/places_screen.dart';
 import 'package:local/screens/post_auth/profile/profile_screen.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
-import 'package:local/shared/post_feed/post_feed_bloc.dart';
+import 'package:tailwind_colors/tailwind_colors.dart';
 
 class PostAuthNavigator extends StatefulWidget {
   const PostAuthNavigator({Key? key}) : super(key: key);
@@ -19,7 +19,9 @@ class PostAuthNavigator extends StatefulWidget {
 
 class _PostAuthNavigatorState extends State<PostAuthNavigator> {
   List<Widget> items = [];
+  int currentIndex = 0;
   final _postRepository = PostRepository();
+  final _pageController = PageController();
 
   @override
   void initState() {
@@ -37,24 +39,30 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PostFeedBloc>(
+        BlocProvider(
           create: (context) =>
-              PostFeedBloc(_postRepository)..add(LoadPostsPost()),
+              DiscoverScreenBloc(_postRepository)..add(LoadPosts()),
         ),
-        BlocProvider<PostAuthNavigatorBloc>(
-          create: (context) => PostAuthNavigatorBloc()..add(InitializePage()),
-        ),
-        BlocProvider<EventFeedBloc>(
+        BlocProvider(
           create: (context) => EventFeedBloc()..add(LoadEvents()),
         ),
       ],
-      child: BlocBuilder<PostAuthNavigatorBloc, PostAuthNavigatorState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: items[state.tab],
-            bottomNavigationBar: const CustomBottomAppBar(),
-          );
-        },
+      child: Scaffold(
+        backgroundColor: TW3Colors.gray.shade700,
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _pageController,
+          children: items,
+        ),
+        bottomNavigationBar: CustomBottomAppBar(
+          currentIndex: currentIndex,
+          onTap: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+            _pageController.jumpToPage(value);
+          },
+        ),
       ),
     );
   }

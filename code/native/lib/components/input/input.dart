@@ -8,6 +8,7 @@ class CustomInput extends StatelessWidget {
     required this.placeholder,
     this.onSearch,
     this.onChanged,
+    this.onSuffixTap,
     this.focus,
     this.hintColor,
     this.backgroundColor,
@@ -20,6 +21,7 @@ class CustomInput extends StatelessWidget {
   final Color? hintColor;
   final Function? onSearch;
   final Function? onChanged;
+  final Function? onSuffixTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,19 @@ class CustomInput extends StatelessWidget {
         backgroundColor: backgroundColor ?? TW3Colors.gray.shade600,
         focusNode: focus,
         controller: controller,
+        onChanged: (value) {
+          if (onChanged != null) {
+            onChanged!(value);
+          }
+        },
         onSubmitted: (value) {
           if (onSearch != null) {
             onSearch!(value);
+          }
+        },
+        onSuffixTap: () {
+          if (onSuffixTap != null) {
+            onSuffixTap!();
           }
         },
         placeholder: placeholder,

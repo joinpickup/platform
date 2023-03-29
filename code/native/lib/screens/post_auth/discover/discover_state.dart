@@ -16,7 +16,8 @@ class DiscoverScreenError {
 class DiscoverScreenState extends Equatable {
   final DiscoverFeedStatus feedStatus;
   final DiscoverScreenStatus screenStatus;
-  final List<Post>? posts;
+  final List<Post>? postFeed;
+  final List<Post>? postSearch;
   final DiscoverScreenError? error;
 
   final PostRepository postRepository;
@@ -24,25 +25,29 @@ class DiscoverScreenState extends Equatable {
   const DiscoverScreenState({
     this.feedStatus = DiscoverFeedStatus.loading,
     this.screenStatus = DiscoverScreenStatus.init,
-    this.posts,
+    this.postFeed,
+    this.postSearch,
     this.error,
     required this.postRepository,
   });
 
   @override
-  List<Object?> get props => [feedStatus, screenStatus, posts, error];
+  List<Object?> get props =>
+      [feedStatus, screenStatus, postFeed, postSearch, error];
 
   DiscoverScreenState copyWith({
     DiscoverFeedStatus? feedStatus,
     DiscoverScreenStatus? screenStatus,
-    List<Post>? posts,
+    List<Post>? postFeed,
+    List<Post>? postSearch,
     DiscoverScreenError? error,
     PostRepository? postRepository,
   }) {
     return DiscoverScreenState(
       feedStatus: feedStatus ?? this.feedStatus,
       screenStatus: screenStatus ?? this.screenStatus,
-      posts: posts ?? this.posts,
+      postFeed: postFeed ?? this.postFeed,
+      postSearch: postSearch ?? this.postSearch,
       error: error ?? this.error,
       postRepository: postRepository ?? this.postRepository,
     );
