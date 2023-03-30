@@ -9,14 +9,16 @@ class CustomButton extends StatefulWidget {
   CustomButton({
     super.key,
     required this.tap,
-    required this.text,
+    this.text,
+    this.child,
     this.hasError = false,
     this.color,
     this.buttonType = CustomButtonType.contained,
   });
 
   final Function tap;
-  final String text;
+  final String? text;
+  final Widget? child;
   final bool hasError;
   late Color? color;
   final CustomButtonType buttonType;
@@ -54,46 +56,48 @@ class _CustomButtonState extends State<CustomButton> {
       },
       onTap: () => widget.tap(),
       child: AnimatedContainer(
-        duration: const Duration(
-          milliseconds: 300,
-        ),
-        padding: const EdgeInsets.all(8),
-        decoration: widget.buttonType == CustomButtonType.contained
-            ? BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  8,
+          duration: const Duration(
+            milliseconds: 300,
+          ),
+          padding: const EdgeInsets.all(8),
+          decoration: widget.buttonType == CustomButtonType.contained
+              ? BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                  border: widget.hasError
+                      ? Border.all(
+                          color: TW3Colors.red.shade500,
+                          width: 2,
+                        )
+                      : null,
+                  color: (widget.color ?? color)!.withOpacity(
+                    selected ? 0.75 : 1,
+                  ),
+                )
+              : BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                  border: widget.hasError
+                      ? Border.all(
+                          color: TW3Colors.red.shade500,
+                          width: 2,
+                        )
+                      : Border.all(
+                          width: 2,
+                          color: TW3Colors.gray.shade600,
+                        ),
+                  color:
+                      selected ? TW3Colors.gray.shade600 : Colors.transparent,
                 ),
-                border: widget.hasError
-                    ? Border.all(
-                        color: TW3Colors.red.shade500,
-                        width: 2,
-                      )
-                    : null,
-                color: (widget.color ?? color)!.withOpacity(
-                  selected ? 0.75 : 1,
-                ),
-              )
-            : BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  8,
-                ),
-                border: widget.hasError
-                    ? Border.all(
-                        color: TW3Colors.red.shade500,
-                        width: 2,
-                      )
-                    : Border.all(
-                        width: 2,
-                        color: TW3Colors.gray.shade600,
-                      ),
-                color: selected ? TW3Colors.gray.shade600 : Colors.transparent,
-              ),
-        child: Text(
-          widget.text,
-          style: Theme.of(context).textTheme.bodyLarge,
-          textAlign: TextAlign.center,
-        ),
-      ),
+          child: widget.text != null
+              ? Text(
+                  widget.text as String,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                )
+              : widget.child ?? Container()),
     );
   }
 }

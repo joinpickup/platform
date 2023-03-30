@@ -14,18 +14,46 @@ class DiscoverScreenError {
 }
 
 class DiscoverAgeFilterState extends Equatable {
-  final bool filterStatus;
+  final bool enabled;
   final int start;
   final int end;
 
   const DiscoverAgeFilterState({
-    required this.filterStatus,
+    required this.enabled,
     this.start = kAgeFilterStart,
     this.end = kAgeFilterEnd,
   });
 
   @override
-  List<Object?> get props => [filterStatus, start, end];
+  List<Object?> get props => [enabled, start, end];
+}
+
+class DiscoverLocationFilterState extends Equatable {
+  final bool enabled;
+  final int start;
+  final int end;
+
+  const DiscoverLocationFilterState({
+    required this.enabled,
+    this.start = kLocationFilterStart,
+    this.end = kLocationFilterEnd,
+  });
+
+  @override
+  List<Object?> get props => [enabled, start, end];
+}
+
+class DiscoverSortState extends Equatable {
+  final bool enabled;
+  final SortOption sort;
+
+  const DiscoverSortState({
+    required this.enabled,
+    this.sort = kSort,
+  });
+
+  @override
+  List<Object?> get props => [enabled, sort];
 }
 
 class DiscoverScreenState extends Equatable {
@@ -35,7 +63,10 @@ class DiscoverScreenState extends Equatable {
   final List<Post>? postSearch;
   final DiscoverScreenError? error;
 
+  // filters and sort
   final DiscoverAgeFilterState ageFilter;
+  final DiscoverLocationFilterState locationFilter;
+  final DiscoverSortState sortState;
 
   final PostRepository postRepository;
 
@@ -45,13 +76,27 @@ class DiscoverScreenState extends Equatable {
     this.postFeed,
     this.postSearch,
     this.error,
-    this.ageFilter = const DiscoverAgeFilterState(filterStatus: false),
+    this.ageFilter = const DiscoverAgeFilterState(enabled: false),
+    this.locationFilter = const DiscoverLocationFilterState(enabled: false),
+    this.sortState = const DiscoverSortState(enabled: false),
     required this.postRepository,
   });
 
   @override
-  List<Object?> get props =>
-      [feedStatus, screenStatus, postFeed, ageFilter, postSearch, error];
+  List<Object?> get props => [
+        feedStatus,
+        screenStatus,
+        postFeed,
+        error,
+
+        // filters
+        ageFilter,
+        locationFilter,
+        sortState,
+
+        // search
+        postSearch,
+      ];
 
   DiscoverScreenState copyWith({
     DiscoverFeedStatus? feedStatus,
@@ -60,6 +105,8 @@ class DiscoverScreenState extends Equatable {
     List<Post>? postSearch,
     DiscoverScreenError? error,
     DiscoverAgeFilterState? ageFilter,
+    DiscoverLocationFilterState? locationFilter,
+    DiscoverSortState? sortState,
     PostRepository? postRepository,
   }) {
     return DiscoverScreenState(
@@ -69,6 +116,8 @@ class DiscoverScreenState extends Equatable {
       postSearch: postSearch ?? this.postSearch,
       error: error ?? this.error,
       ageFilter: ageFilter ?? this.ageFilter,
+      locationFilter: locationFilter ?? this.locationFilter,
+      sortState: sortState ?? this.sortState,
       postRepository: postRepository ?? this.postRepository,
     );
   }

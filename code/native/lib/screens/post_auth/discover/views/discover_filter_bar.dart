@@ -34,37 +34,6 @@ class DiscoverFilterBar extends StatelessWidget {
                   children: [
                     FilterItem(
                       tap: () {
-                        showAllFiltersModal(context);
-                      },
-                      active: false,
-                      child: const HeroIcon(HeroIcons.adjustmentsHorizontal),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterItem(
-                      tap: () {
-                        showSortModal(context);
-                      },
-                      active: false,
-                      child: Row(
-                        children: const [
-                          Text("Sort"),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          HeroIcon(
-                            HeroIcons.chevronDown,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterItem(
-                      tap: () {
                         showSpaceModal(context);
                       },
                       active: false,
@@ -86,39 +55,49 @@ class DiscoverFilterBar extends StatelessWidget {
                     ),
                     FilterItem(
                       tap: () {
-                        if (authState.user!.hasSubscription) {
-                          showLocationModal(
-                            context,
-                            () {},
-                            () {},
-                            0,
-                            100,
-                          );
-                        } else {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) {
-                              return const SubscriptionPopup();
-                            },
-                          ));
-                        }
+                        showSortModal(
+                          context,
+                          (SortOption sort) {
+                            if (authState.user!.hasSubscription) {
+                              context
+                                  .read<DiscoverScreenBloc>()
+                                  .add(SortPosts(sort));
+                              Navigator.of(context).pop();
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context) {
+                                  return const SubscriptionPopup();
+                                },
+                              ));
+                            }
+                          },
+                          () {
+                            context
+                                .read<DiscoverScreenBloc>()
+                                .add(ResetSortForPosts());
+                          },
+                          discoverState.sortState.sort,
+                        );
                       },
-                      active: false,
+                      active: discoverState.sortState.enabled,
                       child: Row(
-                        children: const [
-                          HeroIcon(
+                        children: [
+                          const HeroIcon(
                             HeroIcons.star,
                             style: HeroIconStyle.solid,
                             size: 18,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
-                          Text("Location"),
-                          SizedBox(
+                          Text(discoverState.sortState.enabled
+                              ? discoverState.sortState.sort.title
+                              : "Sort"),
+                          const SizedBox(
                             width: 8,
                           ),
-                          HeroIcon(
+                          const HeroIcon(
                             HeroIcons.chevronDown,
                             size: 18,
                           ),
@@ -129,33 +108,33 @@ class DiscoverFilterBar extends StatelessWidget {
                       width: 8,
                     ),
                     FilterItem(
-                      active: discoverState.ageFilter.filterStatus,
+                      active: discoverState.locationFilter.enabled,
                       tap: () {
-                        if (authState.user!.hasSubscription) {
-                          showAgeModal(
-                            context,
-                            (int start, int end) {
+                        showLocationModal(
+                          context,
+                          (int start, int end) {
+                            if (authState.user!.hasSubscription) {
                               context
                                   .read<DiscoverScreenBloc>()
-                                  .add(FilterPostsByAge(start, end));
+                                  .add(FilterPostsByLocation(start, end));
                               Navigator.of(context).pop();
-                            },
-                            () {
-                              context
-                                  .read<DiscoverScreenBloc>()
-                                  .add(ResetAgeFilterForPosts());
-                            },
-                            discoverState.ageFilter.start,
-                            discoverState.ageFilter.end,
-                          );
-                        } else {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) {
-                              return const SubscriptionPopup();
-                            },
-                          ));
-                        }
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context) {
+                                  return const SubscriptionPopup();
+                                },
+                              ));
+                            }
+                          },
+                          () {
+                            context
+                                .read<DiscoverScreenBloc>()
+                                .add(ResetLocationFilterForPosts());
+                          },
+                          discoverState.locationFilter.start,
+                          discoverState.locationFilter.end,
+                        );
                       },
                       child: Row(
                         children: [
@@ -167,7 +146,64 @@ class DiscoverFilterBar extends StatelessWidget {
                           const SizedBox(
                             width: 8,
                           ),
-                          Text(discoverState.ageFilter.filterStatus
+                          Text(discoverState.locationFilter.enabled
+                              ? "${discoverState.locationFilter.start} mi - ${discoverState.locationFilter.end} mi"
+                              : "Location"),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          const HeroIcon(
+                            HeroIcons.chevronDown,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    FilterItem(
+                      active: discoverState.ageFilter.enabled,
+                      tap: () {
+                        showAgeModal(
+                          context,
+                          (int start, int end) {
+                            if (authState.user!.hasSubscription) {
+                              context
+                                  .read<DiscoverScreenBloc>()
+                                  .add(FilterPostsByAge(start, end));
+                              Navigator.of(context).pop();
+                            } else {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (context) {
+                                    return const SubscriptionPopup();
+                                  },
+                                ),
+                              );
+                            }
+                          },
+                          () {
+                            context
+                                .read<DiscoverScreenBloc>()
+                                .add(ResetAgeFilterForPosts());
+                          },
+                          discoverState.ageFilter.start,
+                          discoverState.ageFilter.end,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          const HeroIcon(
+                            HeroIcons.star,
+                            style: HeroIconStyle.solid,
+                            size: 18,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(discoverState.ageFilter.enabled
                               ? "${discoverState.ageFilter.start}-${discoverState.ageFilter.end}"
                               : "Age"),
                           const SizedBox(
@@ -179,6 +215,17 @@ class DiscoverFilterBar extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    FilterItem(
+                      tap: () {
+                        context
+                            .read<DiscoverScreenBloc>()
+                            .add(ResetAllFilters());
+                      },
+                      child: const Text("Clear Filters"),
                     ),
                   ],
                 ),

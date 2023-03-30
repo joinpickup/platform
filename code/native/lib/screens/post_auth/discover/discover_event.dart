@@ -29,8 +29,6 @@ class HandleRefresh extends DiscoverScreenEvent {
 
 class LoadPosts extends DiscoverScreenEvent {}
 
-class SortPosts extends DiscoverScreenEvent {}
-
 class FilterPostsByAge extends DiscoverScreenEvent {
   final int start;
   final int end;
@@ -39,3 +37,22 @@ class FilterPostsByAge extends DiscoverScreenEvent {
 }
 
 class ResetAgeFilterForPosts extends DiscoverScreenEvent {}
+
+class FilterPostsByLocation extends DiscoverScreenEvent {
+  final int start;
+  final int end;
+
+  FilterPostsByLocation(this.start, this.end);
+}
+
+class ResetLocationFilterForPosts extends DiscoverScreenEvent {}
+
+class SortPosts extends DiscoverScreenEvent {
+  final SortOption sort;
+
+  SortPosts(this.sort);
+}
+
+class ResetSortForPosts extends DiscoverScreenEvent {}
+
+class ResetAllFilters extends DiscoverScreenEvent {}

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/constants/filters.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -232,7 +233,24 @@ class _AgeModalState extends State<AgeModal> {
                     tap: () {
                       widget.onFilter(start, end);
                     },
-                    text: "Filter",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const HeroIcon(
+                          HeroIcons.star,
+                          style: HeroIconStyle.solid,
+                          size: 18,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Filter",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -44,19 +44,25 @@ class SubscriptionPopup extends StatelessWidget {
             SafeArea(
               child: Column(
                 children: [
-                  CustomButton(
-                    tap: () {},
-                    text: "Join",
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      tap: () {},
+                      text: "Join",
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  CustomButton(
-                    buttonType: CustomButtonType.outlined,
-                    tap: () {
-                      Navigator.of(context).pop();
-                    },
-                    text: "Cancel",
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      buttonType: CustomButtonType.outlined,
+                      tap: () {
+                        Navigator.of(context).pop();
+                      },
+                      text: "Cancel",
+                    ),
                   ),
                 ],
               ),

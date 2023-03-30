@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/components/modals/sort_modal.dart';
 import 'package:local/constants/filters.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
@@ -33,7 +34,14 @@ class DiscoverScreenBloc
 
     // filters
     on<FilterPostsByAge>(_onFilterPostsByAge);
-    on<ResetAgeFilterForPosts>(_onResetFiltersForPosts);
+    on<ResetAgeFilterForPosts>(_onResetAgeFilterForPosts);
+    on<FilterPostsByLocation>(_onFilterPostsByLocation);
+    on<ResetLocationFilterForPosts>(_onResetLocationFilterForPosts);
+    on<ResetAllFilters>(_onResetAllFilters);
+
+    // sort
+    on<SortPosts>(_onSortPosts);
+    on<ResetSortForPosts>(_onResetSortForPosts);
   }
 
   Future<void> _onLoadPosts(
@@ -178,20 +186,89 @@ class DiscoverScreenBloc
         ageFilter: DiscoverAgeFilterState(
           start: event.start,
           end: event.end,
-          filterStatus: true,
+          enabled: true,
         ),
       ),
     );
   }
 
-  Future<void> _onResetFiltersForPosts(
+  Future<void> _onResetAgeFilterForPosts(
     ResetAgeFilterForPosts event,
     Emitter<DiscoverScreenState> emit,
   ) async {
     emit(
       state.copyWith(
         feedStatus: DiscoverFeedStatus.success,
-        ageFilter: const DiscoverAgeFilterState(filterStatus: false),
+        ageFilter: const DiscoverAgeFilterState(enabled: false),
+      ),
+    );
+  }
+
+  Future<void> _onFilterPostsByLocation(
+    FilterPostsByLocation event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        locationFilter: DiscoverLocationFilterState(
+          start: event.start,
+          end: event.end,
+          enabled: true,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onResetLocationFilterForPosts(
+    ResetLocationFilterForPosts event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        locationFilter: const DiscoverLocationFilterState(enabled: false),
+      ),
+    );
+  }
+
+  Future<void> _onSortPosts(
+    SortPosts event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        sortState: DiscoverSortState(
+          sort: event.sort,
+          enabled: true,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onResetSortForPosts(
+    ResetSortForPosts event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        sortState: const DiscoverSortState(enabled: false),
+      ),
+    );
+  }
+
+  Future<void> _onResetAllFilters(
+    ResetAllFilters event,
+    Emitter<DiscoverScreenState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.success,
+        sortState: const DiscoverSortState(enabled: false),
+        locationFilter: const DiscoverLocationFilterState(enabled: false),
+        ageFilter: const DiscoverAgeFilterState(enabled: false),
       ),
     );
   }
