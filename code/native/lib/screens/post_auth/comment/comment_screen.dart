@@ -231,7 +231,7 @@ class _CommentScreenState extends State<CommentScreen> {
           MaterialPageRoute(
             builder: (context) {
               return PersonScreen(
-                personID: post.poster!.personID,
+                personID: post.poster.personID,
               );
             },
           ),
@@ -246,7 +246,7 @@ class _CommentScreenState extends State<CommentScreen> {
             ClipOval(
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(24),
-                child: Image.asset(post.poster!.avatar, fit: BoxFit.cover),
+                child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
               ),
             ),
             const SizedBox(
@@ -258,7 +258,7 @@ class _CommentScreenState extends State<CommentScreen> {
               children: [
                 // name
                 Text(
-                  post.poster!.name,
+                  post.poster.name,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 // location / visbility
@@ -279,13 +279,6 @@ class _CommentScreenState extends State<CommentScreen> {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      post.visibility.name,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
                   ],
                 )
               ],
@@ -301,7 +294,7 @@ class _CommentScreenState extends State<CommentScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "#${post.interest!.name}",
+          "#${post.interest.name}",
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
           ),

@@ -55,4 +55,12 @@ class SortPosts extends DiscoverScreenEvent {
 
 class ResetSortForPosts extends DiscoverScreenEvent {}
 
+class FilterBySpace extends DiscoverScreenEvent {
+  final Space space;
+
+  FilterBySpace(this.space);
+}
+
+class ResetSpaceFilterForPosts extends DiscoverScreenEvent {}
+
 class ResetAllFilters extends DiscoverScreenEvent {}

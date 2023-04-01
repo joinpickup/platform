@@ -6,7 +6,6 @@ import 'package:local/components/snackbar/Snackbar.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/discover_app_bar.dart';
-import 'package:local/screens/post_auth/discover/views/discover_filter_bar.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';

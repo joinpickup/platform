@@ -3,10 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/modals/age_modal.dart';
-import 'package:local/components/modals/all_filters_modal.dart';
 import 'package:local/components/modals/location_modal.dart';
 import 'package:local/components/modals/sort_modal.dart';
-import 'package:local/components/modals/space_modal.dart';
+import 'package:local/components/modals/space_modal/space_modal.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/shared/subscribe/subscription_page.dart';
@@ -34,16 +33,33 @@ class DiscoverFilterBar extends StatelessWidget {
                   children: [
                     FilterItem(
                       tap: () {
-                        showSpaceModal(context);
+                        showSpaceModal(
+                          context,
+                          (space) {
+                            Navigator.of(context).pop();
+                            context
+                                .read<DiscoverScreenBloc>()
+                                .add(FilterBySpace(space));
+                          },
+                          () {
+                            Navigator.of(context).pop();
+                            context
+                                .read<DiscoverScreenBloc>()
+                                .add(ResetSpaceFilterForPosts());
+                          },
+                          discoverState.spaceFilter.space,
+                        );
                       },
-                      active: false,
+                      active: discoverState.spaceFilter.enabled,
                       child: Row(
-                        children: const [
-                          Text("Space"),
-                          SizedBox(
+                        children: [
+                          Text(discoverState.spaceFilter.enabled
+                              ? discoverState.spaceFilter.space!.name
+                              : "Space"),
+                          const SizedBox(
                             width: 8,
                           ),
-                          HeroIcon(
+                          const HeroIcon(
                             HeroIcons.chevronDown,
                             size: 18,
                           ),

@@ -140,10 +140,8 @@ class DiscoverSearchBar extends StatelessWidget {
                   flex: 0,
                   child: CustomIconButton(
                     tap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const AddPostScreen(),
-                        ),
+                      showAddPostModal(
+                        context,
                       );
                     },
                     child: const HeroIcon(HeroIcons.plus),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/modals/sort_modal.dart';
 import 'package:local/constants/filters.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
@@ -36,6 +37,8 @@ class DiscoverScreenBloc
     on<FilterPostsByAge>(_onFilterPostsByAge);
     on<ResetAgeFilterForPosts>(_onResetAgeFilterForPosts);
     on<FilterPostsByLocation>(_onFilterPostsByLocation);
+    on<FilterBySpace>(_onFilterBySpace);
+    on<ResetSpaceFilterForPosts>(_onResetSpaceFilterForPosts);
     on<ResetLocationFilterForPosts>(_onResetLocationFilterForPosts);
     on<ResetAllFilters>(_onResetAllFilters);
 
@@ -182,7 +185,6 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         ageFilter: DiscoverAgeFilterState(
           start: event.start,
           end: event.end,
@@ -198,7 +200,6 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         ageFilter: const DiscoverAgeFilterState(enabled: false),
       ),
     );
@@ -210,7 +211,6 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         locationFilter: DiscoverLocationFilterState(
           start: event.start,
           end: event.end,
@@ -226,7 +226,6 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         locationFilter: const DiscoverLocationFilterState(enabled: false),
       ),
     );
@@ -238,7 +237,6 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         sortState: DiscoverSortState(
           sort: event.sort,
           enabled: true,
@@ -253,7 +251,6 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         sortState: const DiscoverSortState(enabled: false),
       ),
     );
@@ -265,10 +262,31 @@ class DiscoverScreenBloc
   ) async {
     emit(
       state.copyWith(
-        feedStatus: DiscoverFeedStatus.success,
         sortState: const DiscoverSortState(enabled: false),
         locationFilter: const DiscoverLocationFilterState(enabled: false),
         ageFilter: const DiscoverAgeFilterState(enabled: false),
+        spaceFilter: const DiscoverSpaceFilterState(enabled: false),
+      ),
+    );
+  }
+
+  FutureOr<void> _onFilterBySpace(
+      FilterBySpace event, Emitter<DiscoverScreenState> emit) {
+    emit(
+      state.copyWith(
+        spaceFilter: DiscoverSpaceFilterState(
+          enabled: true,
+          space: event.space,
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _onResetSpaceFilterForPosts(
+      ResetSpaceFilterForPosts event, Emitter<DiscoverScreenState> emit) {
+    emit(
+      state.copyWith(
+        spaceFilter: const DiscoverSpaceFilterState(enabled: false),
       ),
     );
   }

@@ -8,8 +8,8 @@ part of 'person.dart';
 
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       personID: json['personID'] as int,
-      userID: json['userID'] as int,
       createdAt: DateTime.parse(json['createdAt'] as String),
+      userID: json['userID'] as int,
       name: json['name'] as String,
       avatar: json['avatar'] as String,
       location: Location.fromJson(json['location'] as Map<String, dynamic>),

@@ -61,16 +61,9 @@ class _EventScreenState extends State<EventScreen> {
       floatingActionButton: tab == 0 || tab == 1
           ? FloatingActionButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    switch (tab) {
-                      case 0:
-                        return const AddPostScreen();
-                      default:
-                        return const AddPostScreen();
-                    }
-                  },
-                ));
+                showAddPostModal(
+                  context,
+                );
               },
               backgroundColor: tab == 1
                   ? Theme.of(context).colorScheme.primary

@@ -28,6 +28,19 @@ class DiscoverAgeFilterState extends Equatable {
   List<Object?> get props => [enabled, start, end];
 }
 
+class DiscoverSpaceFilterState extends Equatable {
+  final bool enabled;
+  final Space? space;
+
+  const DiscoverSpaceFilterState({
+    required this.enabled,
+    this.space,
+  });
+
+  @override
+  List<Object?> get props => [enabled, space];
+}
+
 class DiscoverLocationFilterState extends Equatable {
   final bool enabled;
   final int start;
@@ -64,6 +77,7 @@ class DiscoverScreenState extends Equatable {
   final DiscoverScreenError? error;
 
   // filters and sort
+  final DiscoverSpaceFilterState spaceFilter;
   final DiscoverAgeFilterState ageFilter;
   final DiscoverLocationFilterState locationFilter;
   final DiscoverSortState sortState;
@@ -79,6 +93,7 @@ class DiscoverScreenState extends Equatable {
     this.ageFilter = const DiscoverAgeFilterState(enabled: false),
     this.locationFilter = const DiscoverLocationFilterState(enabled: false),
     this.sortState = const DiscoverSortState(enabled: false),
+    this.spaceFilter = const DiscoverSpaceFilterState(enabled: false),
     required this.postRepository,
   });
 
@@ -90,6 +105,7 @@ class DiscoverScreenState extends Equatable {
         error,
 
         // filters
+        spaceFilter,
         ageFilter,
         locationFilter,
         sortState,
@@ -104,6 +120,7 @@ class DiscoverScreenState extends Equatable {
     List<Post>? postFeed,
     List<Post>? postSearch,
     DiscoverScreenError? error,
+    DiscoverSpaceFilterState? spaceFilter,
     DiscoverAgeFilterState? ageFilter,
     DiscoverLocationFilterState? locationFilter,
     DiscoverSortState? sortState,
@@ -115,6 +132,7 @@ class DiscoverScreenState extends Equatable {
       postFeed: postFeed ?? this.postFeed,
       postSearch: postSearch ?? this.postSearch,
       error: error ?? this.error,
+      spaceFilter: spaceFilter ?? this.spaceFilter,
       ageFilter: ageFilter ?? this.ageFilter,
       locationFilter: locationFilter ?? this.locationFilter,
       sortState: sortState ?? this.sortState,

@@ -279,13 +279,6 @@ class _PostScreenState extends State<PostScreen> {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      post.visibility.name,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
                   ],
                 )
               ],

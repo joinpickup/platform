@@ -5,8 +5,14 @@ abstract class AddPostEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class AddPost extends AddPostEvent {
-  AddPost({required this.post});
+class ResetAddPostValidation extends AddPostEvent {}
 
-  final Post post;
+class AddPost extends AddPostEvent {
+  AddPost({
+    required this.title,
+    required this.body,
+  });
+
+  final String title;
+  final String body;
 }

@@ -79,7 +79,7 @@ class _PostCardState extends State<PostCard> {
         ClipOval(
           child: SizedBox.fromSize(
             size: const Size.fromRadius(20),
-            child: Image.asset(post.poster!.avatar, fit: BoxFit.cover),
+            child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(
@@ -91,13 +91,13 @@ class _PostCardState extends State<PostCard> {
           children: [
             // name
             Text(
-              post.poster!.name,
+              post.poster.name,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             // location / visbility
             Row(
               children: [
-                Text(post.poster!.location.commonName,
+                Text(post.poster.location.commonName,
                     style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(
                   width: 8,
@@ -109,13 +109,6 @@ class _PostCardState extends State<PostCard> {
                     borderRadius: BorderRadius.circular(50),
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  post.visibility.name,
-                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
             )
@@ -148,7 +141,7 @@ class _PostCardState extends State<PostCard> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "#${post.interest!.name}",
+          "#${post.interest.name}",
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
           ),

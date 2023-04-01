@@ -19,5 +19,5 @@ class Interest extends Equatable {
   Map<String, dynamic> toJson() => _$InterestToJson(this);
 
   @override
-  List<Object?> get props => [interestID];
+  List<Object?> get props => [interestID, name];
 }
