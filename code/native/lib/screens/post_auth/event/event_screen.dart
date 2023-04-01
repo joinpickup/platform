@@ -9,7 +9,7 @@ import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/event.dart';
 import 'package:local/repos/data/models/event/event.dart';
 import 'package:local/repos/post_repository.dart';
-import 'package:local/screens/post_auth/add_post/add_post_screen.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_screen.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/event/views/event_settings.dart';
 import 'package:local/screens/post_auth/event/views/participant_page.dart';

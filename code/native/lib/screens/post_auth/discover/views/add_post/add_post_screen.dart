@@ -6,7 +6,7 @@ import 'package:local/components/input/button.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
-import 'package:local/screens/post_auth/add_post/add_post_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showAddPostModal(BuildContext context) {

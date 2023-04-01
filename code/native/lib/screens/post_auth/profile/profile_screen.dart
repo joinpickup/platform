@@ -155,6 +155,7 @@ Widget _buildProfileSettings(BuildContext context) {
   return Column(
     children: [
       SettingsGroup(
+        color: TW3Colors.gray.shade700,
         name: "Account Settings",
         settings: [
           SettingsItem(
@@ -194,6 +195,7 @@ Widget _buildProfileSettings(BuildContext context) {
       ),
       SettingsGroup(
         name: "Application Settings",
+        color: TW3Colors.gray.shade700,
         settings: [
           SettingsItem(
             hasArrow: true,

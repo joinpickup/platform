@@ -68,7 +68,7 @@ class _ModuleState extends State<Module> {
         child: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(16),
             color: selected ? TW3Colors.gray.shade600 : TW3Colors.gray.shade700,
             border: Border.all(
               color: TW3Colors.gray.shade500.withOpacity(.25),

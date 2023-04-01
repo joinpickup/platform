@@ -20,10 +20,12 @@ class SettingsGroup extends StatefulWidget {
     super.key,
     required this.name,
     required this.settings,
+    this.color = Colors.transparent,
     this.includeName = false,
   });
 
   final String name;
+  final Color color;
   final bool includeName;
   final List<Widget> settings;
 
@@ -56,8 +58,8 @@ class _SettingsGroupState extends State<SettingsGroup> {
             width: double.infinity,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: TW3Colors.gray.shade700,
+              borderRadius: BorderRadius.circular(16),
+              color: widget.color,
               border: Border.all(
                 color: TW3Colors.gray.shade500.withOpacity(.25),
                 width: 2.0,

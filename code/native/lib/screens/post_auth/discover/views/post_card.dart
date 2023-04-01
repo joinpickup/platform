@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/screens/post_auth/discover/views/post_options/post_options_screen.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';
@@ -44,6 +46,12 @@ class _PostCardState extends State<PostCard> {
         setState(() {
           opacity = 1;
         });
+      },
+      onLongPress: () {
+        HapticFeedback.heavyImpact();
+        showPostOptionsModal(
+          context,
+        );
       },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
@@ -99,17 +107,6 @@ class _PostCardState extends State<PostCard> {
               children: [
                 Text(post.poster.location.commonName,
                     style: Theme.of(context).textTheme.titleSmall),
-                const SizedBox(
-                  width: 8,
-                ),
-                Container(
-                  height: 4,
-                  width: 4,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
               ],
             )
           ],

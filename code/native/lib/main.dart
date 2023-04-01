@@ -12,7 +12,7 @@ import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/repos/user_repository.dart';
-import 'package:local/screens/post_auth/add_post/add_post_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/theme/dark_mode.dart';
 
