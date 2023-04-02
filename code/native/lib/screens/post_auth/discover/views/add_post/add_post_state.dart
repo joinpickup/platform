@@ -2,7 +2,7 @@ part of 'add_post_bloc.dart';
 
 enum AddPostStatus { idle, loading, success, error }
 
-enum AddPostErrorType { title, description }
+enum AddPostErrorType { title, description, interest }
 
 class AddPostState extends Equatable {
   const AddPostState({

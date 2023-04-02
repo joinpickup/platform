@@ -39,7 +39,6 @@ class _EventFeedState extends State<EventFeed> {
                 child: ListView.separated(
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
-                  padding: const EdgeInsets.all(8),
                   itemBuilder: (BuildContext context, int index) {
                     return EventCard(
                       event: state.events[index],

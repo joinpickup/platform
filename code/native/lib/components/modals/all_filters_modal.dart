@@ -32,7 +32,7 @@ class FilterModal extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 color: TW3Colors.gray.shade500,
               ),
-              width: 100,
+              width: 64,
               height: 4,
             ),
           ),

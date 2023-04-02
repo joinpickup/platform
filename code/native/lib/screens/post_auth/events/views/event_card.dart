@@ -56,9 +56,6 @@ class _EventCardState extends State<EventCard> {
               color: TW3Colors.gray.shade500.withOpacity(.25),
               width: 2.0,
             ),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(12),
-            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

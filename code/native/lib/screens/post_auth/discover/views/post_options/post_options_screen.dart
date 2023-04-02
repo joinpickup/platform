@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showPostOptionsModal(BuildContext context) {
@@ -39,7 +38,7 @@ class PostOptionsModal extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   color: TW3Colors.gray.shade500,
                 ),
-                width: 100,
+                width: 64,
                 height: 4,
               ),
             ),
@@ -52,9 +51,7 @@ class PostOptionsModal extends StatelessWidget {
                 SettingsItem(
                   icon: HeroIcons.share,
                   name: "Share Post",
-                  action: () {
-                    Share.share("Check out this post...");
-                  },
+                  action: () {},
                 ),
                 SettingsItem(
                   icon: HeroIcons.eyeSlash,

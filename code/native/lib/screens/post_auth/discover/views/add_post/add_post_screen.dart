@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/input/icon_button.dart';
+import 'package:local/components/modals/interests_modal/interests_modal.dart';
+import 'package:local/repos/data/mocks/interest.dart';
+import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
@@ -35,6 +38,7 @@ class AddNewPostModal extends StatefulWidget {
 class _AddNewPostModalState extends State<AddNewPostModal> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
+  Interest? interest;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +69,7 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                           borderRadius: BorderRadius.circular(12),
                           color: TW3Colors.gray.shade500,
                         ),
-                        width: 100,
+                        width: 64,
                         height: 4,
                       ),
                     ),
@@ -126,6 +130,9 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                   padding: const EdgeInsets.all(12),
                                   placeholder:
                                       "Looking for a tennis partner...",
+                                  onTapOutside: (event) {
+                                    FocusScope.of(context).unfocus();
+                                  },
                                   onChanged: (value) {
                                     context
                                         .read<AddPostBloc>()
@@ -144,7 +151,8 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                                 )
                                               : null),
                                   placeholderStyle: TextStyle(
-                                    color: TW3Colors.gray.shade400,
+                                    color: TW3Colors.gray.shade500,
+                                    fontSize: 16,
                                     fontFamily: "Nunito",
                                   ),
                                   style: TextStyle(
@@ -179,10 +187,14 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                         .read<AddPostBloc>()
                                         .add(ResetAddPostValidation());
                                   },
+                                  onTapOutside: (event) {
+                                    FocusScope.of(context).unfocus();
+                                  },
                                   placeholder:
                                       "I typically play on the courts nearby Main Street, I'm not very good so you don't have to be either...",
                                   placeholderStyle: TextStyle(
-                                    color: TW3Colors.gray.shade400,
+                                    color: TW3Colors.gray.shade500,
+                                    fontSize: 16,
                                     fontFamily: "Nunito",
                                   ),
                                   style: TextStyle(
@@ -204,24 +216,77 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                           : null),
                                   maxLines: 6,
                                 ),
-                                const SizedBox(
-                                  height: 16,
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Interest",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(color: TW3Colors.gray.shade400),
                                 ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: CustomButton(
-                                    tap: () {
-                                      context.read<AddPostBloc>().add(
-                                            AddPost(
-                                              title: _titleController.text,
-                                              body: _bodyController.text,
-                                            ),
-                                          );
-                                    },
-                                    text: "Post",
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showInterestsModal(context, (value) {
+                                      setState(() {
+                                        interest = value;
+                                      });
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 46,
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                        color: TW3Colors.gray.shade600,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: state.status ==
+                                                    AddPostStatus.error &&
+                                                state.error ==
+                                                    AddPostErrorType.interest
+                                            ? Border.all(
+                                                color: TW3Colors.red.shade500,
+                                                width: 2,
+                                              )
+                                            : null),
+                                    child: Text(
+                                      "#Tennis",
+                                      style: TextStyle(
+                                        color: TW3Colors.gray.shade500,
+                                        fontSize: 16,
+                                        fontFamily: "Nunito",
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: CustomButton(
+                                tap: () {
+                                  context.read<AddPostBloc>().add(
+                                        AddPost(
+                                          title: _titleController.text,
+                                          body: _bodyController.text,
+                                          interest: interest,
+                                        ),
+                                      );
+                                },
+                                text: "Post",
+                              ),
                             ),
                           ],
                         ),

@@ -19,28 +19,18 @@ class _PreAuthNavigatorState extends State<PreAuthNavigator> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8),
-          height: double.maxFinite,
-          width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/pickup-logo.png",
-                    height: 200,
-                    width: 200,
-                  ),
-                  Text(
-                    "Local",
-                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
+              const Spacer(),
+              Text(
+                "Local",
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
+              const Spacer(),
               Column(
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
                     width: double.infinity,
@@ -73,7 +63,28 @@ class _PreAuthNavigatorState extends State<PreAuthNavigator> {
                     ),
                   ),
                 ],
-              )
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/pickup-logo.png",
+                    height: 100,
+                    width: 100,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    "A Pickup Product",
+                    style: TextStyle(
+                      fontFamily: "Nunito Bold",
+                      color: TW3Colors.gray.shade300,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

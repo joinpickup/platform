@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/repos/data/mocks/interest.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/post/post.dart';
-import 'package:local/repos/data/models/user/person.dart';
+import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
 
@@ -40,12 +40,19 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
           error: AddPostErrorType.description,
         ),
       );
+    } else if (event.interest == null) {
+      emit(
+        state.copyWith(
+          status: AddPostStatus.error,
+          error: AddPostErrorType.interest,
+        ),
+      );
     } else {
       try {
-// TODO: replace with auth repository
+        // TODO: replace with auth repository
         Post newPost = Post(
           poster: andrew,
-          interest: soccerInterest,
+          interest: event.interest as Interest,
           postID: 4,
           createdAt: DateTime.now(),
           title: event.title,

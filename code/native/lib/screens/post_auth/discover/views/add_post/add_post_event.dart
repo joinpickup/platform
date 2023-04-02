@@ -11,8 +11,10 @@ class AddPost extends AddPostEvent {
   AddPost({
     required this.title,
     required this.body,
+    required this.interest,
   });
 
   final String title;
   final String body;
+  final Interest? interest;
 }
