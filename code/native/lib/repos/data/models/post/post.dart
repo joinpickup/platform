@@ -14,14 +14,14 @@ class Post {
 
   // generated
   Person poster;
-  Interest interest;
+  List<Interest> interests;
   // final Group group;
   // final Space space;
 
   Post({
     this.postID,
     required this.poster,
-    required this.interest,
+    required this.interests,
     required this.createdAt,
     required this.title,
     required this.body,

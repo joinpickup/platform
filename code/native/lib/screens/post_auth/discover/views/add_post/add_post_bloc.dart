@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/repos/data/mocks/interest.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/data/models/space/interest.dart';
@@ -40,7 +39,7 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
           error: AddPostErrorType.description,
         ),
       );
-    } else if (event.interest == null) {
+    } else if (event.interests == null) {
       emit(
         state.copyWith(
           status: AddPostStatus.error,
@@ -52,7 +51,7 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
         // TODO: replace with auth repository
         Post newPost = Post(
           poster: andrew,
-          interest: event.interest as Interest,
+          interests: event.interests as List<Interest>,
           postID: 4,
           createdAt: DateTime.now(),
           title: event.title,
@@ -90,7 +89,10 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
     Emitter<AddPostState> emit,
   ) {
     emit(
-      state.copyWith(status: AddPostStatus.idle, error: null),
+      state.copyWith(
+        status: AddPostStatus.idle,
+        error: null,
+      ),
     );
   }
 }

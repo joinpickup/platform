@@ -1,32 +1,68 @@
+import 'package:local/repos/data/mocks/space.dart';
 import 'package:local/repos/data/models/space/interest.dart';
 
-const rockClimbingInterest = Interest(interestID: 1, name: "Rock-Climbing");
-const soccerInterest = Interest(interestID: 2, name: "Soccer");
-const baseballInterest = Interest(interestID: 3, name: "Baseball");
-const tennisInterest = Interest(interestID: 4, name: "Tennis");
+const rockClimbingInterest = Interest(
+  space: sportsSpace,
+  interestID: 1,
+  name: "Rock-Climbing",
+);
+const soccerInterest = Interest(
+  space: sportsSpace,
+  interestID: 2,
+  name: "Soccer",
+);
+const baseballInterest = Interest(
+  space: sportsSpace,
+  interestID: 3,
+  name: "Baseball",
+);
+const tennisInterest = Interest(
+  space: sportsSpace,
+  interestID: 4,
+  name: "Tennis",
+);
 
-const triviaInterest = Interest(interestID: 5, name: "Trivia");
+const triviaInterest = Interest(
+  space: tabletopSpace,
+  interestID: 5,
+  name: "Trivia",
+);
 
-const catanInterest = Interest(interestID: 6, name: "Settlers-Of-Catan");
-const monopolyInterest = Interest(interestID: 7, name: "Monopoly");
-const chessInterest = Interest(interestID: 8, name: "Chess");
+const catanInterest = Interest(
+  space: tabletopSpace,
+  interestID: 6,
+  name: "Settlers-Of-Catan",
+);
 
-final sportsInterests = [
-  rockClimbingInterest,
-  soccerInterest,
-  baseballInterest,
-  tennisInterest,
-];
+const monopolyInterest = Interest(
+  space: tabletopSpace,
+  interestID: 7,
+  name: "Monopoly",
+);
 
-final casualInterests = [
-  triviaInterest,
-];
+const chessInterest = Interest(
+  space: tabletopSpace,
+  interestID: 8,
+  name: "Chess",
+);
 
-final tabletopInterest = [
-  catanInterest,
-  monopolyInterest,
-  chessInterest,
-];
+const rockInterest = Interest(
+  space: musicSpace,
+  interestID: 9,
+  name: "Rock",
+);
+
+const countryInterest = Interest(
+  space: musicSpace,
+  interestID: 10,
+  name: "Country",
+);
+
+const indieInterest = Interest(
+  space: musicSpace,
+  interestID: 11,
+  name: "Indie",
+);
 
 final allInterests = [
   rockClimbingInterest,
@@ -34,5 +70,10 @@ final allInterests = [
   baseballInterest,
   tennisInterest,
   triviaInterest,
-  catanInterest
+  catanInterest,
+  monopolyInterest,
+  chessInterest,
+  rockInterest,
+  countryInterest,
+  indieInterest,
 ];

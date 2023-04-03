@@ -13,7 +13,7 @@ final andrewPost = Post(
   body:
       "Usually we have six people for trivia at the bar downtown, but one person cancelled tonight. You don't have to be good, its pretty non competitive.",
   poster: andrew,
-  interest: triviaInterest,
+  interests: [triviaInterest],
 );
 
 final brianPost = Post(
@@ -25,7 +25,7 @@ final brianPost = Post(
   body:
       "Playing a low key doubles tournament this weekend, anyone around? Ideally you'd have a bit of experience playing.",
   poster: brian,
-  interest: tennisInterest,
+  interests: [tennisInterest],
 );
 
 final jayPost = Post(
@@ -37,7 +37,7 @@ final jayPost = Post(
   body:
       "Really want to play some catan if anyone is around this weekend. Ideally four people, but I'm down to play with three.",
   poster: jay,
-  interest: catanInterest,
+  interests: [catanInterest],
 );
 
 final stefPost = Post(
@@ -48,7 +48,7 @@ final stefPost = Post(
   title: "Looking to go to a concert",
   body: "Doesn't really matter which concert. Just anything with music",
   poster: stef,
-  interest: catanInterest,
+  interests: [catanInterest],
 );
 
 final allPosts = [andrewPost, brianPost, jayPost, stefPost];

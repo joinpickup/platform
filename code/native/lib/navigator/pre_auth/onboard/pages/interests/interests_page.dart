@@ -66,26 +66,7 @@ class _SelectInterestPageState extends State<SelectInterestPage> {
                     height: 8,
                   ),
                   Column(
-                    children: [
-                      InterestGroup(
-                        name: "Sports",
-                        interests: sportsInterests,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      InterestGroup(
-                        name: "Casual",
-                        interests: casualInterests,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      InterestGroup(
-                        name: "Tabletop",
-                        interests: tabletopInterest,
-                      )
-                    ],
+                    children: [],
                   ),
                 ],
               ),

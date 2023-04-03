@@ -61,7 +61,7 @@ class InterestsPageBloc extends Bloc<InterestsPageEvent, InterestsPageState> {
         ),
       );
 
-      await Future.delayed(const Duration(milliseconds: 500), () {});
+      await Future.delayed(const Duration(milliseconds: 500));
 
       emit(
         state.copyWith(

@@ -137,12 +137,22 @@ class _PostCardState extends State<PostCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          "#${post.interest.name}",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
+        Row(
+            children: post.interests.map((e) {
+          return Column(
+            children: [
+              Text(
+                "#${post.interests[0].name}",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+            ],
+          );
+        }).toList()),
         Text(
           format(post.createdAt),
           style: TextStyle(

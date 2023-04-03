@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/modals/space_modal/space_modal_bloc.dart';
+import 'package:local/components/modals/space_modal/space_bloc.dart';
 import 'package:local/repos/data/models/space/space.dart';
+import 'package:local/repos/space_repository.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showSpaceModal(
@@ -66,7 +67,7 @@ class _SpaceModalState extends State<SpaceModal> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SpaceModalBloc()..add(LoadSpaces()),
+      create: (context) => SpaceBloc(SpaceRepository())..add(LoadSpaces()),
       child: SafeArea(
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
@@ -103,9 +104,9 @@ class _SpaceModalState extends State<SpaceModal> {
               const SizedBox(
                 height: 8,
               ),
-              BlocConsumer<SpaceModalBloc, SpaceModalState>(
+              BlocConsumer<SpaceBloc, SpaceState>(
                 listener: (context, state) {
-                  if (state.status == SpaceModalStatus.success) {
+                  if (state.spaceStatus == SpaceStatus.success) {
                     setState(() {
                       space = state.spaces![0];
                     });
@@ -117,7 +118,7 @@ class _SpaceModalState extends State<SpaceModal> {
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        state.status != SpaceModalStatus.success
+                        state.spaceStatus != SpaceStatus.success
                             ? const CupertinoActivityIndicator()
                             : Expanded(
                                 child: CupertinoPicker(

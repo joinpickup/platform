@@ -5,7 +5,6 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/components/modals/interests_modal/interests_modal.dart';
-import 'package:local/repos/data/mocks/interest.dart';
 import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
@@ -38,15 +37,19 @@ class AddNewPostModal extends StatefulWidget {
 class _AddNewPostModalState extends State<AddNewPostModal> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
-  Interest? interest;
+  List<Interest>? interests;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddPostBloc(
-        PostRepository(),
-        PersonRepository(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AddPostBloc(
+            PostRepository(),
+            PersonRepository(),
+          ),
+        ),
+      ],
       child: BlocConsumer<AddPostBloc, AddPostState>(
         listener: (context, state) {
           if (state.status == AddPostStatus.success) {
@@ -236,11 +239,19 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    showInterestsModal(context, (value) {
-                                      setState(() {
-                                        interest = value;
-                                      });
-                                    });
+                                    context
+                                        .read<AddPostBloc>()
+                                        .add(ResetAddPostValidation());
+                                    showInterestsModal(
+                                      context,
+                                      (value) {
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          interests = value;
+                                        });
+                                      },
+                                      interests,
+                                    );
                                   },
                                   child: Container(
                                     height: 46,
@@ -259,9 +270,18 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                               )
                                             : null),
                                     child: Text(
-                                      "#Tennis",
+                                      interests == null
+                                          ? "#Tennis"
+                                          : interests!
+                                              .map((e) {
+                                                return "#${e.name}";
+                                              })
+                                              .toList()
+                                              .join(", "),
                                       style: TextStyle(
-                                        color: TW3Colors.gray.shade500,
+                                        color: interests == null
+                                            ? TW3Colors.gray.shade500
+                                            : TW3Colors.gray.shade300,
                                         fontSize: 16,
                                         fontFamily: "Nunito",
                                       ),
@@ -281,7 +301,7 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                         AddPost(
                                           title: _titleController.text,
                                           body: _bodyController.text,
-                                          interest: interest,
+                                          interests: interests,
                                         ),
                                       );
                                 },
