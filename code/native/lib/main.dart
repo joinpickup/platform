@@ -32,6 +32,8 @@ Future main() async {
   String mapPersons = jsonEncode(persons);
   await personBox.put("persons", mapPersons);
 
+  // setup mapbox stuff
+
   runApp(const MyApp());
 }
 

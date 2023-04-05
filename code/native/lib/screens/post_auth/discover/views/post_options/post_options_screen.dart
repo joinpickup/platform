@@ -5,6 +5,7 @@ import 'package:local/components/modals/space_modal/space_bloc.dart';
 import 'package:local/repos/space_repository.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showPostOptionsModal(BuildContext context) {
@@ -56,7 +57,9 @@ class PostOptionsModal extends StatelessWidget {
                   SettingsItem(
                     icon: HeroIcons.share,
                     name: "Share Post",
-                    action: () {},
+                    action: () {
+                      Share.share("Take a look at this post");
+                    },
                   ),
                   SettingsItem(
                     icon: HeroIcons.eyeSlash,

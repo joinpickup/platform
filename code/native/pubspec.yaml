@@ -2,7 +2,7 @@ name: local
 description: Go local and get connected to your community.
 publish_to: "none"
 
-version: 0.1.1+1
+version: 0.2.1+1
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -18,7 +18,6 @@ dependencies:
   tailwind_colors: ^0.3.1
   intl: ^0.18.0
   timeago: ^3.4.0
-  platform_maps_flutter: ^1.0.2
   custom_marker: ^1.0.0
   flutter_svg: ^1.1.6
   flutter_bloc: ^8.1.2
@@ -30,6 +29,8 @@ dependencies:
   hive_flutter: ^1.1.0
   location: ^4.2.0
   rxdart: ^0.27.7
+  share_plus: ^6.3.1
+  mapbox_gl: ^0.16.0
 
 dev_dependencies:
   flutter_test:
