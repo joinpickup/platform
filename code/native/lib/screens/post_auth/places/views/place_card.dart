@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:local/repos/data/models/location/place.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/discover/views/post_options/post_options_screen.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
@@ -9,10 +10,10 @@ import 'package:timeago/timeago.dart';
 class PlaceCard extends StatefulWidget {
   const PlaceCard({
     super.key,
-    required this.post,
+    required this.place,
   });
 
-  final Post post;
+  final Place place;
 
   @override
   State<PlaceCard> createState() => _PlaceCardState();
@@ -33,7 +34,7 @@ class _PlaceCardState extends State<PlaceCard> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                PostScreen(postID: widget.post.postID as int),
+                PostScreen(postID: widget.place.placeID as int),
           ),
         );
       },
@@ -64,15 +65,15 @@ class _PlaceCardState extends State<PlaceCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPostCardHeader(context, widget.post),
+              _buildPostCardHeader(context, widget.place),
               const SizedBox(
                 height: 8,
               ),
-              _buildPostCardContent(context, widget.post),
+              _buildPostCardContent(context, widget.place),
               const SizedBox(
                 height: 8,
               ),
-              _buildPostCardFooter(context, widget.post),
+              _buildPostCardFooter(context, widget.place),
             ],
           ),
         ),
@@ -80,16 +81,10 @@ class _PlaceCardState extends State<PlaceCard> {
     );
   }
 
-  Widget _buildPostCardHeader(BuildContext context, Post post) {
+  Widget _buildPostCardHeader(BuildContext context, Place place) {
     return Row(
       children: [
         // avatar
-        ClipOval(
-          child: SizedBox.fromSize(
-            size: const Size.fromRadius(20),
-            child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
-          ),
-        ),
         const SizedBox(
           width: 8,
         ),
@@ -98,63 +93,31 @@ class _PlaceCardState extends State<PlaceCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // name
-            Text(
-              post.poster.name,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
             // location / visbility
-            Row(
-              children: [
-                Text(post.poster.location.commonName,
-                    style: Theme.of(context).textTheme.titleSmall),
-              ],
-            )
           ],
         )
       ],
     );
   }
 
-  Widget _buildPostCardContent(BuildContext context, Post post) {
+  Widget _buildPostCardContent(BuildContext context, Place place) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          post.title,
+          place.name,
           style: Theme.of(context).textTheme.titleLarge,
-        ),
-        Text(
-          post.body.length <= 120
-              ? post.body
-              : "${post.body.substring(0, 120)}...",
-          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );
   }
 
-  Widget _buildPostCardFooter(BuildContext context, Post post) {
+  Widget _buildPostCardFooter(BuildContext context, Place place) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-            children: post.interests.map((e) {
-          return Column(
-            children: [
-              Text(
-                "#${post.interests[0].name}",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-            ],
-          );
-        }).toList()),
         Text(
-          format(post.createdAt),
+          format(place.createdAt),
           style: TextStyle(
             fontSize: 12,
             color: TW3Colors.gray.shade500,

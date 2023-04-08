@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:local/repos/data/models/location/place.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/discover/views/post_card.dart';
+import 'package:local/screens/post_auth/places/views/place_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PlaceFeed extends StatefulWidget {
@@ -15,7 +17,7 @@ class PlaceFeed extends StatefulWidget {
     this.onLoad,
   });
 
-  final List<Post> places;
+  final List<Place> places;
   final Function? onRefresh;
   final Function? onLoad;
   final bool canRefresh;
@@ -56,8 +58,8 @@ class _PlaceFeedState extends State<PlaceFeed>
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   itemBuilder: (BuildContext context, int index) {
-                    return PostCard(
-                      post: widget.places[index],
+                    return PlaceCard(
+                      place: widget.places[index],
                     );
                   },
                   shrinkWrap: true,

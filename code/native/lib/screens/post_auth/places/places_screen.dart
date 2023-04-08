@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/screens/post_auth/discover/views/post_feed.dart';
+import 'package:local/repos/data/mocks/location.dart';
+import 'package:local/repos/data/models/location/place.dart';
+import 'package:local/screens/post_auth/places/views/place_feed.dart';
 import 'package:local/screens/post_auth/places/views/places_app_bar.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -17,6 +19,13 @@ enum PlacesScreenType { list, map }
 
 class _PlacesScreenState extends State<PlacesScreen> {
   bool list = true;
+  List<Place> places = [
+    Place(
+      location: eastRock,
+      name: "Gather East Rock",
+      createdAt: DateTime.now(),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +49,11 @@ class _PlacesScreenState extends State<PlacesScreen> {
             mainAxisSize: MainAxisSize.max,
             children: [
               const PlacesAppBar(),
-              list ? const PlaceList() : const PlaceMap(),
+              list
+                  ? PlaceList(
+                      places: places,
+                    )
+                  : const PlaceMap(),
             ],
           ),
         ));
@@ -50,18 +63,21 @@ class _PlacesScreenState extends State<PlacesScreen> {
 class PlaceList extends StatelessWidget {
   const PlaceList({
     super.key,
+    required this.places,
   });
+
+  final List<Place> places;
 
   @override
   Widget build(BuildContext context) {
-    return PostFeed(
+    return PlaceFeed(
       canRefresh: false,
       canLoad: false,
       onRefresh: () {},
       onLoad: () {},
       refreshController: RefreshController(),
       scrollController: ScrollController(),
-      posts: const [],
+      places: places,
     );
   }
 }
@@ -76,6 +92,8 @@ class PlaceMap extends StatefulWidget {
 }
 
 class _PlaceMapState extends State<PlaceMap> {
+  MapboxMapController? controller;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -86,8 +104,19 @@ class _PlaceMapState extends State<PlaceMap> {
           target: LatLng(41.3068, -72.9271),
           zoom: 14.0,
         ),
+        onMapClick: (point, coordinates) {},
+        onStyleLoadedCallback: () {
+          controller!.addCircle(
+            const CircleOptions(
+              geometry: LatLng(41.3068, -72.9271),
+              circleColor: "#FF0000",
+            ),
+          );
+        },
         onMapCreated: (cont) {
-          print(cont);
+          setState(() {
+            controller = cont;
+          });
         },
       ),
     );
