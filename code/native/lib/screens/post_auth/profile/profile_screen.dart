@@ -48,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.all(8),
               child: ListView(
                 children: [
-                  const Text("Modules"),
                   const SizedBox(
                     height: 8,
                   ),
@@ -88,7 +87,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text("Settings"),
                   const SizedBox(
                     height: 8,
                   ),

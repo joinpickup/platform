@@ -1,43 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local/repos/data/models/post/comment.dart';
 import 'package:local/screens/post_auth/comment/comment_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:timeago/timeago.dart';
 
-class CommentCard extends StatelessWidget {
-  const CommentCard({Key? key}) : super(key: key);
+class CommentCard extends StatefulWidget {
+  const CommentCard({
+    Key? key,
+    required this.comment,
+  }) : super(key: key);
 
+  final Comment comment;
+
+  @override
+  State<CommentCard> createState() => _CommentCardState();
+}
+
+class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return const CommentScreen(
-                commentID: 1,
-              );
-            },
-          ),
-        );
-      },
       child: Container(
         padding: const EdgeInsets.all(8),
+        width: double.infinity,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
                 // avatar
                 ClipOval(
                   child: SizedBox.fromSize(
-                    size: const Size.fromRadius(16),
-                    child: Image.asset("assets/avatars/fox_ai.png"),
+                    size: const Size.fromRadius(18),
+                    child: Image.asset(widget.comment.poster.avatar),
                   ),
                 ),
                 const SizedBox(
                   width: 8,
                 ),
                 Expanded(
-                  child: Text("Andrew",
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  child: Text(
+                    widget.comment.poster.name,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
                 IconButton(
                   onPressed: () {},
@@ -49,62 +55,22 @@ class CommentCard extends StatelessWidget {
               height: 8,
             ),
             Text(
-              "adasflkasjdflkasdjlfkajsdlkd sfjlasdk fjlasdkfj lasdkjf laskdfj lasdk fjlasdkjf lasdkjf lasdkfj lasdkfj alsdkjf lasdkjf lsdakj falsdjflsdj l",
+              widget.comment.body,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(
               height: 8,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.emoji_emotions,
-                      color: TW3Colors.gray.shade300,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        border: Border.all(
-                          width: 2,
-                          color: TW3Colors.gray.shade800,
-                        ),
-                        color: TW3Colors.gray.shade700,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.thumb_up,
-                            size: 20,
-                            color: TW3Colors.gray.shade300,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const Text("1"),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text("Reply"),
-                    ),
-                  ],
-                ),
                 Text(
-                  "4 hours ago",
-                  style: Theme.of(context).textTheme.bodySmall,
-                )
+                  format(widget.comment.createdAt),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: TW3Colors.gray.shade500,
+                  ),
+                ),
               ],
             ),
           ],

@@ -26,7 +26,7 @@ class PostRepository {
   Future<Post?> getPost({
     required int postID,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 200));
     List<Post> posts = await getPostsFromStore();
     Post? post = posts.firstWhere((post) => post.postID == postID);
     return post;

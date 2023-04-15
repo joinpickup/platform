@@ -29,7 +29,12 @@ class _PostScreenState extends State<PostScreen> {
     return BlocProvider(
       create: (context) =>
           PostBloc(_postRepository)..add(LoadPost(postID: widget.postID)),
-      child: BlocBuilder<PostBloc, PostState>(
+      child: BlocConsumer<PostBloc, PostState>(
+        listener: (context, state) {
+          if (state.status == PostStatus.success) {
+            context.read<PostBloc>().add(LoadComments(postID: widget.postID));
+          }
+        },
         builder: (context, state) {
           switch (state.status) {
             case PostStatus.success:
@@ -128,63 +133,34 @@ class _PostScreenState extends State<PostScreen> {
 
   Scaffold _buildSuccess(PostState state) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TW3Colors.gray.shade700,
+        title: const Text("View Post"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+          ),
+        ],
+        elevation: 0,
+      ),
       backgroundColor: TW3Colors.gray.shade700,
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              backgroundColor: TW3Colors.gray.shade700,
-              title: const Text("View Post"),
-              elevation: 0,
-              pinned: true,
-              expandedHeight: state.post!.body.length >= 100 ? 276 : 224,
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_vert,
-                  ),
-                ),
-              ],
-              flexibleSpace: FlexibleSpaceBar(
-                background: Container(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _buildPost(context, state.post as Post),
-                    ],
-                  ),
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildPost(
+                context,
+                state.post as Post,
               ),
             ),
-          ];
-        },
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: Row(children: [
-                Expanded(
-                  child: CustomButton(
-                    text: "Comment",
-                    tap: () {},
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Expanded(
-                  child: CustomButton(
-                    text: "Message",
-                    tap: () {},
-                  ),
-                ),
-              ]),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildActions(),
             ),
-            const CommentFeed(),
           ],
         ),
       ),
@@ -221,6 +197,20 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
+  Widget _buildActions() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: CustomButton(
+            text: "Message",
+            tap: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildPostHeader(
     BuildContext context,
     Post post,
@@ -231,7 +221,7 @@ class _PostScreenState extends State<PostScreen> {
           MaterialPageRoute(
             builder: (context) {
               return PersonScreen(
-                personID: post.poster!.personID,
+                personID: post.poster.personID,
               );
             },
           ),
@@ -246,7 +236,7 @@ class _PostScreenState extends State<PostScreen> {
             ClipOval(
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(24),
-                child: Image.asset(post.poster!.avatar, fit: BoxFit.cover),
+                child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
               ),
             ),
             const SizedBox(
@@ -258,7 +248,7 @@ class _PostScreenState extends State<PostScreen> {
               children: [
                 // name
                 Text(
-                  post.poster!.name,
+                  post.poster.name,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 // location / visbility

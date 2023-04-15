@@ -65,62 +65,25 @@ class _PersonScreenState extends State<PersonScreen> {
 
   Scaffold _buildPage(BuildContext context, TabBarState state) {
     return Scaffold(
-      backgroundColor: TW3Colors.gray.shade600,
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              backgroundColor: TW3Colors.gray.shade700,
-              title: const Text("View Person"),
-              pinned: true,
-              elevation: 0,
-              expandedHeight: 378,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    _buildPersonInfo(person as Person, context),
-                    _buildPersonActions(person as Person, context),
-                    CustomTabBar(
-                      tabs: [
-                        CustomTab(
-                          activeColor: TW3Colors.gray.shade600,
-                          label: "Posts",
-                          tab: 0,
-                        ),
-                        CustomTab(
-                          activeColor: TW3Colors.gray.shade600,
-                          label: "Events",
-                          tab: 1,
-                        ),
-                        CustomTab(
-                          activeColor: TW3Colors.gray.shade600,
-                          label: "Interests",
-                          tab: 2,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_vert,
-                  ),
-                )
-              ],
+      appBar: AppBar(
+        backgroundColor: TW3Colors.gray.shade700,
+        title: const Text("View Person"),
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
             ),
-          ];
-        },
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPersonFeed(person as Person, state.tab, context),
-          ],
-        ),
+          )
+        ],
+      ),
+      backgroundColor: TW3Colors.gray.shade700,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildPersonInfo(person as Person, context),
+        ],
       ),
     );
   }
@@ -216,21 +179,6 @@ class DetailRow extends StatelessWidget {
   }
 }
 
-Widget _buildPersonActions(Person person, BuildContext context) {
-  return Container(
-    decoration: BoxDecoration(color: TW3Colors.gray.shade700),
-    padding: const EdgeInsets.all(8),
-    child: Column(
-      children: [
-        CustomButton(
-          text: "Add Friend",
-          tap: () {},
-        )
-      ],
-    ),
-  );
-}
-
 Widget _buildPersonFeed(
   Person person,
   int tab,
@@ -245,8 +193,6 @@ Widget _buildPersonFeed(
         refreshController: RefreshController(),
         posts: const [],
       );
-    case 1:
-      return const EventFeed();
     default:
       return Container();
   }

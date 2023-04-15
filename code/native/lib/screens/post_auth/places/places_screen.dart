@@ -112,6 +112,12 @@ class _PlaceMapState extends State<PlaceMap> {
               circleColor: "#FF0000",
             ),
           );
+          controller!.addCircle(
+            const CircleOptions(
+              geometry: LatLng(41.3163, -72.9223),
+              circleColor: "#5A6943",
+            ),
+          );
         },
         onMapCreated: (cont) {
           setState(() {

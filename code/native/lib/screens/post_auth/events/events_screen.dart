@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/navigation/tab_bar/custom_tab.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
-import 'package:local/components/skelaton/event_card_skelaton.dart';
 import 'package:local/screens/post_auth/events/views/event_feed.dart';
 import 'package:local/screens/post_auth/events/views/events_app_bar.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:local/components/input/icon_button.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/discover/views/post_options/post_options_screen.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
@@ -110,7 +112,15 @@ class _PostCardState extends State<PostCard> {
               ],
             )
           ],
-        )
+        ),
+        const Spacer(),
+        CustomIconButton(
+            child: const HeroIcon(HeroIcons.ellipsisVertical),
+            tap: () {
+              showPostOptionsModal(
+                context,
+              );
+            })
       ],
     );
   }

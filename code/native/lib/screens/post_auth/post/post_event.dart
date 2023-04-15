@@ -10,3 +10,9 @@ class LoadPost extends PostEvent {
 
   final int postID;
 }
+
+class LoadComments extends PostEvent {
+  LoadComments({required this.postID});
+
+  final int postID;
+}

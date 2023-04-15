@@ -27,12 +27,7 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
   void initState() {
     super.initState();
 
-    items = [
-      const DiscoverScreen(),
-      const PlacesScreen(),
-      const EventsScreen(),
-      const ProfileScreen()
-    ];
+    items = [const DiscoverScreen(), const ProfileScreen()];
   }
 
   @override

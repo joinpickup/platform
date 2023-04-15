@@ -43,7 +43,8 @@ class _CustomIconButtonState extends State<CustomIconButton> {
         });
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 100),
+        transform: Matrix4.identity()..scale(selected ? .9 : 1.0),
         padding: const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

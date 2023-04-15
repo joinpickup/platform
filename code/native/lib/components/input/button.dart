@@ -57,8 +57,9 @@ class _CustomButtonState extends State<CustomButton> {
       onTap: () => widget.tap(),
       child: AnimatedContainer(
           duration: const Duration(
-            milliseconds: 300,
+            milliseconds: 100,
           ),
+          transform: Matrix4.identity()..scale(selected ? .95 : 1.0),
           padding: const EdgeInsets.all(8),
           decoration: widget.buttonType == CustomButtonType.contained
               ? BoxDecoration(

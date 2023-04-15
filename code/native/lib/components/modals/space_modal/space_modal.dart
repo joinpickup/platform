@@ -119,9 +119,7 @@ class _SpaceModalState extends State<SpaceModal> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         state.spaceStatus != SpaceStatus.success
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
+                            ? const CircularProgressIndicator()
                             : Expanded(
                                 child: CupertinoPicker(
                                   scrollController: _startPicker,
