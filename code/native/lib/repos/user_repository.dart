@@ -73,4 +73,9 @@ class UserRepository {
     String? token = await storage.read(key: "token");
     return token != null;
   }
+
+  Future<String?> getToken() async {
+    String? token = await storage.read(key: "token");
+    return token;
+  }
 }

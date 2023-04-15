@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:local/navigator/post_auth/post_auth_navigator.dart';
 import 'package:local/navigator/pre_auth/pre_auth_navigator.dart';
@@ -15,9 +18,29 @@ import 'package:local/repos/user_repository.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/theme/dark_mode.dart';
+import 'package:local/util/middleware/middleware.dart';
+
+import 'dart:io';
+
+import 'package:tailwind_colors/tailwind_colors.dart';
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        //add your certificate verification logic here
+        return true;
+      };
+  }
+}
 
 Future main() async {
+  // TODO: REMOVE ONLY FOR DEVELOPMENT
+  HttpOverrides.global = MyHttpOverrides();
+
   await Hive.initFlutter();
+  await dotenv.load(fileName: ".env");
 
   // setup cache
   // posts
@@ -32,13 +55,26 @@ Future main() async {
   String mapPersons = jsonEncode(persons);
   await personBox.put("persons", mapPersons);
 
+  // get pickup middleware
+
+  // check for auth service and service registry
+  final authEndpoint = dotenv.env["AUTH_ENDPOINT"];
+  final registryEndpoint = dotenv.env["REGISTRY_ENDPOINT"];
+
+  if (authEndpoint == null || registryEndpoint == null) {
+    print('Missing environment variable: REGISTRY_ENDPOINT or AUTH_ENDPOINT');
+    exit(1);
+  }
+
   // setup mapbox stuff
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -63,7 +99,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => AuthBloc(
             userRepository: _userRepository,
             personRepository: _personRepository,
-          ),
+          )..add(AppStart(
+              authEndpoint: dotenv.env["AUTH_ENDPOINT"] as String,
+              registryEndpoint: dotenv.env["REGISTRY_ENDPOINT"] as String,
+            )),
         ),
       ],
       child: MaterialApp(
@@ -73,6 +112,19 @@ class _MyAppState extends State<MyApp> {
             switch (state.status) {
               case AuthStateStatus.authenticated:
                 return const PostAuthNavigator();
+              case AuthStateStatus.loading:
+                return Scaffold(
+                  backgroundColor: TW3Colors.gray.shade700,
+                  body: Center(
+                    child: Text(
+                      "Local",
+                      style:
+                          Theme.of(context).textTheme.displayMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                    ),
+                  ),
+                );
               default:
                 return const PreAuthNavigator();
             }

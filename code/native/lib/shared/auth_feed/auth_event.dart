@@ -5,7 +5,15 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AppStart extends AuthEvent {}
+class AppStart extends AuthEvent {
+  final String authEndpoint;
+  final String registryEndpoint;
+
+  AppStart({
+    required this.authEndpoint,
+    required this.registryEndpoint,
+  });
+}
 
 class Login extends AuthEvent {
   Login({

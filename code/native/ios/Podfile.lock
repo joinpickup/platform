@@ -15,15 +15,6 @@ PODS:
     - GoogleMaps/Base
   - location (0.0.1):
     - Flutter
-  - Mapbox-iOS-SDK (6.4.1):
-    - MapboxMobileEvents (~> 0.10.12)
-  - mapbox_gl (0.0.1):
-    - Flutter
-    - Mapbox-iOS-SDK (~> 6.4.0)
-    - MapboxAnnotationExtension (~> 0.0.1-beta.1)
-  - MapboxAnnotationExtension (0.0.1-beta.2):
-    - Mapbox-iOS-SDK (~> 6.0)
-  - MapboxMobileEvents (0.10.14)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -40,7 +31,6 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - location (from `.symlinks/plugins/location/ios`)
-  - mapbox_gl (from `.symlinks/plugins/mapbox_gl/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -50,9 +40,6 @@ SPEC REPOS:
   trunk:
     - FMDB
     - GoogleMaps
-    - Mapbox-iOS-SDK
-    - MapboxAnnotationExtension
-    - MapboxMobileEvents
 
 EXTERNAL SOURCES:
   Flutter:
@@ -63,8 +50,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
-  mapbox_gl:
-    :path: ".symlinks/plugins/mapbox_gl/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
   share_plus:
@@ -81,10 +66,6 @@ SPEC CHECKSUMS:
   google_maps_flutter_ios: 53f75334bad87ccd0473f4b0142756169846b42b
   GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
-  Mapbox-iOS-SDK: f870f83cbdc7aa4a74afcee143aafb0dae390c82
-  mapbox_gl: 33c5ab6306cbfa72289bb3606d2cd2e8baee9ff0
-  MapboxAnnotationExtension: 4eee6c26349ef6d909f1a23a7eae2d0f7ca5fa7d
-  MapboxMobileEvents: 5a172cc9bbf8ac0e45ba86095cbee685ede248cc
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904

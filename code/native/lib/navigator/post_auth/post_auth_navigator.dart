@@ -4,8 +4,6 @@ import 'package:local/navigator/post_auth/bottom_app_bar.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/discover_screen.dart';
-import 'package:local/screens/post_auth/events/events_screen.dart';
-import 'package:local/screens/post_auth/places/places_screen.dart';
 import 'package:local/screens/post_auth/profile/profile_screen.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
