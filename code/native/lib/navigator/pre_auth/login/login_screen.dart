@@ -17,14 +17,15 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _userRepository = const UserRepository();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LoginBloc(_userRepository),
+          create: (context) => LoginBloc(
+            context.read<AuthBloc>().userRepository,
+          ),
         ),
       ],
       child: BlocListener<AuthBloc, AuthState>(

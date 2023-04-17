@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:local/shared/auth_feed/auth_bloc.dart';
-import 'package:uuid/uuid.dart';
 
 part 'entity.dart';
 part 'registry.dart';
@@ -42,7 +39,7 @@ class MiddlewareClient {
 
 class ServiceInstance {
   String base;
-  String token;
+  String? token;
 
   ServiceInstance({
     required this.base,

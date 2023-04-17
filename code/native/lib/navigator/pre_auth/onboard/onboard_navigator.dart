@@ -74,7 +74,7 @@ class _OnboardNavigatorState extends State<OnboardNavigator> {
         ),
         BlocProvider(
           create: (context) => AccountInfoPageBloc(
-            const UserRepository(),
+            context.read<AuthBloc>().userRepository,
           ),
         ),
       ],

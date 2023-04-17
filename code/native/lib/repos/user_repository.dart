@@ -1,14 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:local/repos/data/mocks/user.dart';
 import 'package:local/repos/data/models/user/user.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
+import 'package:local/util/middleware/middleware.dart';
 
 class UserRepository {
-  const UserRepository();
+  const UserRepository(
+    this.platformAuthService,
+    this.userAuthService,
+  );
 
   // Create storage
   final storage = const FlutterSecureStorage();
+  final ServiceInstance platformAuthService;
+  final ServiceInstance? userAuthService;
 
   Future<String> register({
     required String email,
@@ -25,11 +34,25 @@ class UserRepository {
     required String email,
     required String password,
   }) async {
-    User user = await getUserFromEmail(email: email);
-    if (user.password == password) {
-      return user.email;
-    } else {
-      return Future.error("Invalid email or password.");
+    // get auth service
+    try {
+      Response loginRes = await platformAuthService.newRequest(
+        "POST",
+        "/v1/token/basic",
+        {
+          "email": email,
+          "password": password,
+        },
+      );
+
+      if (loginRes.statusCode == 200) {
+        AuthResponse tokenRes = AuthResponse.fromJson(loginRes.body);
+        return tokenRes.token;
+      } else {
+        return Future.error(loginRes.body);
+      }
+    } catch (e) {
+      return Future.error(e);
     }
   }
 

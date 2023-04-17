@@ -9,9 +9,29 @@ abstract class Entity {
 
 class AuthResponse {
   String token;
+
   AuthResponse({
     required this.token,
   });
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'token': token});
+
+    return result;
+  }
+
+  factory AuthResponse.fromMap(Map<String, dynamic> map) {
+    return AuthResponse(
+      token: map['token'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory AuthResponse.fromJson(String source) =>
+      AuthResponse.fromMap(json.decode(source));
 }
 
 class TokenEntity implements Entity {
@@ -44,23 +64,52 @@ class TokenEntity implements Entity {
   }
 }
 
-// class ServiceEntity implements Entity {
-//   String serviceName;
-//   String password;
+class ServiceEntity implements Entity {
+  String serviceName;
+  int serviceID;
+  String password;
 
-//   ServiceEntity({
-//     required this.serviceName,
-//     required this.password,
-//   });
+  ServiceEntity({
+    required this.serviceName,
+    required this.serviceID,
+    required this.password,
+  });
 
-//   @override
-//   Future<MiddlewareClient> newClient(
-//     String authService,
-//     String serviceRegistry,
-//   ) {
-//     throw UnimplementedError();
-//   }
-// }
+  @override
+  Future<MiddlewareClient> newClient(
+    String authEndpoint,
+    String registryEndpoint,
+  ) async {
+    ServiceInstance registry = ServiceInstance(
+      base: registryEndpoint,
+      token: null,
+    );
+
+    ServiceInstance authService = ServiceInstance(
+      base: authEndpoint,
+      token: null,
+    );
+
+    final resp = await authService.newRequest('POST', '/v1/token/service', {
+      "id": 1,
+      "name": serviceName,
+      "password": password,
+    });
+
+    if (resp.statusCode != 200) {
+      throw Exception(
+          'error calling authService to get token, status code: ${resp.statusCode}');
+    }
+
+    AuthResponse authResponse = AuthResponse.fromJson(resp.body);
+
+    return MiddlewareClient(
+      token: authResponse.token,
+      authService: authService,
+      serviceRegistry: registry,
+    );
+  }
+}
 
 // class BasicEntity implements Entity {
 //   String username;

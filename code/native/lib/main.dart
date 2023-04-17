@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -17,11 +16,8 @@ import 'package:local/repos/post_repository.dart';
 import 'package:local/repos/user_repository.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
+import 'package:local/shared/service_bloc/service_bloc.dart';
 import 'package:local/theme/dark_mode.dart';
-import 'package:local/util/middleware/middleware.dart';
-
-import 'dart:io';
-
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -66,15 +62,44 @@ Future main() async {
     exit(1);
   }
 
+  final serviceName = dotenv.env["SERVICE_NAME"];
+  final serviceID = dotenv.env["SERVICE_ID"];
+  final servicePassword = dotenv.env["SERVICE_PASSWORD"];
+
+  if (serviceName == null || serviceID == null || servicePassword == null) {
+    print(
+      'Missing environment variable: SERVICE_NAME or SERVICE_ID or SERVICE_PASSWORD',
+    );
+    exit(1);
+  }
+
   // setup mapbox stuff
 
-  runApp(const MyApp());
+  runApp(MyApp(
+    authEndpoint: authEndpoint,
+    registryEndpoint: registryEndpoint,
+    serviceName: serviceName,
+    serviceID: int.parse(serviceID),
+    servicePassword: servicePassword,
+  ));
 }
 
 class MyApp extends StatefulWidget {
+  final String authEndpoint;
+  final String registryEndpoint;
+
+  final String serviceName;
+  final int serviceID;
+  final String servicePassword;
+
   const MyApp({
-    super.key,
-  });
+    Key? key,
+    required this.authEndpoint,
+    required this.registryEndpoint,
+    required this.serviceName,
+    required this.serviceID,
+    required this.servicePassword,
+  }) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -82,38 +107,79 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _postRepository = PostRepository();
-  final _userRepository = const UserRepository();
   final _personRepository = PersonRepository();
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AddPostBloc>(
-          create: (context) => AddPostBloc(
-            _postRepository,
-            _personRepository,
+    return BlocProvider<ServiceBloc>(
+      create: (context) => ServiceBloc()
+        ..add(
+          InitializePlatformService(
+            serviceName: widget.serviceName,
+            servicePassword: widget.servicePassword,
+            serviceID: widget.serviceID,
+            authEndpoint: widget.authEndpoint,
+            registryEndpoint: widget.registryEndpoint,
           ),
         ),
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(
-            userRepository: _userRepository,
-            personRepository: _personRepository,
-          )..add(AppStart(
-              authEndpoint: dotenv.env["AUTH_ENDPOINT"] as String,
-              registryEndpoint: dotenv.env["REGISTRY_ENDPOINT"] as String,
-            )),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            switch (state.status) {
-              case AuthStateStatus.authenticated:
-                return const PostAuthNavigator();
-              case AuthStateStatus.loading:
-                return Scaffold(
+      child: BlocBuilder<ServiceBloc, ServiceState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case ServiceStatus.success:
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider<AddPostBloc>(
+                    create: (context) => AddPostBloc(
+                      _postRepository,
+                      _personRepository,
+                    ),
+                  ),
+                  BlocProvider<AuthBloc>(
+                    create: (context) => AuthBloc(
+                      userRepository: UserRepository(
+                          (context.read<ServiceBloc>().state
+                                  as PlatformServiceState)
+                              .authService,
+                          null),
+                      personRepository: _personRepository,
+                    ),
+                  ),
+                ],
+                child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  home: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      switch (state.status) {
+                        case AuthStateStatus.authenticated:
+                          return const PostAuthNavigator();
+                        case AuthStateStatus.loading:
+                          return Scaffold(
+                            backgroundColor: TW3Colors.gray.shade700,
+                            body: Center(
+                              child: Text(
+                                "Local",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            ),
+                          );
+                        default:
+                          return const PreAuthNavigator();
+                      }
+                    },
+                  ),
+                  theme: darkTheme,
+                ),
+              );
+            default:
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: darkTheme,
+                home: Scaffold(
                   backgroundColor: TW3Colors.gray.shade700,
                   body: Center(
                     child: Text(
@@ -124,13 +190,10 @@ class _MyAppState extends State<MyApp> {
                               ),
                     ),
                   ),
-                );
-              default:
-                return const PreAuthNavigator();
-            }
-          },
-        ),
-        theme: darkTheme,
+                ),
+              );
+          }
+        },
       ),
     );
   }
