@@ -19,17 +19,21 @@ func main() {
 	}
 
 	logger := logging.NewLogger()
-	if os.Getenv("AUTH_DB") == "" {
-		logger.Panic().Msg("no env variable for AUTH_DB")
+	if os.Getenv("PLATFORM_DB") == "" {
+		logger.Panic().Msg("no env variable for PLATFORM_DB")
 	}
 
 	// setup router and database
-	dal.SetupAuthDAL(os.Getenv("AUTH_DB"))
-	r := app.NewRouter(logger)
+	db, err := dal.NewPlatformDB(os.Getenv("PLATFORM_DB"))
+	if err != nil {
+		log.Panic(err)
+	}
+
+	r := app.NewRouter(logger, db)
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "6054"
+		port = "6055"
 	}
 
 	// listen on port
@@ -43,5 +47,5 @@ func main() {
 		log.Panic(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 	}
 
-	defer dal.AuthDAL.Close()
+	defer db.Close()
 }

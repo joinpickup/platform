@@ -6,4 +6,6 @@ do
 done
 
 source "$env"
-migrate -path ../migrations -database $DATABASE_URL down -all
+goose -dir ../migrations/tables postgres $DATABASE_URL down
+goose -dir ../migrations/functions postgres $DATABASE_URL down
+goose -dir ../migrations/seed postgres $DATABASE_URL down

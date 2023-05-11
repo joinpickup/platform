@@ -2,6 +2,7 @@ package controller
 
 import (
 	"auth-service/dal"
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"os"
@@ -22,7 +23,8 @@ func GetHealth(w http.ResponseWriter, r *http.Request) {
 	var databaseTest models.HealthTest
 
 	// try to connect
-	err := dal.AuthDAL.Ping()
+	db := r.Context().Value(dal.PlatformDBKey{}).(*sql.DB)
+	err := db.Ping()
 
 	if err != nil {
 		databaseTest = models.HealthTest{
@@ -33,7 +35,7 @@ func GetHealth(w http.ResponseWriter, r *http.Request) {
 		health.Status = "failed"
 	} else {
 		databaseTest = models.HealthTest{
-			Name:    "Can connect to the auth database",
+			Name:    "Can connect to the platform database",
 			Status:  "success",
 			Message: "",
 		}

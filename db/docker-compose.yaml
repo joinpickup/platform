@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  db-platform-service:
+    image: "postgres:latest"
+    ports:
+      - 5055:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pickup123
+      POSTGRES_DB: platform-service
+    networks:
+      - platform-service
+networks:
+  platform-service:
