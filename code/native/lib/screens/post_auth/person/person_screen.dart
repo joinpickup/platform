@@ -8,6 +8,7 @@ import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/repos/post_repository.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/events/views/event_feed.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
@@ -29,7 +30,6 @@ class PersonScreen extends StatefulWidget {
 
 class _PersonScreenState extends State<PersonScreen> {
   Person? person;
-  final _postRepository = PostRepository();
 
   @override
   void initState() {
@@ -45,8 +45,9 @@ class _PersonScreenState extends State<PersonScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              PostFeedBloc(_postRepository)..add(LoadPostsPost()),
+          create: (context) => PostFeedBloc(
+            context.read<AddPostBloc>().state.postRepository,
+          )..add(LoadPostsPost()),
         ),
         BlocProvider(
           create: (context) => EventFeedBloc()..add(LoadEvents()),

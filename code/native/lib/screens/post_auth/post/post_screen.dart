@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/post_repository.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/post/post_bloc.dart';
-import 'package:local/screens/post_auth/post/views/comment_feed.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';
 
@@ -22,13 +22,12 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  final _postRepository = PostRepository();
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          PostBloc(_postRepository)..add(LoadPost(postID: widget.postID)),
+      create: (context) => PostBloc(
+        context.read<AddPostBloc>().state.postRepository,
+      )..add(LoadPost(postID: widget.postID)),
       child: BlocConsumer<PostBloc, PostState>(
         listener: (context, state) {
           if (state.status == PostStatus.success) {

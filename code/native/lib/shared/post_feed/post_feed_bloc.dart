@@ -22,10 +22,8 @@ class PostFeedBloc extends Bloc<PostFeedEvent, PostFeedState> {
     Emitter<PostFeedState> emit,
   ) async {
     await Future.delayed(const Duration(milliseconds: 250));
-    final posts = await state.postRepository.getPostsFromStore();
-    posts.sort(
-      (a, b) => b.createdAt.difference(a.createdAt).inMilliseconds,
-    );
+
+    List<Post> posts = await state.postRepository.getPostsForUser();
 
     emit(
       state.copyWith(
@@ -40,11 +38,7 @@ class PostFeedBloc extends Bloc<PostFeedEvent, PostFeedState> {
     RefreshPosts event,
     Emitter<PostFeedState> emit,
   ) async {
-    await Future.delayed(const Duration(milliseconds: 250));
-    final posts = await state.postRepository.getPostsFromStore();
-    posts.sort(
-      (a, b) => b.createdAt.difference(a.createdAt).inMilliseconds,
-    );
+    List<Post> posts = await state.postRepository.getPostsForUser();
 
     emit(
       state.copyWith(

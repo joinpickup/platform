@@ -1,6 +1,5 @@
 -- +goose Up
 -- +goose StatementBegin
-
 create or replace function create_person(
 ) returns integer as $$ 
 
@@ -14,4 +13,4 @@ $$ language plpgsql;
 -- +goose StatementEnd
 
 -- +goose Down
-drop function if exists create_person ();
+drop function create_person ();

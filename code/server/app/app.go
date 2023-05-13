@@ -26,11 +26,24 @@ func NewRouter(logger zerolog.Logger, db *sql.DB) chi.Router {
 		// post routes
 		r.Route("/post", func(r chi.Router) {
 			r.Get("/", controller.GetPosts)
+			r.Put("/{id}", controller.UpdatePost)
 			r.Post("/", controller.NewPost)
+
+			// Post Interests
+			r.Post("/{id}/interest", controller.AddInterestForPost)
+
+			// TODO: add the following
+			// r.Get("/load", controller.LoadMorePosts)
+			// r.Get("/search", controller.SearchPosts)
+			// r.Get("/filter", controller.FilterPosts)
 		})
 
 		r.Route("/person", func(r chi.Router) {
 			r.Post("/", controller.NewPerson)
+
+			// person settings
+			r.Get("/{id}/setting", controller.GetPersonSettings)
+			r.Get("/{id}/setting/{setting_id}", controller.GetPersonSetting)
 		})
 	})
 

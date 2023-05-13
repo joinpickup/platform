@@ -106,7 +106,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _postRepository = PostRepository();
   final _personRepository = PersonRepository();
 
   @override
@@ -130,7 +129,11 @@ class _MyAppState extends State<MyApp> {
                 providers: [
                   BlocProvider<AddPostBloc>(
                     create: (context) => AddPostBloc(
-                      _postRepository,
+                      PostRepository(
+                        platformService: (context.read<ServiceBloc>().state
+                                as PlatformServiceState)
+                            .platformService,
+                      ),
                       _personRepository,
                     ),
                   ),

@@ -1,5 +1,5 @@
 -- +goose Up
-create table post (
+create table if not exists post (
   post_id serial primary key,
   created_at timestamptz not null default Now(),
   title varchar(255) not null,
@@ -7,7 +7,7 @@ create table post (
   poster_id integer not null references person(person_id)
 );
 
-create table post_interest (
+create table if not exists post_interest (
   post_id integer not null references post(post_id),
   interest_id integer not null references interest(interest_id),
   primary key (post_id, interest_id)

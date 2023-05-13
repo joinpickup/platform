@@ -58,8 +58,8 @@ class DiscoverScreenBloc
         ),
       );
 
-      // TODO: replace with api
-      List<Post> posts = await state.postRepository.getPostsFromStore();
+      // TODO: replace with load more posts
+      List<Post> posts = await state.postRepository.getPostsForUser();
       emit(
         state.copyWith(
           postFeed: posts,
@@ -116,8 +116,8 @@ class DiscoverScreenBloc
       ),
     );
 
-    final List<Post> posts =
-        await state.postRepository.searchPosts(query: event.query);
+    // TODO: replace with search api
+    final List<Post> posts = await state.postRepository.getPostsForUser();
 
     emit(
       state.copyWith(
@@ -134,7 +134,7 @@ class DiscoverScreenBloc
     Future.delayed(const Duration(milliseconds: 300));
 
     // TODO: use method from API
-    List<Post> newPosts = await state.postRepository.getPostsFromStore();
+    List<Post> newPosts = await state.postRepository.getPostsForUser();
     List<Post> allNewPosts = [
       ...newPosts,
       ...newPosts.reversed,
@@ -164,7 +164,7 @@ class DiscoverScreenBloc
     Emitter<DiscoverScreenState> emit,
   ) async {
     Future.delayed(const Duration(milliseconds: 300));
-    List<Post> newPosts = await state.postRepository.getPostsFromStore();
+    List<Post> newPosts = await state.postRepository.getPostsForUser();
     newPosts.shuffle();
 
     emit(

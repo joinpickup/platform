@@ -9,6 +9,7 @@ import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/event.dart';
 import 'package:local/repos/data/models/event/event.dart';
 import 'package:local/repos/post_repository.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_screen.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/event/views/event_settings.dart';
@@ -28,7 +29,6 @@ class EventScreen extends StatefulWidget {
 
 class _EventScreenState extends State<EventScreen> {
   Event? event;
-  final _postRepository = PostRepository();
 
   @override
   void initState() {
@@ -41,8 +41,9 @@ class _EventScreenState extends State<EventScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              PostFeedBloc(_postRepository)..add(LoadPostsPost()),
+          create: (context) => PostFeedBloc(
+            context.read<AddPostBloc>().state.postRepository,
+          )..add(LoadPostsPost()),
         ),
         BlocProvider(
           create: (context) => TabBarBloc()..add(InitializeTabBar()),

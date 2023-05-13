@@ -28,3 +28,13 @@ func NewPerson(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.Write(newPersonRes)
 }
+
+func GetPersonSetting(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Write([]byte{})
+}
+
+func GetPersonSettings(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Write([]byte{})
+}

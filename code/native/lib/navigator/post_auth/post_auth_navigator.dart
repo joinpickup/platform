@@ -4,6 +4,7 @@ import 'package:local/navigator/post_auth/bottom_app_bar.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/discover_screen.dart';
+import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/profile/profile_screen.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -18,7 +19,6 @@ class PostAuthNavigator extends StatefulWidget {
 class _PostAuthNavigatorState extends State<PostAuthNavigator> {
   List<Widget> items = [];
   int currentIndex = 0;
-  final _postRepository = PostRepository();
   final _pageController = PageController();
 
   @override
@@ -33,8 +33,9 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              DiscoverScreenBloc(_postRepository)..add(LoadPosts()),
+          create: (context) => DiscoverScreenBloc(
+            context.read<AddPostBloc>().state.postRepository,
+          )..add(LoadPosts()),
         ),
         BlocProvider(
           create: (context) => EventFeedBloc()..add(LoadEvents()),
