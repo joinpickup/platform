@@ -16,5 +16,5 @@ create table if not exists setting (
 );
 
 -- +goose Down
-drop table if exists setting_type;
 drop table if exists setting;
+drop table if exists setting_type;

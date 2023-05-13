@@ -1,11 +1,11 @@
 -- +goose Up
-create table if not exists person_setting (
-  person_id integer not null references "person"(person_id),
+create table if not exists post_setting (
+  post_id integer not null references "post"(post_id),
   setting_id integer not null references "setting"(setting_id),
   setting_value varchar not null,
   created_at timestamptz not null default now(),
-  primary key (person_id, setting_id)
+  primary key (post_id, setting_id)
 );
 
 -- +goose Down
-drop table if exists person_setting;
+drop table if exists post_setting;

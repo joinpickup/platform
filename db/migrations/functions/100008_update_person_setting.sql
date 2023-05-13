@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-create or replace function upsert_person_setting(
+create or replace function update_person_setting(
     p_person_id integer,
     p_setting_id integer,
     p_setting_value varchar
@@ -16,4 +16,4 @@ $$ language plpgsql;
 -- +goose StatementEnd
 
 -- +goose Down
-drop function upsert_person_setting (integer, integer, varchar);
+drop function update_person_setting (integer, integer, varchar);

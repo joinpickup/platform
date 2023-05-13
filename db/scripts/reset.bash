@@ -6,6 +6,6 @@ do
 done
 
 source "$env"
-goose -dir ../migrations/tables postgres $DATABASE_URL reset
-goose -dir ../migrations/functions postgres $DATABASE_URL reset
-goose -dir ../migrations/seed postgres $DATABASE_URL reset
+goose -dir ../migrations/tables -no-versioning postgres $DATABASE_URL reset
+goose -dir ../migrations/functions -no-versioning postgres $DATABASE_URL reset
+goose -dir ../migrations/seed -no-versioning postgres $DATABASE_URL reset
