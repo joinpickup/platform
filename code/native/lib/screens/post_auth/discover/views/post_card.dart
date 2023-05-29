@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
+import 'package:local/main.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/screens/post_auth/discover/views/post_options/post_options_screen.dart';
 import 'package:local/screens/post_auth/post/post_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -144,25 +148,61 @@ class _PostCardState extends State<PostCard> {
   }
 
   Widget _buildPostCardFooter(BuildContext context, Post post) {
+    // do some calculations here for the overflow
+    int totalInterests = post.interests.length;
+    List<Interest> filteredList = post.interests;
+    if (totalInterests >= 2) {
+      filteredList = post.interests.sublist(0, 2);
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-            children: post.interests.map((e) {
-          return Column(
-            children: [
-              Text(
-                "#${post.interests[0].name}",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+          children: [
+            ...filteredList
+                .map(
+                  (e) {
+                    // ignore: unnecessary_cast
+                    return Column(
+                      children: [
+                        Text(
+                          "#${e.name}",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ) as Widget;
+                  },
+                )
+                .toList()
+                .insertBetween(
+                  const SizedBox(
+                    width: 8,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-            ],
-          );
-        }).toList()),
+            post.interests.length >= 3
+                ? Row(
+                    children: [
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        "+ ${post.interests.length - 3} more",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: TW3Colors.gray.shade500,
+                        ),
+                      ),
+                    ],
+                  )
+                : Container()
+          ],
+        ),
         Text(
           format(post.createdAt),
           style: TextStyle(

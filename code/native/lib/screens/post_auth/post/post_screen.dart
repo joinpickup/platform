@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
+import 'package:local/main.dart';
 import 'package:local/repos/data/models/post/post.dart';
-import 'package:local/repos/post_repository.dart';
+import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/post_options/post_options_screen.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/post/post_bloc.dart';
+import 'package:local/screens/post_auth/post/views/message_dialog.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:timeago/timeago.dart';
 
@@ -137,7 +141,12 @@ class _PostScreenState extends State<PostScreen> {
         title: const Text("View Post"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              HapticFeedback.heavyImpact();
+              showPostOptionsModal(
+                context,
+              );
+            },
             icon: const Icon(
               Icons.more_vert,
             ),
@@ -158,7 +167,7 @@ class _PostScreenState extends State<PostScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _buildActions(),
+              child: _buildActions(state.post as Post),
             ),
           ],
         ),
@@ -196,14 +205,16 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  Widget _buildActions() {
+  Widget _buildActions(Post post) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
           child: CustomButton(
             text: "Message",
-            tap: () {},
+            tap: () {
+              showMessageDialog(context, post);
+            },
           ),
         ),
       ],
@@ -279,25 +290,62 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   Widget _buildPostFooter(BuildContext context, Post post) {
+    // do some calculations here for the overflow
+    int totalInterests = post.interests.length;
+    List<Interest> filteredList = post.interests;
+
+    if (totalInterests >= 2) {
+      filteredList = post.interests.sublist(0, 2);
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-            children: post.interests.map((e) {
-          return Column(
-            children: [
-              Text(
-                "#${post.interests[0].name}",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+          children: [
+            ...filteredList
+                .map(
+                  (e) {
+                    // ignore: unnecessary_cast
+                    return Column(
+                      children: [
+                        Text(
+                          "#${e.name}",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ) as Widget;
+                  },
+                )
+                .toList()
+                .insertBetween(
+                  const SizedBox(
+                    width: 8,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-            ],
-          );
-        }).toList()),
+            post.interests.length >= 3
+                ? Row(
+                    children: [
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        "+ ${post.interests.length - 3} more",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: TW3Colors.gray.shade500,
+                        ),
+                      ),
+                    ],
+                  )
+                : Container()
+          ],
+        ),
         Text(
           format(post.createdAt),
           style: TextStyle(

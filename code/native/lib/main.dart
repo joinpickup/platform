@@ -1,15 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:local/navigator/post_auth/post_auth_navigator.dart';
 import 'package:local/navigator/pre_auth/pre_auth_navigator.dart';
-import 'package:local/repos/data/mocks/person.dart';
-import 'package:local/repos/data/mocks/post.dart';
-import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
@@ -18,7 +13,22 @@ import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.da
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/shared/service_bloc/service_bloc.dart';
 import 'package:local/theme/dark_mode.dart';
+import 'package:local/util/middleware/middleware.dart';
+import 'package:logging/logging.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+
+extension ExtendedWidgetList on List<Widget> {
+  /// Insert [widget] between each member of this list
+  List<Widget> insertBetween(Widget widget) {
+    if (length > 1) {
+      for (var i = length - 1; i > 0; i--) {
+        insert(i, widget);
+      }
+    }
+
+    return this;
+  }
+}
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -32,33 +42,19 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 Future main() async {
-  // TODO: REMOVE ONLY FOR DEVELOPMENT
+  // setup logger
+  final log = Logger("MainLogger");
+
   HttpOverrides.global = MyHttpOverrides();
-
-  await Hive.initFlutter();
   await dotenv.load(fileName: ".env");
-
-  // setup cache
-  // posts
-  Box postBox = await Hive.openBox('posts');
-  List<Post> posts = [...allPosts];
-  String mapPosts = jsonEncode(posts);
-  await postBox.put("posts", mapPosts);
-
-  // person
-  Box personBox = await Hive.openBox('persons');
-  List<Person> persons = [...allPersons];
-  String mapPersons = jsonEncode(persons);
-  await personBox.put("persons", mapPersons);
-
-  // get pickup middleware
 
   // check for auth service and service registry
   final authEndpoint = dotenv.env["AUTH_ENDPOINT"];
   final registryEndpoint = dotenv.env["REGISTRY_ENDPOINT"];
 
   if (authEndpoint == null || registryEndpoint == null) {
-    print('Missing environment variable: REGISTRY_ENDPOINT or AUTH_ENDPOINT');
+    log.severe(
+        "Missing environment variable: REGISTRY_ENDPOINT or AUTH_ENDPOINT");
     exit(1);
   }
 
@@ -67,9 +63,8 @@ Future main() async {
   final servicePassword = dotenv.env["SERVICE_PASSWORD"];
 
   if (serviceName == null || serviceID == null || servicePassword == null) {
-    print(
-      'Missing environment variable: SERVICE_NAME or SERVICE_ID or SERVICE_PASSWORD',
-    );
+    log.severe(
+        "Missing environment variable: SERVICE_NAME or SERVICE_ID or SERVICE_PASSWORD");
     exit(1);
   }
 
@@ -106,8 +101,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _personRepository = PersonRepository();
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ServiceBloc>(
@@ -128,24 +121,42 @@ class _MyAppState extends State<MyApp> {
               return MultiBlocProvider(
                 providers: [
                   BlocProvider<AddPostBloc>(
-                    create: (context) => AddPostBloc(
-                      PostRepository(
-                        platformService: (context.read<ServiceBloc>().state
-                                as PlatformServiceState)
-                            .platformService,
-                      ),
-                      _personRepository,
-                    ),
+                    create: (context) {
+                      // need to do a null check here, we would be good beacuse of the status check above
+                      final platformService = (context.read<ServiceBloc>().state
+                              as PlatformServiceState?)
+                          ?.platformService as ServiceInstance;
+
+                      return AddPostBloc(
+                        PostRepository(
+                          platformService: platformService,
+                        ),
+                        PersonRepository(
+                          platformService: platformService,
+                        ),
+                      );
+                    },
                   ),
                   BlocProvider<AuthBloc>(
-                    create: (context) => AuthBloc(
-                      userRepository: UserRepository(
-                          (context.read<ServiceBloc>().state
-                                  as PlatformServiceState)
-                              .authService,
-                          null),
-                      personRepository: _personRepository,
-                    ),
+                    create: (context) {
+                      // need to do a null check here, we would be good beacuse of the status check above
+                      final authService = (context.read<ServiceBloc>().state
+                              as PlatformServiceState?)
+                          ?.authService as ServiceInstance;
+
+                      final platformService = (context.read<ServiceBloc>().state
+                              as PlatformServiceState?)
+                          ?.platformService as ServiceInstance;
+
+                      return AuthBloc(
+                          userRepository: UserRepository(
+                            authService,
+                            null,
+                          ),
+                          personRepository: PersonRepository(
+                            platformService: platformService,
+                          ));
+                    },
                   ),
                 ],
                 child: MaterialApp(
@@ -178,6 +189,26 @@ class _MyAppState extends State<MyApp> {
                   theme: darkTheme,
                 ),
               );
+            case ServiceStatus.error:
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: darkTheme,
+                home: Scaffold(
+                  backgroundColor: TW3Colors.gray.shade700,
+                  body: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Center(
+                      child: Text(
+                        "Cannot connect to the internet...",
+                        style: TextStyle(
+                          color: TW3Colors.gray.shade300,
+                          fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
             default:
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
@@ -187,10 +218,10 @@ class _MyAppState extends State<MyApp> {
                   body: Center(
                     child: Text(
                       "Local",
-                      style:
-                          Theme.of(context).textTheme.displayMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                      style: TextStyle(
+                        color: TW3Colors.gray.shade300,
+                        fontSize: 26,
+                      ),
                     ),
                   ),
                 ),

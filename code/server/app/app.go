@@ -26,6 +26,7 @@ func NewRouter(logger zerolog.Logger, db *sql.DB) chi.Router {
 		// post routes
 		r.Route("/post", func(r chi.Router) {
 			r.Get("/", controller.GetPosts)
+			r.Get("/{id}", controller.GetPost)
 			r.Put("/{id}", controller.UpdatePost)
 			r.Post("/", controller.NewPost)
 
@@ -40,6 +41,7 @@ func NewRouter(logger zerolog.Logger, db *sql.DB) chi.Router {
 
 		r.Route("/person", func(r chi.Router) {
 			r.Post("/", controller.NewPerson)
+			r.Get("/{id}", controller.GetPerson)
 
 			// person settings
 			r.Get("/{id}/setting", controller.GetPersonSettings)

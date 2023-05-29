@@ -8,5 +8,5 @@ type Post struct {
 	Title     string     `json:"title,omitempty" db:"title"`
 	Body      string     `json:"body,omitempty" db:"body"`
 	Poster    *Person    `json:"poster,omitempty" db:"-"`
-	Interests []Interest `json:"interests,omitempty" db:"-"`
+	Interests []Interest `json:"interests" db:"-"`
 }

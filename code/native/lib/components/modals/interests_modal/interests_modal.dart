@@ -12,19 +12,6 @@ import 'package:local/repos/space_repository.dart';
 import 'package:local/shared/subscribe/subscription_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-extension ExtendedWidgetList on List<Widget> {
-  /// Insert [widget] between each member of this list
-  List<Widget> insertBetween(Widget widget) {
-    if (length > 1) {
-      for (var i = length - 1; i > 0; i--) {
-        insert(i, widget);
-      }
-    }
-
-    return this;
-  }
-}
-
 void showInterestsModal(
   BuildContext context,
   Function onSelect,

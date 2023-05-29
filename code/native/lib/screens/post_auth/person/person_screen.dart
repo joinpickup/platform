@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/components/input/button.dart';
-import 'package:local/components/navigation/tab_bar/custom_tab.dart';
-import 'package:local/components/navigation/tab_bar/tab_bar.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/user/person.dart';
-import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
-import 'package:local/screens/post_auth/events/views/event_feed.dart';
+import 'package:local/screens/post_auth/person/person_bloc.dart';
+import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:local/shared/post_feed/post_feed_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -29,42 +26,123 @@ class PersonScreen extends StatefulWidget {
 }
 
 class _PersonScreenState extends State<PersonScreen> {
-  Person? person;
-
-  @override
-  void initState() {
-    super.initState();
-
-    person = allPersons.firstWhere(
-      (person) => person.personID == widget.personID,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => PostFeedBloc(
-            context.read<AddPostBloc>().state.postRepository,
-          )..add(LoadPostsPost()),
-        ),
-        BlocProvider(
-          create: (context) => EventFeedBloc()..add(LoadEvents()),
-        ),
-        BlocProvider(
-          create: (context) => TabBarBloc()..add(InitializeTabBar()),
+          create: (context) => PersonBloc(
+            context.read<AddPostBloc>().state.personRepository,
+          )..add(
+              LoadPerson(
+                personID: widget.personID,
+              ),
+            ),
         ),
       ],
-      child: BlocBuilder<TabBarBloc, TabBarState>(
+      child: BlocBuilder<PersonBloc, PersonState>(
         builder: (context, state) {
-          return _buildPage(context, state);
+          switch (state.status) {
+            case PersonStatus.loading:
+              return _buildLoading();
+            case PersonStatus.error:
+              return _buildError();
+            case PersonStatus.success:
+              return _buildSuccess(context, state.person as Person);
+            default:
+          }
+          return Container();
         },
       ),
     );
   }
 
-  Scaffold _buildPage(BuildContext context, TabBarState state) {
+  Scaffold _buildLoading() {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TW3Colors.gray.shade700,
+        title: const Text("View Person"),
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: TW3Colors.gray.shade600,
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: double.maxFinite,
+          height: 175,
+          color: TW3Colors.gray.shade700,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 200,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: TW3Colors.gray.shade600,
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Container(
+                width: double.maxFinite,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: TW3Colors.gray.shade600,
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildError() {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TW3Colors.gray.shade700,
+        title: const Text("View Person"),
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: TW3Colors.gray.shade600,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            "Error loading person",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildSuccess(
+    BuildContext context,
+    Person person,
+  ) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TW3Colors.gray.shade700,
@@ -83,7 +161,7 @@ class _PersonScreenState extends State<PersonScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildPersonInfo(person as Person, context),
+          _buildPersonInfo(person, context),
         ],
       ),
     );
@@ -130,10 +208,6 @@ class _PersonScreenState extends State<PersonScreen> {
             height: 8,
           ),
           DetailRow(icon: HeroIcons.map, text: person.location.commonName),
-          const SizedBox(
-            height: 8,
-          ),
-          const DetailRow(icon: HeroIcons.eye, text: "Public"),
         ],
       ),
     );

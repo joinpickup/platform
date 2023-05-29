@@ -16,12 +16,12 @@ abstract class ServiceState extends Equatable {
 class InitialServiceState extends ServiceState {}
 
 class UserServiceState extends ServiceState {
-  final ServiceInstance platformService;
-  final ServiceInstance authService;
+  final ServiceInstance? platformService;
+  final ServiceInstance? authService;
 
   const UserServiceState({
-    required this.platformService,
-    required this.authService,
+    this.platformService,
+    this.authService,
     super.status,
   });
 
@@ -42,12 +42,12 @@ class UserServiceState extends ServiceState {
 }
 
 class PlatformServiceState extends ServiceState {
-  final ServiceInstance platformService;
-  final ServiceInstance authService;
+  final ServiceInstance? platformService;
+  final ServiceInstance? authService;
 
   const PlatformServiceState({
-    required this.platformService,
-    required this.authService,
+    this.platformService,
+    this.authService,
     super.status,
   });
 

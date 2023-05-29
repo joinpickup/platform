@@ -154,3 +154,55 @@ func GetInterestsForPost(db *sql.DB, post_id int) ([]model.Interest, error) {
 
 	return interests, nil
 }
+
+func GetPost(db *sql.DB, post_id int) (*model.Post, error) {
+	var post model.Post
+	var person model.Person
+	var location model.Location
+
+	row := db.QueryRow(
+		"SELECT * from get_post($1)",
+		post_id,
+	)
+
+	err := row.Scan(
+		// post
+		&post.PostID,
+		&post.CreatedAt,
+		&post.Title,
+		&post.Body,
+
+		// poster
+		&person.PersonID,
+		&person.UserID,
+		&person.CreatedAt,
+		&person.Name,
+		&person.Username,
+		&person.Avatar,
+
+		// location
+		&location.LocationID,
+		&location.CommonName,
+		&location.CreatedAt,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, err
+	}
+
+	interests, err := GetInterestsForPost(db, post.PostID)
+	if err != nil {
+		return nil, err
+	}
+
+	// set the generated variables
+	person.Location = &location
+	post.Poster = &person
+	post.Interests = interests
+
+	return &post, nil
+}

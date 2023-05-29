@@ -1,35 +1,40 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
+import 'package:http/http.dart';
 import 'package:local/repos/data/models/user/person.dart';
+import 'package:local/util/middleware/middleware.dart';
 
 class PersonRepository {
-  PersonRepository() {
-    personStorage = Hive.box("persons");
-  }
+  PersonRepository({
+    required this.platformService,
+  });
 
-  late Box personStorage;
+  ServiceInstance platformService;
 
   Future<List<Person>> getPersonsFromStore() async {
-    String jsonPersons = personStorage.get("persons");
-    List<dynamic> dynamicPersons = jsonDecode(jsonPersons);
-    List<Person> persons =
-        dynamicPersons.map((e) => Person.fromJson(e)).toList();
-    return persons;
+    return [];
   }
 
-  Future<void> addPersonsToStore(List<Person> persons) async {
-    String mapPersons = jsonEncode(persons);
-    await personStorage.put("persons", mapPersons);
-  }
+  Future<void> addPersonsToStore(List<Person> persons) async {}
 
   Future<Person?> getPerson({
     required int personID,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    List<Person> persons = await getPersonsFromStore();
-    Person? person =
-        persons.firstWhere((person) => person.personID == personID);
-    return person;
+    // get stuff from API
+
+    try {
+      Response personRes =
+          await platformService.newRequest("GET", "/v1/person/$personID", null);
+
+      // need to serialize
+      Map<String, dynamic> personDynamic = jsonDecode(personRes.body);
+      Person person = Person.fromJson(personDynamic);
+
+      return person;
+    } catch (e) {
+      Future.error(e);
+    }
+
+    return null;
   }
 }

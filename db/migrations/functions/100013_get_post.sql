@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
-create or replace function get_posts_for_user(
-    p_person_id integer
+create or replace function get_post(
+    p_post_id integer
 ) returns table (
     post_id integer,
     created_at timestamptz,
@@ -15,12 +15,11 @@ create or replace function get_posts_for_user(
     "name" varchar,
     "username" varchar,
     "avatar" varchar,
-    
+
     -- location
     location_id integer,
     location_common_name varchar,
     location_created_at timestamptz
-    
 ) as $$
 begin
     return query 
@@ -39,11 +38,12 @@ begin
     inner join person
     on person.person_id = post.poster_id
     inner join "location"
-    on person.location_id = location.location_id;
+    on person.location_id = location.location_id
+    where post.post_id = p_post_id;
 end;
 
 $$ language plpgsql;
 -- +goose StatementEnd
 
 -- +goose Down
-drop function get_posts_for_user (integer);
+drop function get_post (integer);

@@ -21,22 +21,30 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     );
 
     // create user client
-    MiddlewareClient userClient = await tokenEntity.newClient(
-      event.authEndpoint,
-      event.registryEndpoint,
-    );
+    try {
+      MiddlewareClient userClient = await tokenEntity.newClient(
+        event.authEndpoint,
+        event.registryEndpoint,
+      );
 
-    // get platform service
-    ServiceInstance platformService =
-        await userClient.newServiceInstance("PlatformService");
+      // get platform service
+      ServiceInstance platformService =
+          await userClient.newServiceInstance("PlatformService");
 
-    emit(
-      UserServiceState(
-        authService: userClient.authService,
-        platformService: platformService,
-        status: ServiceStatus.success,
-      ),
-    );
+      emit(
+        UserServiceState(
+          authService: userClient.authService,
+          platformService: platformService,
+          status: ServiceStatus.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        const UserServiceState(
+          status: ServiceStatus.error,
+        ),
+      );
+    }
   }
 
   FutureOr<void> _initializePlatformService(
@@ -51,21 +59,29 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     );
 
     // create user client
-    MiddlewareClient platformClient = await serviceEntity.newClient(
-      event.authEndpoint,
-      event.registryEndpoint,
-    );
+    try {
+      MiddlewareClient platformClient = await serviceEntity.newClient(
+        event.authEndpoint,
+        event.registryEndpoint,
+      );
 
-    // get platform service
-    ServiceInstance platformService =
-        await platformClient.newServiceInstance("PlatformService");
+      // get platform service
+      ServiceInstance platformService =
+          await platformClient.newServiceInstance("PlatformService");
 
-    emit(
-      PlatformServiceState(
-        authService: platformClient.authService,
-        platformService: platformService,
-        status: ServiceStatus.success,
-      ),
-    );
+      emit(
+        PlatformServiceState(
+          authService: platformClient.authService,
+          platformService: platformService,
+          status: ServiceStatus.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        const PlatformServiceState(
+          status: ServiceStatus.error,
+        ),
+      );
+    }
   }
 }

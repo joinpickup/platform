@@ -7,11 +7,10 @@ import 'package:local/screens/post_auth/messages/messages_screen.dart';
 import 'package:local/screens/post_auth/notifications/notifications_screen.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
 import 'package:local/screens/post_auth/profile/views/modules/module.dart';
-import 'package:local/screens/post_auth/profile/views/settings/edit_profile_screen.dart';
+import 'package:local/screens/post_auth/profile/views/settings/edit_profile/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
-import 'package:local/screens/post_auth/profile/views/settings/theme_picker_screen.dart';
-import 'package:local/screens/post_auth/profile/views/settings/verify_profile_screen.dart';
+import 'package:local/screens/post_auth/profile/views/settings/theme/theme_screen.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -157,16 +156,6 @@ Widget _buildProfileSettings(BuildContext context) {
         name: "Account Settings",
         settings: [
           SettingsItem(
-            icon: HeroIcons.check,
-            name: "Verify Account",
-            action: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const VerifyProfileScreen(),
-              ));
-            },
-            hasArrow: true,
-          ),
-          SettingsItem(
             icon: HeroIcons.user,
             name: "Edit Profile",
             action: () {
@@ -201,7 +190,7 @@ Widget _buildProfileSettings(BuildContext context) {
             name: "Theme",
             action: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ThemePickerScreen(),
+                builder: (context) => const ChangeThemeScreen(),
               ));
             },
           ),

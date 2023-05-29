@@ -4,22 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/navigator/pre_auth/onboard/onboard_bloc.dart';
 import 'package:local/navigator/pre_auth/onboard/pages/interests/interests_page_bloc.dart';
-import 'package:local/repos/data/mocks/interest.dart';
 import 'package:local/repos/data/models/space/interest.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
-
-extension ExtendedWidgetList on List<Widget> {
-  /// Insert [widget] between each member of this list
-  List<Widget> insertBetween(Widget widget) {
-    if (length > 1) {
-      for (var i = length - 1; i > 0; i--) {
-        insert(i, widget);
-      }
-    }
-
-    return this;
-  }
-}
 
 class SelectInterestPage extends StatefulWidget {
   const SelectInterestPage({Key? key}) : super(key: key);

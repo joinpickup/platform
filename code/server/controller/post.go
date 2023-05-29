@@ -182,3 +182,33 @@ func AddInterestForPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.Write([]byte{})
 }
+
+func GetPost(w http.ResponseWriter, r *http.Request) {
+	// serialize the id from the query params
+	id := chi.URLParam(r, "id")
+	post_id, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		http.Error(w, "Invalid ID.", http.StatusBadRequest)
+		return
+	}
+
+	// get the DB from the context
+	db := r.Context().Value(dal.PlatformDBKey{}).(*sql.DB)
+	post, err := dal.GetPost(db, int(post_id))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// marshal the post to return to the caller
+	post_marsh, err := json.Marshal(post)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// return back the item
+	w.WriteHeader(200)
+	w.Header().Add("Content-Type", "application/json")
+	w.Write(post_marsh)
+}

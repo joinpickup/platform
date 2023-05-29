@@ -12,10 +12,11 @@ class PostRepository {
   ServiceInstance platformService;
 
   Future<List<Post>> getPostsForUser() async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    // get stuff from API
     Response postsRes =
         await platformService.newRequest("GET", "/v1/post", null);
 
+    // need to serialize
     List<dynamic> postsDynamic = jsonDecode(postsRes.body);
     List<Post> posts = postsDynamic.map((e) => Post.fromJson(e)).toList();
 
@@ -25,7 +26,21 @@ class PostRepository {
   Future<Post?> getPost({
     required int postID,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 200));
+    // get stuff from API
+
+    try {
+      Response postsRes =
+          await platformService.newRequest("GET", "/v1/post/$postID", null);
+
+      // need to serialize
+      Map<String, dynamic> postsDynamic = jsonDecode(postsRes.body);
+      Post post = Post.fromJson(postsDynamic);
+
+      return post;
+    } catch (e) {
+      Future.error(e);
+    }
+
     return null;
   }
 
