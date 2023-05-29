@@ -8,7 +8,7 @@ import 'package:local/screens/post_auth/profile/views/settings/settings_group.da
 import 'package:share_plus/share_plus.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-void showPostOptionsModal(BuildContext context) {
+void showPersonOptionsModal(BuildContext context) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -17,13 +17,13 @@ void showPostOptionsModal(BuildContext context) {
     backgroundColor: TW3Colors.gray.shade700,
     isScrollControlled: true,
     builder: (context) {
-      return const PostOptionsModal();
+      return const PersonOptionsModal();
     },
   );
 }
 
-class PostOptionsModal extends StatelessWidget {
-  const PostOptionsModal({
+class PersonOptionsModal extends StatelessWidget {
+  const PersonOptionsModal({
     super.key,
   });
 
@@ -50,18 +50,18 @@ class PostOptionsModal extends StatelessWidget {
               height: 16,
             ),
             SettingsGroup(
-              name: "Post Settings",
+              name: "Person Settings",
               settings: [
                 SettingsItem(
                   icon: HeroIcons.share,
-                  name: "Share Post",
+                  name: "Share Person",
                   action: () {
-                    Share.share("Take a look at this post");
+                    Share.share("Take a look at this person");
                   },
                 ),
                 SettingsItem(
                   icon: HeroIcons.eyeSlash,
-                  name: "Hide Post",
+                  name: "Hide Posts From This Person",
                   action: () {},
                 ),
                 SettingsItem(

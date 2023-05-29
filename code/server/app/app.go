@@ -47,6 +47,16 @@ func NewRouter(logger zerolog.Logger, db *sql.DB) chi.Router {
 			r.Get("/{id}/setting", controller.GetPersonSettings)
 			r.Get("/{id}/setting/{setting_id}", controller.GetPersonSetting)
 		})
+
+		r.Route("/notification", func(r chi.Router) {
+			r.Post("/", controller.NewNotification)
+			r.Get("/{id}", controller.GetNotificationsForUser)
+		})
+
+		// actions
+		r.Route("/action", func(r chi.Router) {
+			r.Put("/message/request", controller.SendMessageRequest)
+		})
 	})
 
 	return r

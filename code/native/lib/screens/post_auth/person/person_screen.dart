@@ -7,6 +7,7 @@ import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/person/person_bloc.dart';
+import 'package:local/screens/post_auth/person/views/person_options_screen.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:local/shared/post_feed/post_feed_bloc.dart';
@@ -150,7 +151,11 @@ class _PersonScreenState extends State<PersonScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showPersonOptionsModal(
+                context,
+              );
+            },
             icon: const Icon(
               Icons.more_vert,
             ),

@@ -265,19 +265,8 @@ class _PostScreenState extends State<PostScreen> {
                 Row(
                   children: [
                     Text(
-                      "East Rock",
+                      post.poster.location.commonName,
                       style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      height: 4,
-                      width: 4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
                     ),
                   ],
                 )
