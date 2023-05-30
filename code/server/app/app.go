@@ -6,16 +6,22 @@ import (
 	"database/sql"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/websocket"
 	"github.com/joinpickup/middleware-go/logging"
 	"github.com/rs/zerolog"
 )
 
-func NewRouter(logger zerolog.Logger, db *sql.DB) chi.Router {
+func NewRouter(
+	logger zerolog.Logger,
+	db *sql.DB,
+	upgrader websocket.Upgrader,
+) chi.Router {
 	r := chi.NewRouter()
 
 	// middleware
 	r.Use(logging.LoggerMiddleware(&logger))
 	r.Use(dal.DatabaseMiddleware(db))
+	r.Use(dal.UpgraderMiddleware(upgrader))
 
 	// setup routes
 	r.Route("/v1", func(r chi.Router) {
@@ -56,7 +62,9 @@ func NewRouter(logger zerolog.Logger, db *sql.DB) chi.Router {
 		// actions
 		r.Route("/action", func(r chi.Router) {
 			r.Put("/message/request", controller.SendMessageRequest)
+			r.Get("/message/ws", controller.MessageWebSocket)
 		})
+
 	})
 
 	return r

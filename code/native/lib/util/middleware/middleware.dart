@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/io.dart';
 
 part 'entity.dart';
 part 'registry.dart';
@@ -84,6 +85,20 @@ class ServiceInstance {
       default:
         return Future.error("Not a valid method.");
     }
+  }
+
+  Future<IOWebSocketChannel> newWebSocketChannel(
+    String endpoint,
+  ) async {
+    String websocketBase =
+        base.replaceFirst("https", "wss").replaceFirst("http", "wss");
+    var parsedUrl = Uri.parse('$websocketBase$endpoint');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $token",
+    };
+
+    return IOWebSocketChannel.connect(parsedUrl, headers: headers);
   }
 }
 

@@ -24,12 +24,13 @@ func main() {
 	}
 
 	// setup router and database
+	upgrader := dal.NewUpgrader()
 	db, err := dal.NewPlatformDB(os.Getenv("PLATFORM_DB"))
 	if err != nil {
 		log.Panic(err)
 	}
 
-	r := app.NewRouter(logger, db)
+	r := app.NewRouter(logger, db, upgrader)
 
 	port := os.Getenv("PORT")
 	if port == "" {

@@ -4,7 +4,10 @@ import (
 	"auth-service/dal"
 	"database/sql"
 	"encoding/json"
+	"log"
 	"net/http"
+
+	"github.com/gorilla/websocket"
 )
 
 type messageBody struct {
@@ -79,4 +82,41 @@ func SendMessageRequest(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(201)
 	w.Header().Add("Content-Type", "application/json")
 	w.Write([]byte{})
+}
+
+func MessageWebSocket(w http.ResponseWriter, r *http.Request) {
+	// get message body
+	// start by getting all posts
+	db := r.Context().Value(dal.PlatformDBKey{}).(*sql.DB)
+	upgrader := r.Context().Value(dal.PlatformUpgraderKey{}).(websocket.Upgrader)
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Printf("Failed to upgrade WebSocket connection: %v", err)
+		return
+	}
+
+	dal.AddConnectionToStore(conn)
+	for {
+		_, message, err := conn.ReadMessage()
+		if err != nil {
+			log.Printf("Error reading message: %v", err)
+			break
+		}
+
+		// Store message in database
+		err = dal.SaveMessage(db, string(message))
+		if err != nil {
+			log.Printf("Failed to save message: %v", err)
+			break
+		}
+
+		// Broadcast message to all connected clients
+		err = dal.BroadcastMessage(string(message), conn)
+		if err != nil {
+			log.Printf("Broadcast the message: %v", err)
+			break
+		}
+	}
+
+	conn.Close()
 }

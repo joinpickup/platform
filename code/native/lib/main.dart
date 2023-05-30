@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:local/navigator/post_auth/post_auth_navigator.dart';
 import 'package:local/navigator/pre_auth/pre_auth_navigator.dart';
-import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/repos/person_repository.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:local/repos/user_repository.dart';
@@ -16,6 +16,7 @@ import 'package:local/theme/dark_mode.dart';
 import 'package:local/util/middleware/middleware.dart';
 import 'package:logging/logging.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:web_socket_channel/io.dart';
 
 extension ExtendedWidgetList on List<Widget> {
   /// Insert [widget] between each member of this list
@@ -68,7 +69,14 @@ Future main() async {
     exit(1);
   }
 
-  // setup mapbox stuff
+  // test things
+  testWebSockets(
+    authEndpoint,
+    registryEndpoint,
+    serviceName,
+    int.parse(serviceID),
+    servicePassword,
+  );
 
   runApp(MyApp(
     authEndpoint: authEndpoint,
@@ -231,4 +239,41 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+}
+
+Future<FutureOr<void>> testWebSockets(
+  String authEndpoint,
+  String registryEndpoint,
+  String serviceName,
+  int serviceID,
+  String servicePassword,
+) async {
+  ServiceEntity serviceEntity = ServiceEntity(
+    serviceName: serviceName,
+    serviceID: serviceID,
+    password: servicePassword,
+  );
+
+  // get platform service
+  MiddlewareClient platformClient = await serviceEntity.newClient(
+    authEndpoint,
+    registryEndpoint,
+  );
+
+  ServiceInstance platformService =
+      await platformClient.newServiceInstance("PlatformService");
+
+  IOWebSocketChannel channel =
+      await platformService.newWebSocketChannel("/v1/action/message/ws");
+
+  // Send a message
+  channel.sink.add('Hello from Flutter!');
+
+  // Receive messages
+  channel.stream.listen(
+    (message) {
+      // Handle received messages
+      print('Received message: message');
+    },
+  );
 }

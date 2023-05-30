@@ -11,19 +11,17 @@ class ChatThreadFeed extends StatefulWidget {
 class _ChatThreadFeedState extends State<ChatThreadFeed> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        children: const [
-          ChatThread(),
-          Divider(),
-          ChatThread(),
-          Divider(),
-          ChatThread(),
-          Divider(),
-          ChatThread(),
-        ],
-      ),
+    return ListView(
+      shrinkWrap: true,
+      children: const [
+        ChatThread(),
+        Divider(),
+        ChatThread(),
+        Divider(),
+        ChatThread(),
+        Divider(),
+        ChatThread(),
+      ],
     );
   }
 }

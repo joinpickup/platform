@@ -15,10 +15,6 @@ begin
         raise exception 'actor and poster cannot be the same';
     end if;
 
-    select poster_id into p_poster_id from post where post_id = p_post_id;
-
-    -- raise an error if the post already exists
-
     -- actual insert
     insert into "notification" (post_id, is_read, actor_id)
     values (p_post_id, false, p_actor_id)

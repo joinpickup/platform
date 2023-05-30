@@ -27,7 +27,15 @@ class MessagesScreen extends StatelessWidget {
         body: Column(
           children: [
             _buildTabBar(),
-            const ChatThreadFeed(),
+            const SizedBox(
+              height: 8,
+            ),
+            const Expanded(
+              child: ChatThreadFeed(),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
           ],
         ),
       ),

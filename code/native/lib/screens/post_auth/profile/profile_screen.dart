@@ -34,8 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        final person =
-            allPersons.firstWhere((p) => p.userID == state.user!.userID);
+        final person = allPersons.firstWhere(
+          (p) => p.userID == state.user!.userID,
+        );
         return Scaffold(
           backgroundColor: TW3Colors.gray.shade600,
           appBar: PreferredSize(
@@ -47,48 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.all(8),
               child: ListView(
                 children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      Module(
-                        icon: HeroIcons.chatBubbleLeft,
-                        text: "Messages",
-                        action: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const MessagesScreen();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Module(
-                        icon: HeroIcons.bell,
-                        text: "Notifications",
-                        action: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const NotificationsScreen();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
                   _buildProfileSettings(context),
                 ],
               ),

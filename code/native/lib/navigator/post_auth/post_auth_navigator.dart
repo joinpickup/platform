@@ -5,6 +5,7 @@ import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/discover_screen.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
+import 'package:local/screens/post_auth/messages/messages_screen.dart';
 import 'package:local/screens/post_auth/profile/profile_screen.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -25,7 +26,11 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
   void initState() {
     super.initState();
 
-    items = [const DiscoverScreen(), const ProfileScreen()];
+    items = [
+      const DiscoverScreen(),
+      const MessagesScreen(),
+      const ProfileScreen()
+    ];
   }
 
   @override

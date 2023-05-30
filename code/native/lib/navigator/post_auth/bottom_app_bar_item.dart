@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,7 @@ class CustomBottomAppBarItem extends StatefulWidget {
     required this.index,
     required this.currentIndex,
     required this.onTap,
+    this.hasBadge = false,
   });
 
   final HeroIcons icon;
@@ -21,6 +21,7 @@ class CustomBottomAppBarItem extends StatefulWidget {
   final int index;
   final int currentIndex;
   final Function onTap;
+  final bool hasBadge;
 
   @override
   State<CustomBottomAppBarItem> createState() => _CustomBottomAppBarItemState();
@@ -49,23 +50,41 @@ class _CustomBottomAppBarItemState extends State<CustomBottomAppBarItem> {
           padding: const EdgeInsets.all(4),
           child: Column(
             children: [
-              Expanded(
-                child: HeroIcon(
-                  widget.icon,
+              const Spacer(
+                flex: 1,
+              ),
+              widget.hasBadge
+                  ? Badge(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: HeroIcon(
+                        widget.icon,
+                        color: active ? widget.color : TW3Colors.gray.shade500,
+                        size: active ? 28 : 22,
+                        style: active
+                            ? HeroIconStyle.solid
+                            : HeroIconStyle.outline,
+                      ),
+                    )
+                  : HeroIcon(
+                      widget.icon,
+                      color: active ? widget.color : TW3Colors.gray.shade500,
+                      size: active ? 28 : 22,
+                      style:
+                          active ? HeroIconStyle.solid : HeroIconStyle.outline,
+                    ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                widget.label,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   color: active ? widget.color : TW3Colors.gray.shade500,
-                  size: active ? 28 : 22,
-                  style: active ? HeroIconStyle.solid : HeroIconStyle.outline,
+                  fontSize: active ? 13 : 10,
                 ),
               ),
-              Expanded(
-                child: Text(
-                  widget.label,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: active ? widget.color : TW3Colors.gray.shade500,
-                    fontSize: active ? 13 : 10,
-                  ),
-                ),
+              const Spacer(
+                flex: 2,
               ),
             ],
           ),

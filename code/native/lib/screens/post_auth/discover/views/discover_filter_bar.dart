@@ -11,8 +11,15 @@ import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/shared/subscribe/subscription_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class DiscoverFilterBar extends StatelessWidget {
+class DiscoverFilterBar extends StatefulWidget {
   const DiscoverFilterBar({Key? key}) : super(key: key);
+
+  @override
+  State<DiscoverFilterBar> createState() => _DiscoverFilterBarState();
+}
+
+class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
+  var hasBadge = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +38,30 @@ class DiscoverFilterBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    FilterItem(
+                      tap: () {
+                        setState(() {
+                          hasBadge = false;
+                        });
+                      },
+                      active: discoverState.spaceFilter.enabled,
+                      child: hasBadge
+                          ? Badge(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              child: const HeroIcon(
+                                HeroIcons.adjustmentsHorizontal,
+                                size: 18,
+                              ),
+                            )
+                          : const HeroIcon(
+                              HeroIcons.adjustmentsHorizontal,
+                              size: 18,
+                            ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
                     FilterItem(
                       tap: () {
                         showSpaceModal(

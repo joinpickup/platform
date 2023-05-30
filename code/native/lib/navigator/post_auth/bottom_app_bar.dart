@@ -3,7 +3,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/navigator/post_auth/bottom_app_bar_item.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class CustomBottomAppBar extends StatelessWidget {
+class CustomBottomAppBar extends StatefulWidget {
   const CustomBottomAppBar({
     super.key,
     required this.onTap,
@@ -12,6 +12,13 @@ class CustomBottomAppBar extends StatelessWidget {
 
   final Function onTap;
   final int currentIndex;
+
+  @override
+  State<CustomBottomAppBar> createState() => _CustomBottomAppBarState();
+}
+
+class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
+  var hasMessage = true;
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +43,36 @@ class CustomBottomAppBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.baseline,
         children: [
           CustomBottomAppBarItem(
+            onTap: (index) {
+              widget.onTap(index);
+              setState(() {
+                hasMessage = true;
+              });
+            },
             index: 0,
-            currentIndex: currentIndex,
-            onTap: onTap,
+            currentIndex: widget.currentIndex,
             color: TW3Colors.gray.shade300,
             icon: HeroIcons.magnifyingGlass,
             label: "Discover",
           ),
           CustomBottomAppBarItem(
-            onTap: onTap,
-            currentIndex: currentIndex,
+            onTap: (index) {
+              widget.onTap(index);
+              setState(() {
+                hasMessage = false;
+              });
+            },
+            currentIndex: widget.currentIndex,
             index: 1,
+            color: TW3Colors.gray.shade300,
+            icon: HeroIcons.chatBubbleBottomCenter,
+            label: "Messages",
+            hasBadge: hasMessage,
+          ),
+          CustomBottomAppBarItem(
+            onTap: widget.onTap,
+            currentIndex: widget.currentIndex,
+            index: 2,
             color: TW3Colors.gray.shade300,
             icon: HeroIcons.user,
             label: "Profile",
