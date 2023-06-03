@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:local/repos/data/mocks/person.dart';
+import 'package:local/repos/data/models/message/thread.dart';
+import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/screens/post_auth/messages/chat_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:timeago/timeago.dart';
 
 class ChatThread extends StatefulWidget {
-  const ChatThread({Key? key}) : super(key: key);
+  const ChatThread({
+    Key? key,
+    required this.thread,
+  }) : super(key: key);
+
+  final Thread thread;
 
   @override
   State<ChatThread> createState() => _ChatThreadState();
 }
 
 class _ChatThreadState extends State<ChatThread> {
+  Person me = andrew;
   bool selected = false;
 
   @override
@@ -19,8 +29,10 @@ class _ChatThreadState extends State<ChatThread> {
 
   @override
   Widget build(BuildContext context) {
-    const body =
-        "Hey man really looking forward to saturday, its going to be a lot of fun";
+    final body = widget.thread.lastMessage.body;
+    final other = widget.thread.person1.personID == me.personID
+        ? widget.thread.person2
+        : widget.thread.person1;
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -75,8 +87,10 @@ class _ChatThreadState extends State<ChatThread> {
               ClipOval(
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(20),
-                  child: Image.asset("assets/avatars/fox_ai.png",
-                      fit: BoxFit.cover),
+                  child: Image.asset(
+                    other.avatar,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -89,8 +103,14 @@ class _ChatThreadState extends State<ChatThread> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Andrew",
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        other.name,
+                        style: !widget.thread.isRead
+                            ? Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: TW3Colors.gray.shade100,
+                                )
+                            : Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: TW3Colors.gray.shade400,
+                                ),
                       ),
                       const SizedBox(
                         width: 8,
@@ -106,16 +126,27 @@ class _ChatThreadState extends State<ChatThread> {
                       const SizedBox(
                         width: 8,
                       ),
-                      Text("3 minutes ago",
-                          style: Theme.of(context).textTheme.bodySmall),
+                      Text(
+                        format(widget.thread.lastMessage.sentAt),
+                        style: !widget.thread.isRead
+                            ? Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: TW3Colors.gray.shade100,
+                                )
+                            : Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: TW3Colors.gray.shade400,
+                                ),
+                      ),
                     ],
                   ),
                   Text(
                     body.length <= 50 ? body : "${body.substring(0, 50)}...",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: TW3Colors.gray.shade400),
+                    style: !widget.thread.isRead
+                        ? Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: TW3Colors.gray.shade100,
+                            )
+                        : Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: TW3Colors.gray.shade400,
+                            ),
                   )
                 ],
               ),

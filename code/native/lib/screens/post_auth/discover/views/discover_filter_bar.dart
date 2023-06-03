@@ -45,19 +45,27 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
                         });
                       },
                       active: discoverState.spaceFilter.enabled,
-                      child: hasBadge
-                          ? Badge(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              child: const HeroIcon(
-                                HeroIcons.adjustmentsHorizontal,
-                                size: 18,
-                              ),
-                            )
-                          : const HeroIcon(
-                              HeroIcons.adjustmentsHorizontal,
-                              size: 18,
-                            ),
+                      child: Row(
+                        children: [
+                          hasBadge
+                              ? Badge(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  child: const HeroIcon(
+                                    HeroIcons.adjustmentsHorizontal,
+                                    size: 18,
+                                  ),
+                                )
+                              : const HeroIcon(
+                                  HeroIcons.adjustmentsHorizontal,
+                                  size: 18,
+                                ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          const Text("All Filters"),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       width: 8,
