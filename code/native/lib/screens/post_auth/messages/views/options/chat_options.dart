@@ -5,7 +5,7 @@ import 'package:local/screens/post_auth/profile/views/settings/settings_group.da
 import 'package:share_plus/share_plus.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-void showPostOptionsModal(BuildContext context) {
+void showChatOptionsModal(BuildContext context) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -14,13 +14,13 @@ void showPostOptionsModal(BuildContext context) {
     backgroundColor: TW3Colors.gray.shade700,
     isScrollControlled: true,
     builder: (context) {
-      return const PostOptionsModal();
+      return const ChatOptionsModal();
     },
   );
 }
 
-class PostOptionsModal extends StatelessWidget {
-  const PostOptionsModal({
+class ChatOptionsModal extends StatelessWidget {
+  const ChatOptionsModal({
     super.key,
   });
 
@@ -47,28 +47,11 @@ class PostOptionsModal extends StatelessWidget {
               height: 16,
             ),
             SettingsGroup(
-              name: "Post Settings",
+              name: "Message Settings",
               settings: [
                 SettingsItem(
-                  icon: HeroIcons.share,
-                  name: "Share Post",
-                  action: () {
-                    Share.share("Take a look at this post");
-                  },
-                ),
-                SettingsItem(
-                  icon: HeroIcons.eyeSlash,
-                  name: "Hide Post",
-                  action: () {},
-                ),
-                SettingsItem(
-                  icon: HeroIcons.user,
-                  name: "Block Person",
-                  action: () {},
-                ),
-                SettingsItem(
-                  icon: HeroIcons.flag,
-                  name: "Report",
+                  icon: HeroIcons.documentDuplicate,
+                  name: "Copy Message",
                   action: () {},
                 ),
               ],

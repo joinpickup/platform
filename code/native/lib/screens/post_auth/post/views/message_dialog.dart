@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local/components/input/button.dart';
+import 'package:local/repos/data/models/message/message.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/screens/post_auth/post/views/post_mini.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';

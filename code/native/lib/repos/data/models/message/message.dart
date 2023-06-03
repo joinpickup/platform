@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/data/models/user/person.dart';
 
 part 'message.g.dart';
@@ -12,6 +13,7 @@ class Message {
   // generated
   final Person sender;
   final Person receiver;
+  final Post? post;
 
   Message({
     required this.messageID,
@@ -19,6 +21,7 @@ class Message {
     required this.body,
     required this.sender,
     required this.receiver,
+    this.post,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) =>

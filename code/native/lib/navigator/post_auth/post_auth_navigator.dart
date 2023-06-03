@@ -7,6 +7,7 @@ import 'package:local/screens/post_auth/discover/discover_screen.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/messages/messages_screen.dart';
 import 'package:local/screens/post_auth/profile/profile_screen.dart';
+import 'package:local/screens/post_auth/searches/searches_screen.dart';
 import 'package:local/shared/event_feed/event_feed_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
@@ -28,6 +29,7 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
 
     items = [
       const DiscoverScreen(),
+      const SearchesScreen(),
       const MessagesScreen(),
       const ProfileScreen()
     ];

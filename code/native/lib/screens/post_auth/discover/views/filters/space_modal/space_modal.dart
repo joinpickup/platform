@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/modals/space_modal/space_bloc.dart';
 import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/space_repository.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+
+import 'space_bloc.dart';
 
 void showSpaceModal(
   BuildContext context,

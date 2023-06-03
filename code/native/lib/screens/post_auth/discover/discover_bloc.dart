@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/components/modals/sort_modal.dart';
 import 'package:local/constants/filters.dart';
 import 'package:local/repos/data/models/post/post.dart';
 import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'views/filters/sort_modal.dart';
 
 part 'discover_event.dart';
 part 'discover_state.dart';

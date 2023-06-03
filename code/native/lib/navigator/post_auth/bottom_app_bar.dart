@@ -39,7 +39,6 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
       ),
       child: Row(
         textBaseline: TextBaseline.alphabetic,
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.baseline,
         children: [
           CustomBottomAppBarItem(
@@ -58,21 +57,30 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
           CustomBottomAppBarItem(
             onTap: (index) {
               widget.onTap(index);
+            },
+            currentIndex: widget.currentIndex,
+            index: 1,
+            color: TW3Colors.gray.shade300,
+            icon: HeroIcons.magnifyingGlassCircle,
+            label: "Searches",
+          ),
+          CustomBottomAppBarItem(
+            onTap: (index) {
+              widget.onTap(index);
               setState(() {
                 hasMessage = false;
               });
             },
             currentIndex: widget.currentIndex,
-            index: 1,
+            index: 2,
             color: TW3Colors.gray.shade300,
             icon: HeroIcons.chatBubbleBottomCenter,
             label: "Messages",
-            hasBadge: hasMessage,
           ),
           CustomBottomAppBarItem(
             onTap: widget.onTap,
             currentIndex: widget.currentIndex,
-            index: 2,
+            index: 3,
             color: TW3Colors.gray.shade300,
             icon: HeroIcons.user,
             label: "Profile",

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/components/modals/age_modal.dart';
-import 'package:local/components/modals/location_modal.dart';
-import 'package:local/components/modals/sort_modal.dart';
-import 'package:local/components/modals/space_modal/space_modal.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/filters/age_modal.dart';
+import 'package:local/screens/post_auth/discover/views/filters/location_modal.dart';
+import 'package:local/screens/post_auth/discover/views/filters/sort_modal.dart';
+import 'package:local/screens/post_auth/discover/views/filters/space_modal/space_modal.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:local/shared/subscribe/subscription_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
@@ -38,39 +38,7 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    FilterItem(
-                      tap: () {
-                        setState(() {
-                          hasBadge = false;
-                        });
-                      },
-                      active: discoverState.spaceFilter.enabled,
-                      child: Row(
-                        children: [
-                          hasBadge
-                              ? Badge(
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  child: const HeroIcon(
-                                    HeroIcons.adjustmentsHorizontal,
-                                    size: 18,
-                                  ),
-                                )
-                              : const HeroIcon(
-                                  HeroIcons.adjustmentsHorizontal,
-                                  size: 18,
-                                ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const Text("All Filters"),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterItem(
+                    FilterChip(
                       tap: () {
                         showSpaceModal(
                           context,
@@ -108,7 +76,7 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
                     const SizedBox(
                       width: 8,
                     ),
-                    FilterItem(
+                    FilterChip(
                       tap: () {
                         showSortModal(
                           context,
@@ -162,7 +130,7 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
                     const SizedBox(
                       width: 8,
                     ),
-                    FilterItem(
+                    FilterChip(
                       active: discoverState.locationFilter.enabled,
                       tap: () {
                         showLocationModal(
@@ -217,7 +185,7 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
                     const SizedBox(
                       width: 8,
                     ),
-                    FilterItem(
+                    FilterChip(
                       active: discoverState.ageFilter.enabled,
                       tap: () {
                         showAgeModal(
@@ -274,7 +242,7 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
                     const SizedBox(
                       width: 8,
                     ),
-                    FilterItem(
+                    FilterChip(
                       tap: () {
                         context
                             .read<DiscoverScreenBloc>()
@@ -293,8 +261,8 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
   }
 }
 
-class FilterItem extends StatefulWidget {
-  const FilterItem({
+class FilterChip extends StatefulWidget {
+  const FilterChip({
     super.key,
     required this.child,
     this.active = false,
@@ -306,10 +274,10 @@ class FilterItem extends StatefulWidget {
   final Function tap;
 
   @override
-  State<FilterItem> createState() => _FilterItemState();
+  State<FilterChip> createState() => _FilterChipState();
 }
 
-class _FilterItemState extends State<FilterItem> {
+class _FilterChipState extends State<FilterChip> {
   bool selected = false;
 
   @override

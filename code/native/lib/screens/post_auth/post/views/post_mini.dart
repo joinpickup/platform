@@ -83,12 +83,6 @@ class _PostMiniState extends State<PostMini> {
           post.title,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        Text(
-          post.body.length <= 120
-              ? post.body
-              : "${post.body.substring(0, 120)}...",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
       ],
     );
   }

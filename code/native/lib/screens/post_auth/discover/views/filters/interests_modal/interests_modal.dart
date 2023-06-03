@@ -4,11 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/modals/interests_modal/interests_modal_bloc.dart';
-import 'package:local/components/modals/space_modal/space_bloc.dart';
 import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/space_repository.dart';
+import 'package:local/screens/post_auth/discover/views/filters/interests_modal/interests_modal_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/filters/space_modal/space_bloc.dart';
 import 'package:local/shared/subscribe/subscription_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

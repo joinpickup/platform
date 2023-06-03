@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:local/repos/data/models/filter/search.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:local/screens/post_auth/searches/views/edit_search_modal.dart/edit_search_modal.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-void showPostOptionsModal(BuildContext context) {
+void showSearchOptionsModal(
+  BuildContext context,
+  Search search,
+) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -14,15 +18,20 @@ void showPostOptionsModal(BuildContext context) {
     backgroundColor: TW3Colors.gray.shade700,
     isScrollControlled: true,
     builder: (context) {
-      return const PostOptionsModal();
+      return SearchOptionsModal(
+        search: search,
+      );
     },
   );
 }
 
-class PostOptionsModal extends StatelessWidget {
-  const PostOptionsModal({
+class SearchOptionsModal extends StatelessWidget {
+  const SearchOptionsModal({
     super.key,
+    required this.search,
   });
+
+  final Search search;
 
   @override
   Widget build(BuildContext context) {
@@ -47,28 +56,54 @@ class PostOptionsModal extends StatelessWidget {
               height: 16,
             ),
             SettingsGroup(
-              name: "Post Settings",
+              name: "Search Settings",
               settings: [
                 SettingsItem(
-                  icon: HeroIcons.share,
-                  name: "Share Post",
+                  icon: HeroIcons.pencilSquare,
+                  name: "Edit Search",
                   action: () {
-                    Share.share("Take a look at this post");
+                    showEditSearchModal(context, search);
                   },
                 ),
                 SettingsItem(
+                  icon: HeroIcons.bell,
+                  name: "Enable Notifications",
+                  action: () {},
+                ),
+                SettingsItem(
+                  icon: HeroIcons.userGroup,
+                  name: "Make Public",
+                  action: () {},
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            SettingsGroup(
+              name: "More Seach Settings",
+              settings: [
+                SettingsItem(
+                  icon: HeroIcons.heart,
+                  name: "Save Search",
+                  action: () {},
+                ),
+                SettingsItem(
                   icon: HeroIcons.eyeSlash,
-                  name: "Hide Post",
+                  name: "Hide Search",
                   action: () {},
                 ),
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            SettingsGroup(
+              name: "Oh No",
+              settings: [
                 SettingsItem(
-                  icon: HeroIcons.user,
-                  name: "Block Person",
-                  action: () {},
-                ),
-                SettingsItem(
-                  icon: HeroIcons.flag,
-                  name: "Report",
+                  icon: HeroIcons.xCircle,
+                  name: "Remove Search",
                   action: () {},
                 ),
               ],

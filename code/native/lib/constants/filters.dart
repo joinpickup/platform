@@ -1,4 +1,4 @@
-import 'package:local/components/modals/sort_modal.dart';
+import 'package:local/screens/post_auth/discover/views/filters/sort_modal.dart';
 
 const kAgeFilterStart = 18;
 const kAgeFilterEnd = 80;

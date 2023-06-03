@@ -12,6 +12,9 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       body: json['body'] as String,
       sender: Person.fromJson(json['sender'] as Map<String, dynamic>),
       receiver: Person.fromJson(json['receiver'] as Map<String, dynamic>),
+      post: json['post'] == null
+          ? null
+          : Post.fromJson(json['post'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
@@ -20,4 +23,5 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'body': instance.body,
       'sender': instance.sender,
       'receiver': instance.receiver,
+      'post': instance.post,
     };

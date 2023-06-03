@@ -4,13 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/input/icon_button.dart';
-import 'package:local/components/modals/interests_modal/interests_modal.dart';
 import 'package:local/repos/data/models/space/interest.dart';
-import 'package:local/repos/data/models/user/user.dart';
-import 'package:local/repos/person_repository.dart';
-import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
-import 'package:local/shared/service_bloc/service_bloc.dart';
+import 'package:local/screens/post_auth/discover/views/filters/interests_modal/interests_modal.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showAddPostModal(BuildContext context) {

@@ -1,14 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/repos/data/mocks/person.dart';
+import 'package:local/repos/data/mocks/post.dart';
 import 'package:local/repos/data/models/message/message.dart';
+import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/user/person.dart';
+import 'package:local/screens/post_auth/messages/views/options/chat_options.dart';
+import 'package:local/screens/post_auth/messages/views/options/thread_options.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
+import 'package:local/screens/post_auth/post/post_screen.dart';
+import 'package:local/screens/post_auth/post/views/post_mini.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+
+DateTime lastYear = DateTime.now().subtract(const Duration(days: 365));
 
 DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
 
@@ -20,6 +30,14 @@ DateTime tenMinutesAgo = DateTime.now().subtract(const Duration(minutes: 10));
 DateTime fiveMinutesAgo = DateTime.now().subtract(const Duration(minutes: 5));
 
 List<Message> messages = [
+  Message(
+    body: "Hey man",
+    messageID: 0,
+    sentAt: lastYear,
+    sender: brian,
+    receiver: andrew,
+    post: andrewPost,
+  ),
   Message(
     body: "Yo yo brian",
     messageID: 0,
@@ -96,7 +114,11 @@ class _ChatScreenState extends State<ChatScreen> {
           actions: [
             IconButton(
               icon: const Icon(Icons.more_vert),
-              onPressed: () {},
+              onPressed: () {
+                showThreadOptionsModal(
+                  context,
+                );
+              },
             ),
           ],
           title: GestureDetector(
@@ -130,8 +152,12 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
+                  reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
+                    // handle reversed index
+                    index = messages.length - index - 1;
+
                     // lets build the message with the
                     // context of the other messages
                     Message? previousMessage;
@@ -183,6 +209,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
 
                     bool messageNeedsDate = false;
+                    bool messageThisYear =
+                        message.sentAt.year == DateTime.now().year;
+                    if (previousMessage == null ||
+                        (previousMessage.sentAt.day != message.sentAt.day)) {
+                      messageNeedsDate = true;
+                    }
+
                     if (previousMessage == null ||
                         (previousMessage.sentAt.day != message.sentAt.day)) {
                       messageNeedsDate = true;
@@ -193,8 +226,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     // need to do some fancy formatting here eventually
                     return Padding(
                       padding: EdgeInsets.only(
-                        left: 16,
-                        right: 16,
+                        left: 8,
+                        right: 8,
                         top: messagesSentWithinSameMinutePrevious ? 4 : 4,
                         bottom: messagesSentWithinSameMinuteNext ? 0 : 8,
                       ),
@@ -207,10 +240,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                   children: [
                                     Center(
                                       child: Text(
-                                        DateFormat('MMM d, y')
-                                            .format(message.sentAt),
-                                        style: const TextStyle(
+                                        DateFormat(
+                                          !messageThisYear
+                                              ? 'MMM d, y'
+                                              : 'E, MMM d',
+                                        ).format(message.sentAt),
+                                        style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          color: TW3Colors.gray.shade400,
                                         ),
                                       ),
                                     ),
@@ -220,57 +257,43 @@ class _ChatScreenState extends State<ChatScreen> {
                                   ],
                                 )
                               : Container(),
-                          SizedBox(
-                            width: 200,
-                            child: Align(
-                              alignment: isSender
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: messages[index].sender.userID ==
-                                          me.userID
-                                      ? Theme.of(context).colorScheme.secondary
-                                      : TW3Colors.gray.shade500,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: isSender
-                                      ? CrossAxisAlignment.end
-                                      : CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      messages[index].body,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    !messagesSentWithinSameMinuteNext
-                                        ? Column(
-                                            children: [
-                                              const SizedBox(
-                                                height: 4,
-                                              ),
-                                              Text(
-                                                DateFormat('h:mm a').format(
-                                                    messages[index].sentAt),
-                                                // messages[index].sentAt.minute.toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
-                                                    .copyWith(
-                                                        fontSize: 10,
-                                                        color: TW3Colors
-                                                            .gray.shade400),
-                                              ),
-                                            ],
-                                          )
-                                        : const SizedBox.shrink()
-                                  ],
-                                ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              message.post != null
+                                  ? Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) {
+                                                return PostScreen(
+                                                  postID: message.post?.postID
+                                                      as int,
+                                                );
+                                              },
+                                            ));
+                                          },
+                                          child: PostMini(
+                                            post: message.post as Post,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                              MessageBubble(
+                                message: messages[index],
+                                isSender: isSender,
+                                me: me,
+                                messagesSentWithinSameMinuteNext:
+                                    messagesSentWithinSameMinuteNext,
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
@@ -354,5 +377,76 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       messages.add(newMessage);
     });
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  const MessageBubble({
+    super.key,
+    required this.message,
+    required this.isSender,
+    required this.me,
+    required this.messagesSentWithinSameMinuteNext,
+  });
+
+  final Message message;
+  final bool isSender;
+  final Person me;
+  final bool messagesSentWithinSameMinuteNext;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () {
+        HapticFeedback.mediumImpact();
+        showChatOptionsModal(
+          context,
+        );
+      },
+      child: SizedBox(
+        width: 200,
+        child: Align(
+          alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: message.sender.userID == me.userID
+                  ? Theme.of(context).colorScheme.secondary
+                  : TW3Colors.gray.shade500,
+            ),
+            child: Column(
+              crossAxisAlignment:
+                  isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                Text(
+                  message.body,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                !messagesSentWithinSameMinuteNext
+                    ? Column(
+                        children: [
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            DateFormat('h:mm a').format(message.sentAt),
+                            // messages[index].sentAt.minute.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    fontSize: 10,
+                                    color: TW3Colors.gray.shade400),
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink()
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
