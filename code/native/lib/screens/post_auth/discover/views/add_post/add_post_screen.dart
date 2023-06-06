@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
-import 'package:local/components/input/icon_button.dart';
 import 'package:local/repos/data/models/space/interest.dart';
+import 'package:local/repos/interest_repository.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
-import 'package:local/screens/post_auth/discover/views/filters/interests_modal/interests_modal.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/bloc/interest_filter_modal_bloc.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/interest_filter_modal.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showAddPostModal(BuildContext context) {
@@ -15,10 +16,15 @@ void showAddPostModal(BuildContext context) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12.0),
     ),
+    isDismissible: false,
+    enableDrag: false,
     backgroundColor: TW3Colors.gray.shade700,
     isScrollControlled: true,
-    builder: (context) {
-      return const AddNewPostModal();
+    builder: (_) {
+      return const FractionallySizedBox(
+        heightFactor: 0.9,
+        child: AddNewPostModal(),
+      );
     },
   );
 }
@@ -39,71 +45,51 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddPostBloc, AddPostState>(
-      listener: (context, state) {
-        if (state.status == AddPostStatus.success) {
-          Navigator.of(context).pop();
-        }
-      },
-      builder: (context, state) {
-        return SafeArea(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
+    return BlocProvider(
+      create: (context) => InterestFilterModalBloc(
+        InterestRepository(),
+      )..add(LoadIntersts()),
+      child: BlocConsumer<AddPostBloc, AddPostState>(
+        listener: (context, state) {
+          if (state.status == AddPostStatus.success) {
+            Navigator.of(context).pop();
+          }
+        },
+        builder: (context, state) {
+          return SafeArea(
+            child: Container(
+              padding: const EdgeInsets.all(8),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: TW3Colors.gray.shade500,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Create New Post",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 22,
+                                  ),
+                        ),
                       ),
-                      width: 64,
-                      height: 4,
-                    ),
+                      IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
+                    ],
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom,
-                    ),
+                  Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                      child: ListView(
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Create New Post",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontSize: 26,
-                                    ),
-                              ),
-                              CustomIconButton(
-                                child: HeroIcon(
-                                  HeroIcons.xMark,
-                                  style: HeroIconStyle.solid,
-                                  color: TW3Colors.gray.shade300,
-                                ),
-                                tap: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -230,16 +216,7 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                                   context
                                       .read<AddPostBloc>()
                                       .add(ResetAddPostValidation());
-                                  showInterestsModal(
-                                    context,
-                                    (value) {
-                                      Navigator.of(context).pop();
-                                      setState(() {
-                                        interests = value;
-                                      });
-                                    },
-                                    interests,
-                                  );
+                                  showInterestFilterModal(context);
                                 },
                                 child: Container(
                                   height: 46,
@@ -278,34 +255,31 @@ class _AddNewPostModalState extends State<AddNewPostModal> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: CustomButton(
-                              tap: () {
-                                context.read<AddPostBloc>().add(
-                                      AddPost(
-                                        title: _titleController.text,
-                                        body: _bodyController.text,
-                                        interests: interests,
-                                      ),
-                                    );
-                              },
-                              text: "Post",
-                            ),
-                          ),
                         ],
                       ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      tap: () {
+                        context.read<AddPostBloc>().add(
+                              AddPost(
+                                title: _titleController.text,
+                                body: _bodyController.text,
+                                interests: interests,
+                              ),
+                            );
+                      },
+                      text: "Post",
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

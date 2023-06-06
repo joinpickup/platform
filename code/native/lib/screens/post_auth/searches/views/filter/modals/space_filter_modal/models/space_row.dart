@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class FilterItem extends StatefulWidget {
-  const FilterItem({
+class SpaceRow extends StatefulWidget {
+  const SpaceRow({
     super.key,
     required this.icon,
     required this.name,
     required this.action,
-    this.hasArrow = false,
+    this.selected = false,
   });
 
   final HeroIcons icon;
   final String name;
   final Function action;
-  final bool hasArrow;
+  final bool selected;
 
   @override
-  State<FilterItem> createState() => _FilterItemState();
+  State<SpaceRow> createState() => _SpaceRowState();
 }
 
-class _FilterItemState extends State<FilterItem> {
+class _SpaceRowState extends State<SpaceRow> {
   bool selected = false;
 
   @override
@@ -97,15 +97,13 @@ class _FilterItemState extends State<FilterItem> {
                 widget.name,
               ),
             ),
-            Container(
-              child: widget.hasArrow
-                  ? const HeroIcon(
-                      HeroIcons.chevronDoubleDown,
-                      style: HeroIconStyle.solid,
-                      size: 20,
-                    )
-                  : null,
-            )
+            Icon(
+              widget.selected
+                  ? Icons.check_box_rounded
+                  : Icons.check_box_outline_blank_rounded,
+              size: 20,
+              color: TW3Colors.gray.shade300,
+            ),
           ],
         ),
       ),

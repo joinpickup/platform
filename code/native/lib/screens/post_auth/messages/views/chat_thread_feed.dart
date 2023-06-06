@@ -1,38 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/message/thread.dart';
-import 'package:local/screens/post_auth/messages/chat_screen.dart';
 import 'package:local/screens/post_auth/messages/views/chat_thread.dart';
 
-List<Thread> threads = [
-  Thread(
-    threadID: 1,
-    createdAt: DateTime.now(),
-    lastMessage: messages.last,
-    person1: andrew,
-    person2: brian,
-    isRead: false,
-  ),
-  Thread(
-    threadID: 2,
-    createdAt: DateTime.now(),
-    lastMessage: messages.last,
-    person1: andrew,
-    person2: stef,
-    isRead: true,
-  ),
-  Thread(
-    threadID: 3,
-    createdAt: DateTime.now(),
-    lastMessage: messages.last,
-    person1: andrew,
-    person2: jay,
-    isRead: true,
-  ),
-];
-
 class ChatThreadFeed extends StatefulWidget {
-  const ChatThreadFeed({Key? key}) : super(key: key);
+  const ChatThreadFeed({
+    Key? key,
+    required this.threads,
+  }) : super(key: key);
+
+  final List<Thread> threads;
 
   @override
   State<ChatThreadFeed> createState() => _ChatThreadFeedState();
@@ -48,13 +24,13 @@ class _ChatThreadFeedState extends State<ChatThreadFeed> {
         bottom: 8,
       ),
       child: ListView.separated(
-        itemCount: threads.length,
+        itemCount: widget.threads.length,
         separatorBuilder: (context, index) {
           return const Divider();
         },
         itemBuilder: (context, index) {
           return ChatThread(
-            thread: threads[index],
+            thread: widget.threads[index],
           );
         },
         shrinkWrap: true,

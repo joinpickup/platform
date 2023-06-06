@@ -96,6 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   // controllers
   final _messageController = TextEditingController();
+  final _messageFocus = FocusNode();
   bool _isInputEmpty = true;
 
   @override
@@ -304,6 +305,7 @@ class _ChatScreenState extends State<ChatScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                       child: CupertinoTextField(
@@ -316,6 +318,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             _isInputEmpty = value.isEmpty;
                           });
                         },
+                        focusNode: _messageFocus,
                         placeholder: "Send a message...",
                         padding: const EdgeInsets.all(12),
                         placeholderStyle: TextStyle(
@@ -335,6 +338,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           color: TW3Colors.gray.shade600,
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        minLines: 1,
+                        maxLines: 4,
                       ),
                     ),
                     _isInputEmpty ? Container() : const SizedBox(width: 8.0),
@@ -349,6 +354,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               setState(() {
                                 _isInputEmpty = true;
                               });
+
+                              _messageFocus.requestFocus();
                             },
                             child: const HeroIcon(
                               HeroIcons.arrowUp,

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:local/repos/interest_repository.dart';
+import 'package:local/repos/space_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
-import 'package:local/screens/post_auth/discover/views/filters/age_modal.dart';
-import 'package:local/screens/post_auth/discover/views/filters/location_modal.dart';
-import 'package:local/screens/post_auth/discover/views/filters/sort_modal.dart';
-import 'package:local/screens/post_auth/discover/views/filters/space_modal/space_modal.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/bloc/interest_filter_modal_bloc.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/interest_filter_modal.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/bloc/space_filter_modal_bloc.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/space_filter_modal.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
-import 'package:local/shared/subscribe/subscription_page.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 class DiscoverFilterBar extends StatefulWidget {
@@ -23,240 +24,106 @@ class _DiscoverFilterBarState extends State<DiscoverFilterBar> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, authState) {
-        return BlocConsumer<DiscoverScreenBloc, DiscoverScreenState>(
-          listener: (context, state) {},
-          builder: (context, discoverState) {
-            return Container(
-              width: double.maxFinite,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    FilterChip(
-                      tap: () {
-                        showSpaceModal(
-                          context,
-                          (space) {
-                            Navigator.of(context).pop();
-                            context
-                                .read<DiscoverScreenBloc>()
-                                .add(FilterBySpace(space));
-                          },
-                          () {
-                            Navigator.of(context).pop();
-                            context
-                                .read<DiscoverScreenBloc>()
-                                .add(ResetSpaceFilterForPosts());
-                          },
-                          discoverState.spaceFilter.space,
-                        );
-                      },
-                      active: discoverState.spaceFilter.enabled,
-                      child: Row(
-                        children: [
-                          Text(discoverState.spaceFilter.enabled
-                              ? discoverState.spaceFilter.space!.name
-                              : "Space"),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const HeroIcon(
-                            HeroIcons.chevronDown,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterChip(
-                      tap: () {
-                        showSortModal(
-                          context,
-                          (SortOption sort) {
-                            if (authState.user!.hasSubscription) {
-                              context
-                                  .read<DiscoverScreenBloc>()
-                                  .add(SortPosts(sort));
-                              Navigator.of(context).pop();
-                            } else {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                fullscreenDialog: true,
-                                builder: (context) {
-                                  return const SubscriptionPopup();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SpaceFilterModalBloc(
+            SpaceRepository(),
+          )..add(LoadSpaces()),
+        ),
+        BlocProvider(
+          create: (context) => InterestFilterModalBloc(
+            InterestRepository(),
+          )..add(LoadIntersts()),
+        ),
+      ],
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, authState) {
+          return BlocBuilder<DiscoverScreenBloc, DiscoverScreenState>(
+            builder: (context, discoverState) {
+              return BlocBuilder<SpaceFilterModalBloc, SpaceFilterModalState>(
+                builder: (context, spaceFilterModalState) {
+                  return BlocBuilder<InterestFilterModalBloc,
+                      InterestFilterModalState>(
+                    builder: (context, interestFilterModalState) {
+                      return Container(
+                        width: double.maxFinite,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              FilterChip(
+                                tap: () {
+                                  showSpaceFilterModal(context);
                                 },
-                              ));
-                            }
-                          },
-                          () {
-                            context
-                                .read<DiscoverScreenBloc>()
-                                .add(ResetSortForPosts());
-                          },
-                          discoverState.sortState.sort,
-                        );
-                      },
-                      active: discoverState.sortState.enabled,
-                      child: Row(
-                        children: [
-                          const HeroIcon(
-                            HeroIcons.star,
-                            style: HeroIconStyle.solid,
-                            size: 18,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(discoverState.sortState.enabled
-                              ? discoverState.sortState.sort.title
-                              : "Sort"),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const HeroIcon(
-                            HeroIcons.chevronDown,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterChip(
-                      active: discoverState.locationFilter.enabled,
-                      tap: () {
-                        showLocationModal(
-                          context,
-                          (int start, int end) {
-                            if (authState.user!.hasSubscription) {
-                              context
-                                  .read<DiscoverScreenBloc>()
-                                  .add(FilterPostsByLocation(start, end));
-                              Navigator.of(context).pop();
-                            } else {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                fullscreenDialog: true,
-                                builder: (context) {
-                                  return const SubscriptionPopup();
-                                },
-                              ));
-                            }
-                          },
-                          () {
-                            context
-                                .read<DiscoverScreenBloc>()
-                                .add(ResetLocationFilterForPosts());
-                          },
-                          discoverState.locationFilter.start,
-                          discoverState.locationFilter.end,
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          const HeroIcon(
-                            HeroIcons.star,
-                            style: HeroIconStyle.solid,
-                            size: 18,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(discoverState.locationFilter.enabled
-                              ? "${discoverState.locationFilter.start} mi - ${discoverState.locationFilter.end} mi"
-                              : "Location"),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const HeroIcon(
-                            HeroIcons.chevronDown,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterChip(
-                      active: discoverState.ageFilter.enabled,
-                      tap: () {
-                        showAgeModal(
-                          context,
-                          (int start, int end) {
-                            if (authState.user!.hasSubscription) {
-                              context
-                                  .read<DiscoverScreenBloc>()
-                                  .add(FilterPostsByAge(start, end));
-                              Navigator.of(context).pop();
-                            } else {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  fullscreenDialog: true,
-                                  builder: (context) {
-                                    return const SubscriptionPopup();
-                                  },
+                                active: spaceFilterModalState
+                                    .selectedSpaces.isNotEmpty,
+                                child: Row(
+                                  children: const [
+                                    Text("Space"),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    HeroIcon(
+                                      HeroIcons.chevronDown,
+                                      size: 18,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            }
-                          },
-                          () {
-                            context
-                                .read<DiscoverScreenBloc>()
-                                .add(ResetAgeFilterForPosts());
-                          },
-                          discoverState.ageFilter.start,
-                          discoverState.ageFilter.end,
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          const HeroIcon(
-                            HeroIcons.star,
-                            style: HeroIconStyle.solid,
-                            size: 18,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              FilterChip(
+                                tap: () {
+                                  showInterestFilterModal(context);
+                                },
+                                active: interestFilterModalState
+                                    .selectedInterests.isNotEmpty,
+                                child: Row(
+                                  children: const [
+                                    Text("Interests"),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    HeroIcon(
+                                      HeroIcons.chevronDown,
+                                      size: 18,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              FilterChip(
+                                tap: () {
+                                  context
+                                      .read<InterestFilterModalBloc>()
+                                      .add(ClearInterests());
+
+                                  context
+                                      .read<SpaceFilterModalBloc>()
+                                      .add(ClearSpaces());
+                                },
+                                child: const Text("Clear Filters"),
+                              ),
+                            ],
                           ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(discoverState.ageFilter.enabled
-                              ? "${discoverState.ageFilter.start}-${discoverState.ageFilter.end}"
-                              : "Age"),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const HeroIcon(
-                            HeroIcons.chevronDown,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    FilterChip(
-                      tap: () {
-                        context
-                            .read<DiscoverScreenBloc>()
-                            .add(ResetAllFilters());
-                      },
-                      child: const Text("Clear Filters"),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

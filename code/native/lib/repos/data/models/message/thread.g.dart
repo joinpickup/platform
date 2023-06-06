@@ -14,6 +14,7 @@ Thread _$ThreadFromJson(Map<String, dynamic> json) => Thread(
       lastMessage:
           Message.fromJson(json['lastMessage'] as Map<String, dynamic>),
       isRead: json['isRead'] as bool,
+      isRequest: json['isRequest'] as bool,
     );
 
 Map<String, dynamic> _$ThreadToJson(Thread instance) => <String, dynamic>{
@@ -23,4 +24,5 @@ Map<String, dynamic> _$ThreadToJson(Thread instance) => <String, dynamic>{
       'person2': instance.person2,
       'lastMessage': instance.lastMessage,
       'isRead': instance.isRead,
+      'isRequest': instance.isRequest,
     };

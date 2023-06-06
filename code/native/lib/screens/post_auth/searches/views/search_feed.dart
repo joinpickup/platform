@@ -1,32 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:local/repos/data/mocks/post.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/repos/data/models/filter/search.dart';
+import 'package:local/screens/post_auth/post/post_bloc.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/bloc/space_filter_modal_bloc.dart';
 import 'package:local/screens/post_auth/searches/views/search_card.dart';
 
-List<Search> searches = [
-  Search(
-    searchID: 1,
-    createdAt: DateTime.now(),
-    name: "Tennis Posts",
-    description: "All posts related to tennis.",
-    posts: [
-      andrewPost,
-    ],
-  ),
-  Search(
-    searchID: 2,
-    createdAt: DateTime.now(),
-    name: "Posts about soccer",
-    description: "All posts related to soccer.",
-    posts: [
-      andrewPost,
-      brianPost,
-    ],
-  ),
-];
-
 class SearchFeed extends StatefulWidget {
-  const SearchFeed({Key? key}) : super(key: key);
+  const SearchFeed({
+    Key? key,
+    required this.searches,
+  }) : super(key: key);
+
+  final List<Search> searches;
 
   @override
   State<SearchFeed> createState() => _SearchFeedState();
@@ -42,7 +27,7 @@ class _SearchFeedState extends State<SearchFeed> {
         bottom: 8,
       ),
       child: ListView.separated(
-        itemCount: searches.length,
+        itemCount: widget.searches.length,
         separatorBuilder: (context, index) {
           return const SizedBox(
             height: 8,
@@ -50,7 +35,7 @@ class _SearchFeedState extends State<SearchFeed> {
         },
         itemBuilder: (context, index) {
           return SearchCard(
-            search: searches[index],
+            search: widget.searches[index],
           );
         },
         shrinkWrap: true,

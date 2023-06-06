@@ -54,6 +54,11 @@ class ThreadOptionsModal extends StatelessWidget {
                   action: () {},
                 ),
                 SettingsItem(
+                  icon: HeroIcons.checkCircle,
+                  name: "Mark As Read",
+                  action: () {},
+                ),
+                SettingsItem(
                   icon: HeroIcons.user,
                   name: "Block User",
                   action: () {},

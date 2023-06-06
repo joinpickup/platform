@@ -14,6 +14,7 @@ class Thread {
   final Person person2;
   final Message lastMessage;
   final bool isRead;
+  final bool isRequest;
 
   Thread({
     required this.threadID,
@@ -22,6 +23,7 @@ class Thread {
     required this.person2,
     required this.lastMessage,
     required this.isRead,
+    required this.isRequest,
   });
 
   factory Thread.fromJson(Map<String, dynamic> json) => _$ThreadFromJson(json);

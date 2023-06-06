@@ -21,9 +21,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Profile"),
+        backgroundColor: TW3Colors.gray.shade700,
         elevation: 0,
       ),
-      backgroundColor: TW3Colors.gray.shade600,
+      backgroundColor: TW3Colors.gray.shade700,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -90,11 +91,11 @@ Widget _buildProfileSettings(BuildContext context) {
         name: "Dangerous Settings",
         color: TW3Colors.gray.shade700,
         settings: [
-          SettingsItem(
-            icon: HeroIcons.archiveBox,
-            name: "Archive Account",
-            action: () {},
-          ),
+          // SettingsItem(
+          //   icon: HeroIcons.archiveBox,
+          //   name: "Archive Account",
+          //   action: () {},
+          // ),
           SettingsItem(
             icon: HeroIcons.xCircle,
             name: "Delete Account",

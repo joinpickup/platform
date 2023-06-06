@@ -4,9 +4,11 @@ import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
 import 'package:local/components/skelaton/post_card_skelaton.dart';
 import 'package:local/components/snackbar/Snackbar.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/space_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/discover_app_bar.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/bloc/space_filter_modal_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

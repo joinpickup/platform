@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:local/main.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
-class FilterGroup extends StatefulWidget {
-  const FilterGroup({
+class GeneralGroup extends StatefulWidget {
+  const GeneralGroup({
     Key? key,
     this.name,
-    required this.filters,
+    required this.items,
   }) : super(key: key);
 
   final String? name;
-  final List<Widget> filters;
+  final List<Widget> items;
 
   @override
-  State<FilterGroup> createState() => _FilterGroupState();
+  State<GeneralGroup> createState() => _GeneralGroupState();
 }
 
-class _FilterGroupState extends State<FilterGroup> {
+class _GeneralGroupState extends State<GeneralGroup> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,11 +52,12 @@ class _FilterGroupState extends State<FilterGroup> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.filters.insertBetween(
-              const SizedBox(
-                height: 4,
+            children: widget.items
+              ..insertBetween(
+                const SizedBox(
+                  height: 4,
+                ),
               ),
-            ),
           ),
         ),
       ],

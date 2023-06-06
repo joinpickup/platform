@@ -19,38 +19,41 @@ class _ChangeThemeScreenState extends State<ChangeThemeScreen> {
       ),
       backgroundColor: TW3Colors.gray.shade600,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        _buildProfileSettings(context),
-                        const SizedBox(height: 16),
-                      ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          _buildProfileSettings(context),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                color: TW3Colors.gray.shade600,
-                child: CustomButton(
-                  buttonType: CustomButtonType.contained,
-                  tap: () {},
-                  text: "Update",
+                  ],
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  color: TW3Colors.gray.shade600,
+                  child: CustomButton(
+                    buttonType: CustomButtonType.contained,
+                    tap: () {},
+                    text: "Update",
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

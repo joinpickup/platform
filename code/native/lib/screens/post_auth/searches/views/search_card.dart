@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/repos/data/models/filter/search.dart';
+import 'package:local/screens/post_auth/post/post_bloc.dart';
+import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/bloc/space_filter_modal_bloc.dart';
 import 'package:local/screens/post_auth/searches/views/options/search_options.dart';
 import 'package:local/screens/post_auth/searches/views/search_screen.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';

@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/user/person.dart';
 
 part 'search.g.dart';
 
@@ -10,16 +11,22 @@ class Search {
 
   final String name;
   final String description;
+  final bool isPublic;
+  final bool notificationsEnabled;
 
   // generated
   final List<Post> posts;
+  final Person owner;
 
   Search({
     required this.searchID,
     required this.createdAt,
     required this.name,
     required this.description,
+    required this.isPublic,
+    required this.notificationsEnabled,
     required this.posts,
+    required this.owner,
   });
 
   factory Search.fromJson(Map<String, dynamic> json) => _$SearchFromJson(json);

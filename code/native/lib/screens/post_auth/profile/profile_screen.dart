@@ -3,14 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/user/person.dart';
-import 'package:local/screens/post_auth/messages/messages_screen.dart';
-import 'package:local/screens/post_auth/notifications/notifications_screen.dart';
 import 'package:local/screens/post_auth/person/person_screen.dart';
-import 'package:local/screens/post_auth/profile/views/modules/module.dart';
 import 'package:local/screens/post_auth/profile/views/settings/edit_profile/edit_profile_screen.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';
 import 'package:local/screens/post_auth/profile/views/settings/settings_group.dart';
-import 'package:local/screens/post_auth/profile/views/settings/theme/theme_screen.dart';
 import 'package:local/shared/auth_feed/auth_bloc.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           (p) => p.userID == state.user!.userID,
         );
         return Scaffold(
-          backgroundColor: TW3Colors.gray.shade600,
+          backgroundColor: TW3Colors.gray.shade700,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(100),
             child: _buildAppBar(context, person),
@@ -143,16 +139,16 @@ Widget _buildProfileSettings(BuildContext context) {
         name: "Application Settings",
         color: TW3Colors.gray.shade700,
         settings: [
-          SettingsItem(
-            hasArrow: true,
-            icon: HeroIcons.swatch,
-            name: "Theme",
-            action: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ChangeThemeScreen(),
-              ));
-            },
-          ),
+          // SettingsItem(
+          //   hasArrow: true,
+          //   icon: HeroIcons.swatch,
+          //   name: "Theme",
+          //   action: () {
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //       builder: (context) => const ChangeThemeScreen(),
+          //     ));
+          //   },
+          // ),
           SettingsItem(
             icon: HeroIcons.documentText,
             name: "Terms Of Service",

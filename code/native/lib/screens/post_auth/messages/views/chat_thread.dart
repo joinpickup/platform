@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/components/input/button.dart';
 import 'package:local/components/input/icon_button.dart';
 import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/message/thread.dart';
@@ -47,6 +47,7 @@ class _ChatThreadState extends State<ChatThread> {
         }
       },
       onLongPress: () {
+        HapticFeedback.mediumImpact();
         showThreadOptionsModal(
           context,
         );

@@ -14,7 +14,10 @@ void showChangeUsernameModal(
     ),
     backgroundColor: TW3Colors.gray.shade700,
     builder: (context) {
-      return const ChangeUsernameModal();
+      return const FractionallySizedBox(
+        heightFactor: 0.7,
+        child: ChangeUsernameModal(),
+      );
     },
   );
 }
@@ -40,72 +43,75 @@ class _ChangeUsernameModalState extends State<ChangeUsernameModal> {
         duration: const Duration(milliseconds: 500),
         padding: const EdgeInsets.all(8),
         width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: TW3Colors.gray.shade500,
-                ),
-                width: 64,
-                height: 4,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Username",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: 26,
-                        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: TW3Colors.gray.shade500,
                   ),
-                ],
+                  width: 64,
+                  height: 4,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            CupertinoTextField(
-              controller: _usernameController,
-              placeholder: "Enter a new username...",
-              padding: const EdgeInsets.all(12),
-              placeholderStyle: TextStyle(
-                color: TW3Colors.gray.shade400,
-                fontFamily: "Nunito",
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Username",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 26,
+                          ),
+                    ),
+                  ],
+                ),
               ),
-              style: TextStyle(
-                color: TW3Colors.gray.shade300,
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.bold,
+              const SizedBox(
+                height: 8,
               ),
-              decoration: BoxDecoration(
-                  color: TW3Colors.gray.shade600,
-                  borderRadius: BorderRadius.circular(8),
-                  border: hasError
-                      ? Border.all(
-                          color: TW3Colors.red.shade500,
-                          width: 2,
-                        )
-                      : null),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: CustomButton(
-                buttonType: CustomButtonType.contained,
-                tap: () {},
-                text: "Update",
+              CupertinoTextField(
+                controller: _usernameController,
+                placeholder: "Enter a new username...",
+                padding: const EdgeInsets.all(12),
+                placeholderStyle: TextStyle(
+                  color: TW3Colors.gray.shade400,
+                  fontFamily: "Nunito",
+                ),
+                style: TextStyle(
+                  color: TW3Colors.gray.shade300,
+                  fontFamily: "Nunito",
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: BoxDecoration(
+                    color: TW3Colors.gray.shade600,
+                    borderRadius: BorderRadius.circular(8),
+                    border: hasError
+                        ? Border.all(
+                            color: TW3Colors.red.shade500,
+                            width: 2,
+                          )
+                        : null),
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                  buttonType: CustomButtonType.contained,
+                  tap: () {},
+                  text: "Update",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
