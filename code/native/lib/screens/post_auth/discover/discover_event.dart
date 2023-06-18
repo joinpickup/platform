@@ -7,60 +7,86 @@ abstract class DiscoverScreenEvent extends Equatable {
 
 class BeginSearch extends DiscoverScreenEvent {}
 
-class ResetScreen extends DiscoverScreenEvent {}
-
-class HandleSearch extends DiscoverScreenEvent {
+class ResetScreen extends DiscoverScreenEvent {
   final String query;
 
-  HandleSearch(this.query);
+  // filters
+  final List<Interest> interests;
+  final List<Space> spaces;
+
+  ResetScreen({
+    required this.query,
+    required this.interests,
+    required this.spaces,
+  });
+}
+
+class SearchPosts extends DiscoverScreenEvent {
+  final String query;
+
+  // filters
+  final List<Interest> interests;
+  final List<Space> spaces;
+
+  SearchPosts({
+    required this.query,
+    required this.interests,
+    required this.spaces,
+  });
 }
 
 class HandleLoadMore extends DiscoverScreenEvent {
   final RefreshController refreshController;
+  final String query;
 
-  HandleLoadMore(this.refreshController);
+  // filters
+  final List<Interest> interests;
+  final List<Space> spaces;
+
+  HandleLoadMore({
+    required this.refreshController,
+    required this.query,
+    required this.interests,
+    required this.spaces,
+  });
 }
 
 class HandleRefresh extends DiscoverScreenEvent {
   final RefreshController refreshController;
+  final String query;
 
-  HandleRefresh(this.refreshController);
+  // filters
+  final List<Interest> interests;
+  final List<Space> spaces;
+
+  HandleRefresh({
+    required this.refreshController,
+    required this.query,
+    required this.interests,
+    required this.spaces,
+  });
 }
 
-class LoadPosts extends DiscoverScreenEvent {}
+class LoadPosts extends DiscoverScreenEvent {
+  final String query;
 
-class FilterPostsByAge extends DiscoverScreenEvent {
-  final int start;
-  final int end;
+  // filters
+  final List<Interest> interests;
+  final List<Space> spaces;
 
-  FilterPostsByAge(this.start, this.end);
+  LoadPosts({
+    required this.query,
+    required this.interests,
+    required this.spaces,
+  });
 }
 
-class ResetAgeFilterForPosts extends DiscoverScreenEvent {}
+class FilterPosts extends DiscoverScreenEvent {
+  final List<Interest> interests;
+  final List<Space> spaces;
 
-class FilterPostsByLocation extends DiscoverScreenEvent {
-  final int start;
-  final int end;
-
-  FilterPostsByLocation(this.start, this.end);
+  FilterPosts({
+    required this.interests,
+    required this.spaces,
+  });
 }
-
-class ResetLocationFilterForPosts extends DiscoverScreenEvent {}
-
-class SortPosts extends DiscoverScreenEvent {
-  final SortOption sort;
-
-  SortPosts(this.sort);
-}
-
-class ResetSortForPosts extends DiscoverScreenEvent {}
-
-class FilterBySpace extends DiscoverScreenEvent {
-  final Space space;
-
-  FilterBySpace(this.space);
-}
-
-class ResetSpaceFilterForPosts extends DiscoverScreenEvent {}
-
-class ResetAllFilters extends DiscoverScreenEvent {}

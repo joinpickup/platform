@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:local/repos/data/models/filter/search.dart';
 import 'package:local/screens/post_auth/profile/views/settings/setting_item.dart';

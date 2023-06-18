@@ -5,6 +5,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/repos/data/models/filter/search.dart';
 import 'package:local/repos/data/models/space/interest.dart';
+import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/interest_repository.dart';
 import 'package:local/repos/space_repository.dart';
 import 'package:local/screens/post_auth/searches/views/filter/filter.dart';
@@ -15,6 +16,8 @@ import 'package:local/screens/post_auth/searches/views/filter/modals/interest_fi
 import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/interest_filter_modal.dart';
 import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/bloc/space_filter_modal_bloc.dart';
 import 'package:local/screens/post_auth/searches/views/filter/modals/space_filter_modal/space_filter_modal.dart';
+import 'package:local/shared/service_bloc/service_bloc.dart';
+import 'package:local/util/middleware/middleware.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 enum SearchModalType { add, edit }
@@ -68,6 +71,10 @@ class _AddEditSearchModalState extends State<AddEditSearchModal> {
   String titleText = "Create New Search";
   String buttonText = "Create";
 
+  // selected
+  List<Interest> selectedInterests = [];
+  List<Space> selectedSpaces = [];
+
   List<Interest>? interests;
   List<Filter> filters = [
     Filter(
@@ -93,7 +100,9 @@ class _AddEditSearchModalState extends State<AddEditSearchModal> {
       _nameController.text = widget.search!.name;
       _descriptionController.text = widget.search!.description;
       titleText = "Edit Search";
-      buttonText = "Edit";
+      buttonText = "Save";
+      selectedInterests = widget.search!.interests;
+      selectedSpaces = widget.search!.spaces;
     }
   }
 
@@ -107,9 +116,20 @@ class _AddEditSearchModalState extends State<AddEditSearchModal> {
           )..add(LoadSpaces()),
         ),
         BlocProvider(
-          create: (context) => InterestFilterModalBloc(
-            InterestRepository(),
-          )..add(LoadIntersts()),
+          create: (context) {
+            // we need to get the platform service from the state
+            final platformService =
+                (context.read<ServiceBloc>().state as PlatformServiceState?)
+                    ?.platformService as ServiceInstance;
+
+            return InterestFilterModalBloc(
+              InterestRepository(
+                platformService: platformService,
+              ),
+            )..add(LoadInterests(
+                selected: selectedInterests,
+              ));
+          },
         ),
       ],
       child: BlocBuilder<SpaceFilterModalBloc, SpaceFilterModalState>(
@@ -169,7 +189,9 @@ class _AddEditSearchModalState extends State<AddEditSearchModal> {
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
-                      tap: () {},
+                      tap: () {
+                        if (widget.modalType == SearchModalType.edit) {}
+                      },
                       text: buttonText,
                     ),
                   ),

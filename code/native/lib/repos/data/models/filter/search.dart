@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/space/interest.dart';
+import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/data/models/user/person.dart';
 
 part 'search.g.dart';
@@ -14,6 +16,10 @@ class Search {
   final bool isPublic;
   final bool notificationsEnabled;
 
+  // filters
+  final List<Interest> interests;
+  final List<Space> spaces;
+
   // generated
   final List<Post> posts;
   final Person owner;
@@ -25,6 +31,8 @@ class Search {
     required this.description,
     required this.isPublic,
     required this.notificationsEnabled,
+    required this.interests,
+    required this.spaces,
     required this.posts,
     required this.owner,
   });

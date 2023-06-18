@@ -32,6 +32,7 @@ func NewRouter(
 		// post routes
 		r.Route("/post", func(r chi.Router) {
 			r.Get("/", controller.GetPosts)
+			r.Get("/search", controller.SearchPosts)
 			r.Get("/{id}", controller.GetPost)
 			r.Put("/{id}", controller.UpdatePost)
 			r.Post("/", controller.NewPost)
@@ -65,6 +66,9 @@ func NewRouter(
 			r.Get("/message/ws", controller.MessageWebSocket)
 		})
 
+		r.Route("/interest", func(r chi.Router) {
+			r.Get("/", controller.GetAllIntersts)
+		})
 	})
 
 	return r

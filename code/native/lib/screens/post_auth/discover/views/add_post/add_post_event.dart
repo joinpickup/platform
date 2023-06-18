@@ -16,5 +16,5 @@ class AddPost extends AddPostEvent {
 
   final String title;
   final String body;
-  final List<Interest>? interests;
+  final List<Interest> interests;
 }

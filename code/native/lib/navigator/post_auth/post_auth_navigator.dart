@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/navigator/post_auth/bottom_app_bar.dart';
-import 'package:local/repos/post_repository.dart';
 import 'package:local/screens/post_auth/discover/discover_bloc.dart';
 import 'package:local/screens/post_auth/discover/discover_screen.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
@@ -42,7 +41,13 @@ class _PostAuthNavigatorState extends State<PostAuthNavigator> {
         BlocProvider(
           create: (context) => DiscoverScreenBloc(
             context.read<AddPostBloc>().state.postRepository,
-          )..add(LoadPosts()),
+          )..add(
+              LoadPosts(
+                query: "",
+                interests: const [],
+                spaces: const [],
+              ),
+            ),
         ),
         BlocProvider(
           create: (context) => EventFeedBloc()..add(LoadEvents()),

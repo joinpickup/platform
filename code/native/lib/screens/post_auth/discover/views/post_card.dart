@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heroicons/heroicons.dart';
@@ -185,14 +183,14 @@ class _PostCardState extends State<PostCard> {
                     width: 8,
                   ),
                 ),
-            post.interests.length >= 3
+            post.interests.length > 2
                 ? Row(
                     children: [
                       const SizedBox(
                         width: 4,
                       ),
                       Text(
-                        "+ ${post.interests.length - 3} more",
+                        "+ ${post.interests.length - 2} more",
                         style: TextStyle(
                           fontSize: 12,
                           color: TW3Colors.gray.shade500,

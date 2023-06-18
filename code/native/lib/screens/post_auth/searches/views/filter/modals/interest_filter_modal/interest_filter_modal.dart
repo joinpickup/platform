@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/components/input/button.dart';
 import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/bloc/interest_filter_modal_bloc.dart';
-import 'package:local/screens/post_auth/searches/views/filter/modals/interest_filter_modal/interest_chip.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 
 void showInterestFilterModal(
@@ -96,46 +95,7 @@ class _InterestFilterModalState extends State<InterestFilterModal> {
                         .bodyLarge!
                         .copyWith(color: TW3Colors.gray.shade400),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Wrap(
-                        runSpacing: 8,
-                        spacing: 8,
-                        children: selectedInterests.map((interest) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedInterests = selectedInterests.where(
-                                  (i) {
-                                    return interest.interestID != i.interestID;
-                                  },
-                                ).toList();
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              child: Text(
-                                "#${interest.name}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: TW3Colors.gray.shade300,
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
+                  _buildSelectedInterests(context),
                   const SizedBox(
                     height: 8,
                   ),
@@ -151,6 +111,49 @@ class _InterestFilterModalState extends State<InterestFilterModal> {
           ),
         );
       },
+    );
+  }
+
+  Column _buildSelectedInterests(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          runSpacing: 8,
+          spacing: 8,
+          children: selectedInterests.map((interest) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedInterests = selectedInterests.where(
+                    (i) {
+                      return interest.interestID != i.interestID;
+                    },
+                  ).toList();
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                child: Text(
+                  "#${interest.name}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: TW3Colors.gray.shade700,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 
@@ -227,51 +230,56 @@ class _InterestFilterModalState extends State<InterestFilterModal> {
               const SizedBox(
                 height: 8,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
-                    runSpacing: 8,
-                    spacing: 8,
-                    children: state.allInterests!.where((interest) {
-                      return !selectedInterests.contains(interest);
-                    }).map((interest) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedInterests = [
-                              ...selectedInterests,
-                              interest
-                            ];
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: TW3Colors.gray.shade600,
-                          ),
-                          child: Text(
-                            "#${interest.name}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: TW3Colors.gray.shade300,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
+              _buildInterestChips(state),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Column _buildInterestChips(InterestFilterModalState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        state.allInterests!.isEmpty
+            ? const Center(
+                child: Text("No interests..."),
+              )
+            : Wrap(
+                runSpacing: 8,
+                spacing: 8,
+                children: state.allInterests!.where((interest) {
+                  return !selectedInterests.contains(interest);
+                }).map((interest) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedInterests = [...selectedInterests, interest];
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: TW3Colors.gray.shade600,
+                      ),
+                      child: Text(
+                        "#${interest.name}",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: TW3Colors.gray.shade300,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+      ],
     );
   }
 
@@ -283,7 +291,13 @@ class _InterestFilterModalState extends State<InterestFilterModal> {
       onTapOutside: (event) {
         FocusScope.of(context).unfocus();
       },
-      onChanged: (value) {},
+      onChanged: (value) {
+        context.read<InterestFilterModalBloc>().add(
+              SearchIntersts(
+                query: value,
+              ),
+            );
+      },
       decoration: BoxDecoration(
         color: TW3Colors.gray.shade600,
         borderRadius: BorderRadius.circular(8),

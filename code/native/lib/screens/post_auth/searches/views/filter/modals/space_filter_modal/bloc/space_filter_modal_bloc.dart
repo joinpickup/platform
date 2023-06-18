@@ -28,6 +28,7 @@ class SpaceFilterModalBloc
     try {
       emit(
         state.copyWith(
+          saveStatus: SpaceFilterModalSaveStatus.init,
           status: SpaceFilterModalStatus.loading,
         ),
       );
@@ -38,12 +39,14 @@ class SpaceFilterModalBloc
       emit(
         state.copyWith(
           allSpaces: allSpaces,
+          saveStatus: SpaceFilterModalSaveStatus.init,
           status: SpaceFilterModalStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
+          saveStatus: SpaceFilterModalSaveStatus.init,
           status: SpaceFilterModalStatus.error,
         ),
       );
@@ -57,6 +60,7 @@ class SpaceFilterModalBloc
     emit(
       state.copyWith(
         selectedSpaces: event.spaces,
+        saveStatus: SpaceFilterModalSaveStatus.save,
         status: SpaceFilterModalStatus.success,
       ),
     );
@@ -69,6 +73,7 @@ class SpaceFilterModalBloc
     emit(
       state.copyWith(
         selectedSpaces: [],
+        saveStatus: SpaceFilterModalSaveStatus.init,
         status: SpaceFilterModalStatus.success,
       ),
     );

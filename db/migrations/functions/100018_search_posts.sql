@@ -1,7 +1,9 @@
 -- +goose Up
 -- +goose StatementBegin
-create or replace function get_posts_for_user(
-    p_person_id integer
+create or replace function search_posts(
+    space_ids integer[],
+    interest_ids integer[],
+    query text
 ) returns table (
     post_id integer,
     created_at timestamptz,
@@ -23,11 +25,11 @@ create or replace function get_posts_for_user(
     
 ) as $$
 begin
-    return query 
+    return query
     select 
 
     -- post info
-    post.post_id, post.created_at, post.title, post.body, 
+    p.post_id, p.created_at, p.title, p.body, 
 
     -- person info
     person.person_id, person.user_id, person.created_at, person."name", person.username, person.avatar,
@@ -35,17 +37,21 @@ begin
     -- location info
     location.location_id, location.common_name, location.created_at
 
-    from post
+    from post p
+    join post_interest pi on p.post_id = pi.post_id
+    join interest i on i.interest_id = pi.interest_id
     inner join person
-    on person.person_id = post.poster_id
+    on person.person_id = p.poster_id
     inner join "location"
     on person.location_id = location.location_id
-    order by post.created_at;
-
+    where (
+            (space_ids is null or i.space_id = any(space_ids))
+            and (interest_ids is null or pi.interest_id = any(interest_ids))
+            )
+      and (p.title ilike '%' || query || '%' or p.body ilike '%' || query || '%');
 end;
-
 $$ language plpgsql;
 -- +goose StatementEnd
 
 -- +goose Down
-drop function get_posts_for_user (integer);
+drop function search_posts (integer[], integer[], text);

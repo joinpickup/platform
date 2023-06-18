@@ -1,14 +1,14 @@
 import 'dart:async';
+import 'dart:collection';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/constants/filters.dart';
 import 'package:local/repos/data/models/post/post.dart';
+import 'package:local/repos/data/models/space/interest.dart';
 import 'package:local/repos/data/models/space/space.dart';
 import 'package:local/repos/post_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'views/filters/sort_modal.dart';
 
 part 'discover_event.dart';
 part 'discover_state.dart';
@@ -28,24 +28,12 @@ class DiscoverScreenBloc
 
     // search
     on<BeginSearch>(_onBeginSearch);
-    on<HandleSearch>(_onHandleSearch,
+    on<ResetScreen>(_onResetSearch);
+
+    on<SearchPosts>(_onSearchPosts,
         transformer: (events, mapper) => events
             .debounceTime(const Duration(milliseconds: 100))
             .switchMap(mapper));
-    on<ResetScreen>(_onResetSearch);
-
-    // filters
-    on<FilterPostsByAge>(_onFilterPostsByAge);
-    on<ResetAgeFilterForPosts>(_onResetAgeFilterForPosts);
-    on<FilterPostsByLocation>(_onFilterPostsByLocation);
-    on<FilterBySpace>(_onFilterBySpace);
-    on<ResetSpaceFilterForPosts>(_onResetSpaceFilterForPosts);
-    on<ResetLocationFilterForPosts>(_onResetLocationFilterForPosts);
-    on<ResetAllFilters>(_onResetAllFilters);
-
-    // sort
-    on<SortPosts>(_onSortPosts);
-    on<ResetSortForPosts>(_onResetSortForPosts);
   }
 
   Future<void> _onLoadPosts(
@@ -59,7 +47,6 @@ class DiscoverScreenBloc
         ),
       );
 
-      // TODO: replace with load more posts
       List<Post> posts = await state.postRepository.getPostsForUser();
       emit(
         state.copyWith(
@@ -98,17 +85,33 @@ class DiscoverScreenBloc
     ResetScreen event,
     Emitter<DiscoverScreenState> emit,
   ) async {
-    await Future.delayed(const Duration(milliseconds: 100));
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.loading,
+      ),
+    );
+
+    List<Post> posts = await state.postRepository.searchPosts(
+      "",
+      event.interests,
+      event.spaces,
+    );
+
     emit(
       state.copyWith(
         screenStatus: DiscoverScreenStatus.init,
         feedStatus: DiscoverFeedStatus.success,
+        searchQuery: "",
+        interestsFilter: event.interests,
+        spacesFilter: event.spaces,
+        postSearch: posts,
+        postFeed: posts,
       ),
     );
   }
 
-  Future<void> _onHandleSearch(
-    HandleSearch event,
+  Future<void> _onSearchPosts(
+    SearchPosts event,
     Emitter<DiscoverScreenState> emit,
   ) async {
     emit(
@@ -117,13 +120,21 @@ class DiscoverScreenBloc
       ),
     );
 
-    // TODO: replace with search api
-    final List<Post> posts = await state.postRepository.getPostsForUser();
+    List<Post> posts = await state.postRepository.searchPosts(
+      event.query,
+      event.interests,
+      event.spaces,
+    );
 
+    print(posts.length);
     emit(
       state.copyWith(
         feedStatus: DiscoverFeedStatus.success,
+        searchQuery: event.query,
+        interestsFilter: event.interests,
+        spacesFilter: event.spaces,
         postSearch: posts,
+        postFeed: posts,
       ),
     );
   }
@@ -132,27 +143,17 @@ class DiscoverScreenBloc
     HandleLoadMore event,
     Emitter<DiscoverScreenState> emit,
   ) async {
-    Future.delayed(const Duration(milliseconds: 300));
-
-    // TODO: use method from API
-    List<Post> newPosts = await state.postRepository.getPostsForUser();
-    List<Post> allNewPosts = [
-      ...newPosts,
-      ...newPosts.reversed,
-      ...newPosts,
-      ...newPosts.reversed,
-      ...newPosts,
-      ...newPosts.reversed,
-    ];
-
-    allNewPosts.shuffle();
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.loading,
+      ),
+    );
 
     emit(
       state.copyWith(
         feedStatus: DiscoverFeedStatus.success,
         postFeed: [
           ...state.postFeed as List<Post>,
-          ...allNewPosts,
         ],
       ),
     );
@@ -164,131 +165,25 @@ class DiscoverScreenBloc
     HandleRefresh event,
     Emitter<DiscoverScreenState> emit,
   ) async {
-    Future.delayed(const Duration(milliseconds: 300));
-    List<Post> newPosts = await state.postRepository.getPostsForUser();
-    newPosts.shuffle();
+    emit(
+      state.copyWith(
+        feedStatus: DiscoverFeedStatus.loading,
+      ),
+    );
+
+    List<Post> posts = await state.postRepository.searchPosts(
+      event.query,
+      event.interests,
+      event.spaces,
+    );
 
     emit(
       state.copyWith(
         feedStatus: DiscoverFeedStatus.success,
-        postFeed: [
-          ...newPosts,
-        ],
+        postFeed: posts,
       ),
     );
 
     event.refreshController.refreshCompleted();
-  }
-
-  Future<void> _onFilterPostsByAge(
-    FilterPostsByAge event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        ageFilter: DiscoverAgeFilterState(
-          start: event.start,
-          end: event.end,
-          enabled: true,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onResetAgeFilterForPosts(
-    ResetAgeFilterForPosts event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        ageFilter: const DiscoverAgeFilterState(enabled: false),
-      ),
-    );
-  }
-
-  Future<void> _onFilterPostsByLocation(
-    FilterPostsByLocation event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        locationFilter: DiscoverLocationFilterState(
-          start: event.start,
-          end: event.end,
-          enabled: true,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onResetLocationFilterForPosts(
-    ResetLocationFilterForPosts event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        locationFilter: const DiscoverLocationFilterState(enabled: false),
-      ),
-    );
-  }
-
-  Future<void> _onSortPosts(
-    SortPosts event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        sortState: DiscoverSortState(
-          sort: event.sort,
-          enabled: true,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onResetSortForPosts(
-    ResetSortForPosts event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        sortState: const DiscoverSortState(enabled: false),
-      ),
-    );
-  }
-
-  Future<void> _onResetAllFilters(
-    ResetAllFilters event,
-    Emitter<DiscoverScreenState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        sortState: const DiscoverSortState(enabled: false),
-        locationFilter: const DiscoverLocationFilterState(enabled: false),
-        ageFilter: const DiscoverAgeFilterState(enabled: false),
-        spaceFilter: const DiscoverSpaceFilterState(enabled: false),
-      ),
-    );
-  }
-
-  FutureOr<void> _onFilterBySpace(
-      FilterBySpace event, Emitter<DiscoverScreenState> emit) {
-    emit(
-      state.copyWith(
-        spaceFilter: DiscoverSpaceFilterState(
-          enabled: true,
-          space: event.space,
-        ),
-      ),
-    );
-  }
-
-  FutureOr<void> _onResetSpaceFilterForPosts(
-      ResetSpaceFilterForPosts event, Emitter<DiscoverScreenState> emit) {
-    emit(
-      state.copyWith(
-        spaceFilter: const DiscoverSpaceFilterState(enabled: false),
-      ),
-    );
   }
 }

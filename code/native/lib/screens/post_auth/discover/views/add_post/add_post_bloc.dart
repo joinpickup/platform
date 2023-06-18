@@ -39,7 +39,7 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
           error: AddPostErrorType.description,
         ),
       );
-    } else if (event.interests == null) {
+    } else if (event.interests.isEmpty) {
       emit(
         state.copyWith(
           status: AddPostStatus.error,
@@ -48,22 +48,19 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
       );
     } else {
       try {
-        // TODO: replace with auth repository
         Post newPost = Post(
           poster: andrew,
-          interests: event.interests as List<Interest>,
-          postID: 4,
+          interests: event.interests,
           createdAt: DateTime.now(),
           title: event.title,
           body: event.body,
         );
 
-        Post post = await state.postRepository.addPost(post: newPost);
+        await state.postRepository.addPost(post: newPost);
 
         emit(
           state.copyWith(
             status: AddPostStatus.success,
-            postID: post.postID,
           ),
         );
 

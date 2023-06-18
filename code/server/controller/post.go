@@ -4,6 +4,7 @@ import (
 	"auth-service/dal"
 	"database/sql"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -11,9 +12,10 @@ import (
 )
 
 type NewPostBody struct {
-	Title    *string `json:"title,omitempty"`
-	Body     *string `json:"body,omitempty"`
-	PosterID *int    `json:"posterID,omitempty"`
+	Title     *string `json:"title,omitempty"`
+	Body      *string `json:"body,omitempty"`
+	PosterID  *int    `json:"posterID,omitempty"`
+	Interests []int   `json:"interests,omitempty"`
 }
 
 func NewPost(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +24,18 @@ func NewPost(w http.ResponseWriter, r *http.Request) {
 
 	// get post form body
 	var post NewPostBody
-	err := json.NewDecoder(r.Body).Decode(&post)
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Failed to read request body", http.StatusInternalServerError)
+		return
+	}
+
+	// this is a complete hack, but oh well
+	// for some reason the dart code has a tendency to over escape, so here we are
+	// TODO: this should be handled in the frontend
+	body_unescaped, _ := strconv.Unquote(string(body))
+	err = json.Unmarshal([]byte(body_unescaped), &post)
 
 	// check for improper data
 	if err != nil {
@@ -50,11 +63,12 @@ func NewPost(w http.ResponseWriter, r *http.Request) {
 		*post.Title,
 		*post.Body,
 		*post.PosterID,
+		post.Interests,
 	)
 
 	if err != nil {
 		// handle various errors
-
+		// TODO: add tags
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -211,4 +225,42 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 	w.Header().Add("Content-Type", "application/json")
 	w.Write(post_marsh)
+}
+
+func SearchPosts(w http.ResponseWriter, r *http.Request) {
+	// Get the values of the "interest" and "space" query parameters
+	db := r.Context().Value(dal.PlatformDBKey{}).(*sql.DB)
+	interest_values := r.URL.Query()["interest"]
+	space_values := r.URL.Query()["space"]
+	query := r.URL.Query().Get("query")
+
+	// Convert the query parameter values to integers
+	var interests, spaces []int
+	for _, interest := range interest_values {
+		id, err := strconv.Atoi(interest)
+		if err == nil {
+			interests = append(interests, id)
+		}
+	}
+
+	for _, space := range space_values {
+		id, err := strconv.Atoi(space)
+		if err == nil {
+			spaces = append(spaces, id)
+		}
+	}
+
+	// Perform the search operation using the interests and spaces
+	posts, err := dal.SearchPosts(db, spaces, interests, query)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// ... Your search logic goes here ...
+	// Create a response object with the search results
+	w.Header().Set("Content-Type", "application/json")
+
+	// Encode the response object as JSON and write it to the response
+	json.NewEncoder(w).Encode(posts)
 }

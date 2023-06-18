@@ -2,7 +2,13 @@ part of 'interest_filter_modal_bloc.dart';
 
 abstract class InterestFilterModalEvent extends Equatable {}
 
-class LoadIntersts extends InterestFilterModalEvent {
+class LoadInterests extends InterestFilterModalEvent {
+  final List<Interest> selected;
+
+  LoadInterests({
+    this.selected = const [],
+  });
+
   @override
   List<Object?> get props => [];
 }
@@ -25,6 +31,11 @@ class SearchIntersts extends InterestFilterModalEvent {
 
   final String query;
 
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetInterestSearch extends InterestFilterModalEvent {
   @override
   List<Object?> get props => [];
 }

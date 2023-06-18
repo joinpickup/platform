@@ -13,76 +13,16 @@ class DiscoverScreenError {
   DiscoverScreenError(this.error, this.errorType);
 }
 
-class DiscoverAgeFilterState extends Equatable {
-  final bool enabled;
-  final int start;
-  final int end;
-
-  const DiscoverAgeFilterState({
-    required this.enabled,
-    this.start = kAgeFilterStart,
-    this.end = kAgeFilterEnd,
-  });
-
-  @override
-  List<Object?> get props => [enabled, start, end];
-}
-
-class DiscoverSpaceFilterState extends Equatable {
-  final bool enabled;
-  final Space? space;
-
-  const DiscoverSpaceFilterState({
-    required this.enabled,
-    this.space,
-  });
-
-  @override
-  List<Object?> get props => [enabled, space];
-}
-
-class DiscoverLocationFilterState extends Equatable {
-  final bool enabled;
-  final int start;
-  final int end;
-
-  const DiscoverLocationFilterState({
-    required this.enabled,
-    this.start = kLocationFilterStart,
-    this.end = kLocationFilterEnd,
-  });
-
-  @override
-  List<Object?> get props => [enabled, start, end];
-}
-
-class DiscoverSortState extends Equatable {
-  final bool enabled;
-  final SortOption sort;
-
-  const DiscoverSortState({
-    required this.enabled,
-    this.sort = kSort,
-  });
-
-  @override
-  List<Object?> get props => [enabled, sort];
-}
-
 class DiscoverScreenState extends Equatable {
   final DiscoverFeedStatus feedStatus;
   final DiscoverScreenStatus screenStatus;
   final List<Post>? postFeed;
   final List<Post>? postSearch;
   final DiscoverScreenError? error;
-
-  // filters and sort
-  final DiscoverSpaceFilterState spaceFilter;
-  final DiscoverAgeFilterState ageFilter;
-  final DiscoverLocationFilterState locationFilter;
-  final DiscoverSortState sortState;
-
   final PostRepository postRepository;
+  final String searchQuery;
+  final List<Interest> interestsFilter;
+  final List<Space> spacesFilter;
 
   const DiscoverScreenState({
     this.feedStatus = DiscoverFeedStatus.loading,
@@ -90,11 +30,10 @@ class DiscoverScreenState extends Equatable {
     this.postFeed,
     this.postSearch,
     this.error,
-    this.ageFilter = const DiscoverAgeFilterState(enabled: false),
-    this.locationFilter = const DiscoverLocationFilterState(enabled: false),
-    this.sortState = const DiscoverSortState(enabled: false),
-    this.spaceFilter = const DiscoverSpaceFilterState(enabled: false),
     required this.postRepository,
+    this.searchQuery = "",
+    this.interestsFilter = const [],
+    this.spacesFilter = const [],
   });
 
   @override
@@ -103,15 +42,12 @@ class DiscoverScreenState extends Equatable {
         screenStatus,
         postFeed,
         error,
-
-        // filters
-        spaceFilter,
-        ageFilter,
-        locationFilter,
-        sortState,
+        searchQuery,
 
         // search
         postSearch,
+        interestsFilter,
+        spacesFilter
       ];
 
   DiscoverScreenState copyWith({
@@ -120,11 +56,10 @@ class DiscoverScreenState extends Equatable {
     List<Post>? postFeed,
     List<Post>? postSearch,
     DiscoverScreenError? error,
-    DiscoverSpaceFilterState? spaceFilter,
-    DiscoverAgeFilterState? ageFilter,
-    DiscoverLocationFilterState? locationFilter,
-    DiscoverSortState? sortState,
     PostRepository? postRepository,
+    String? searchQuery,
+    List<Interest>? interestsFilter,
+    List<Space>? spacesFilter,
   }) {
     return DiscoverScreenState(
       feedStatus: feedStatus ?? this.feedStatus,
@@ -132,11 +67,10 @@ class DiscoverScreenState extends Equatable {
       postFeed: postFeed ?? this.postFeed,
       postSearch: postSearch ?? this.postSearch,
       error: error ?? this.error,
-      spaceFilter: spaceFilter ?? this.spaceFilter,
-      ageFilter: ageFilter ?? this.ageFilter,
-      locationFilter: locationFilter ?? this.locationFilter,
-      sortState: sortState ?? this.sortState,
       postRepository: postRepository ?? this.postRepository,
+      searchQuery: searchQuery ?? this.searchQuery,
+      interestsFilter: interestsFilter ?? this.interestsFilter,
+      spacesFilter: spacesFilter ?? this.spacesFilter,
     );
   }
 }

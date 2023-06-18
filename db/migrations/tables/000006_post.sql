@@ -8,7 +8,7 @@ create table if not exists post (
 );
 
 create table if not exists post_interest (
-  post_id integer not null references post(post_id),
+  post_id integer not null references post(post_id) on delete cascade,
   interest_id integer not null references interest(interest_id),
   primary key (post_id, interest_id)
 );

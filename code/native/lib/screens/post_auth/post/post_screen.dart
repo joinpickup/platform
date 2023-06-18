@@ -225,55 +225,42 @@ class _PostScreenState extends State<PostScreen> {
     BuildContext context,
     Post post,
   ) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return PersonScreen(
-                personID: post.poster.personID,
-              );
-            },
+    return Container(
+      color: Colors.transparent,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          // avatar
+          ClipOval(
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(24),
+              child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
+            ),
           ),
-        );
-      },
-      child: Container(
-        color: Colors.transparent,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            // avatar
-            ClipOval(
-              child: SizedBox.fromSize(
-                size: const Size.fromRadius(24),
-                child: Image.asset(post.poster.avatar, fit: BoxFit.cover),
+          const SizedBox(
+            width: 8,
+          ),
+          // poster information
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // name
+              Text(
+                post.poster.name,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            // poster information
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // name
-                Text(
-                  post.poster.name,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                // location / visbility
-                Row(
-                  children: [
-                    Text(
-                      post.poster.location.commonName,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+              // location / visbility
+              Row(
+                children: [
+                  Text(
+                    post.poster.location.commonName,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }
@@ -317,14 +304,14 @@ class _PostScreenState extends State<PostScreen> {
                     width: 8,
                   ),
                 ),
-            post.interests.length >= 3
+            post.interests.length > 2
                 ? Row(
                     children: [
                       const SizedBox(
                         width: 4,
                       ),
                       Text(
-                        "+ ${post.interests.length - 3} more",
+                        "+ ${post.interests.length - 2} more",
                         style: TextStyle(
                           fontSize: 12,
                           color: TW3Colors.gray.shade500,

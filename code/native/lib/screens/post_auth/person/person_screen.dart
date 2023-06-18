@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:local/components/navigation/tab_bar/tab_bar_bloc.dart';
-import 'package:local/repos/data/mocks/person.dart';
 import 'package:local/repos/data/models/user/person.dart';
 import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/person/person_bloc.dart';
 import 'package:local/screens/post_auth/person/views/person_options_screen.dart';
-import 'package:local/shared/auth_feed/auth_bloc.dart';
-import 'package:local/shared/event_feed/event_feed_bloc.dart';
-import 'package:local/shared/post_feed/post_feed_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 

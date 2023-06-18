@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:local/repos/data/mocks/person.dart';
-import 'package:local/repos/data/mocks/post.dart';
 import 'package:local/repos/data/models/filter/search.dart';
 import 'package:local/screens/post_auth/discover/views/post_feed.dart';
 import 'package:local/screens/post_auth/searches/views/options/search_options.dart';
