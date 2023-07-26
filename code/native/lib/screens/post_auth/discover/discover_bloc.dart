@@ -126,7 +126,6 @@ class DiscoverScreenBloc
       event.spaces,
     );
 
-    print(posts.length);
     emit(
       state.copyWith(
         feedStatus: DiscoverFeedStatus.success,
