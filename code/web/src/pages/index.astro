@@ -5,10 +5,10 @@ import type { Post } from "../models/post";
 
 import PocketBase from "pocketbase";
 
-const pb = new PocketBase("http://127.0.0.1:8090");
+const pb = new PocketBase("https://api.joinpickup.com");
 const authData = await pb
   .collection("users")
-  .authWithPassword<User>("andyrewco", "password123");
+  .authWithPassword<User>("andyrewco", "12345678");
 
 const postData = await pb.collection("posts").getFullList({
   expand: "author",
