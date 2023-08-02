@@ -1,66 +1,8 @@
 ---
+import DiscoverPage from "../components/pages/DiscoverPage";
 import Layout from "../layouts/Layout.astro";
-import type { User } from "../models/user";
-import type { Post } from "../models/post";
-
-import PocketBase from "pocketbase";
-
-const pb = new PocketBase("https://api.joinpickup.com");
-const authData = await pb
-  .collection("users")
-  .authWithPassword<User>("andyrewco", "12345678");
-
-const postData = await pb.collection("posts").getFullList({
-  expand: "author",
-});
-
-let addDialog = true;
 ---
 
 <Layout title="Welcome to Astro.">
-  <main class="flex flex-col space-y-2">
-    <div class="text-2xl">
-      Welcome {authData.record.name}
-    </div>
-    <div class="flex flex-col space-y-1">
-      <div class="text-xl">All Posts</div>
-      <ul class="flex flex-col space-y-2">
-        {
-          postData.map((post) => {
-            return (
-              <li class="rounded-lg p-4 bg-gray-700 flex flex-col space-y-1">
-                <div class="text-xl">{post.title}</div>
-                <div class="text-sm">{post.body}</div>
-              </li>
-            );
-          })
-        }
-      </ul>
-      <div class="right-4 bottom-4 fixed flex flex-col space-y-2">
-        {
-          addDialog ? (
-            <div class="rounded-lg border-2 border-black p-4 bg-gray-700 bottom-4">
-              Add post form
-            </div>
-          ) : null
-        }
-
-        <button onclick="" class="rounded-full p-4 bg-orange-600 text-gray-900"
-          >Add New Post
-        </button>
-      </div>
-    </div>
-  </main>
-
-  <style>
-    main {
-      margin: auto;
-      padding: 1rem;
-      width: 800px;
-      max-width: calc(100% - 2rem);
-      color: white;
-      font-size: 20px;
-      line-height: 1.6;
-    }
-  </style>
+  <DiscoverPage client:only="solid" />
 </Layout>
