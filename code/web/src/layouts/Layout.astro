@@ -1,4 +1,7 @@
 ---
+import LoginDialog from "../components/LoginDialog";
+import MenuNavbar from "../components/MenuNavbar";
+
 const {
   title,
   backgroundColor = "#f7e8de",
@@ -26,6 +29,10 @@ const {
   <body class="m-4 text-2xl">
     <slot />
   </body>
+
+  <!-- Other Modal -->
+  <MenuNavbar client:only="solid" />
+  <LoginDialog client:only="solid" />
 </html>
 
 <style define:vars={{ backgroundColor, textColor }} is:global>
@@ -48,3 +55,18 @@ const {
     transform: scale(0.98);
   }
 </style>
+
+<script>
+  import { menuBarOpen } from "../store/layout";
+
+  document.addEventListener("mousemove", function (event) {
+    // Get the mouse coordinates relative to the document
+    const mouseX = event.pageX;
+
+    // Check if the mouse is within the top-left quadrant
+    if (mouseX <= 25) {
+      // Replace the following line with your desired action
+      menuBarOpen.set(true);
+    }
+  });
+</script>

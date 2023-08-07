@@ -1,13 +1,12 @@
-import { createSignal, onMount } from "solid-js"
-import PocketBase from "pocketbase";
+import { createEffect, createSignal, onMount } from "solid-js"
 import type { Post } from "../../models/post";
+import { supabase } from "../../supabaseClient";
+import { toggleMenuBar } from "../../store/layout";
 
 enum DiscoverPageState {
     LOADING_POSTS,
     LOADED_POSTS
 }
-
-const pb = new PocketBase("https://api.joinpickup.com");
 
 type PostCardProps = {
     currentPost: Post | undefined;
@@ -29,42 +28,52 @@ function PostCard(props: PostCardProps) {
 }
 
 export default function DiscoverPage() {
-    const [_, setState] = createSignal<DiscoverPageState>()
-    const [posts, setPosts] = createSignal<Post[]>()
-    const [currPage, setCurrPage] = createSignal<number>()
-    const [perPage, setPerPage] = createSignal<number>()
-    const [totalPage, setTotalPage] = createSignal<number>()
+    const [state, setState] = createSignal<DiscoverPageState>()
+    const [posts, setPosts] = createSignal<Post[] | null>()
     const [currentPost, setCurrentPost] = createSignal<Post>()
 
-    function getPosts(page: number, perPage: number = 25) {
+    function getPosts() {
         setState(DiscoverPageState.LOADING_POSTS)
 
-        pb
-            .collection("posts")
-            .getList<Post>(page, perPage)
+        supabase
+            .from("posts")
+            .select("*, interests (id, name, space)")
+            .returns<Post[]>()
+            .order('created_at', { ascending: false })
             .then(res => {
-                setTotalPage(res.totalPages)
-                setCurrPage(res.page)
-                setCurrentPost(res.items[0])
-                setPerPage(res.perPage)
-                setPosts(res.items)
-
+                setPosts(res.data)
                 setState(DiscoverPageState.LOADED_POSTS)
-            }
-        )
+            })
     }
 
+    function searchPosts(query: string) {
+        setState(DiscoverPageState.LOADING_POSTS)
+
+        supabase
+            .from("posts")
+            .select("*,interests (name)")
+            .or(`body.ilike.*${query}*,title.ilike.*${query}*`)
+            .returns<Post[]>()
+            .then(res => {
+                setPosts(res.data)
+                setState(DiscoverPageState.LOADED_POSTS)
+            })
+    }
+
+
     onMount(() => {
-        getPosts(1, 3);
+        getPosts();
     })
 
     return (
-        <div class="m-4 flex flex-col space-y-4 h-screen">
-            <div id="search-row" class="w-full border-2 border-black h-fit rounded-full p-2 flex space-x-2 items-center">
+        <div class="m-4 flex flex-col space-y-4">
+            <div id="search-row" class="w-full border-2 border-black h-fit rounded-full p-1 flex space-x-2 items-center">
                 <button 
                     id="leading-icon" 
-                    class="bg-orange-200 p-2 rounded-full w-fit border-2 border-black"
-                    onClick={() => {}}
+                    class="p-2 rounded-full w-fit border-2 border-black"
+                    onClick={() => {
+                        toggleMenuBar()
+                    }}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -84,6 +93,9 @@ export default function DiscoverPage() {
                     <input
                         placeholder="Search..."
                         class="rounded-full px-4 py-2 bg-transparent w-full placeholder:text-black"
+                        onchange={(event) => {
+                            searchPosts(event.target.value)
+                        }}
                     />
                 </div>
             </div>
@@ -111,22 +123,27 @@ export default function DiscoverPage() {
                 </button>
             </div>
             <div id="post-row" class="flex-1 flex space-x-2 w-full">
-                <ul id="post-list" class={`${currentPost() ? "flex-2" : "flex-1"} flex space-y-2 flex-col`}>
-                    {
-                        posts()?.map(post => {
-                            return (
-                                <PostCard 
-                                    currentPost={currentPost()}
-                                    post={post} 
-                                    onClick={() => {
-                                            setCurrentPost(currentPost()?.id === post.id ? undefined : post)
-                                        }
-                                    } 
-                                />
-                            )
-                        })
-                    }
-                </ul>
+                {
+                    state() == DiscoverPageState.LOADING_POSTS ? <div>Loading...</div> 
+                    : (
+                         <ul id="post-list" class={`${currentPost() ? "flex-2" : "flex-1"} flex space-y-2 flex-col`}>
+                            {
+                                posts()?.map(post => {
+                                    return (
+                                        <PostCard 
+                                            currentPost={currentPost()}
+                                            post={post} 
+                                            onClick={() => {
+                                                    setCurrentPost(currentPost()?.id === post.id ? undefined : post)
+                                                }
+                                            } 
+                                        />
+                                    )
+                                })
+                            }
+                        </ul> 
+                    ) 
+                }
                 {
                     currentPost() ? 
                         <div id="post-preview" class="flex-1 w-full rounded-lg border-black border-2 h-fit p-4"> 
@@ -140,55 +157,6 @@ export default function DiscoverPage() {
                         </div>
                     : <></>
                 }
-            </div>
-            <div id="pagination-row" class="flex space-y-2 justify-center w-full">
-                <div id="pagination-item" class="p-4 rounded-full border-2 border-black flex space-x-2 w-3/5 justify-center items-center">
-                    <div class="flex space-x-2">
-                        <button class="rounded-full" onClick={() => {
-                            getPosts(1, perPage())
-                        }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" /> 
-                            </svg>
-                        </button>
-                        <button class="" onClick={() => {
-                            if (currPage()) {
-                                getPosts(currPage() as number - 1, perPage())
-                            }
-                        }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> 
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="curr-page" class="">
-                        {
-                            currPage() && perPage() && totalPage() ?
-                                <>{ currPage() } - { (perPage() as number) } of { (totalPage() as number) * (perPage() as number) } </>
-                            : <></>
-                        }
-                    </div>
-                    <div class="flex space-x-2">
-                        <button class="" onClick={() => {
-                            if (currPage()) {
-                                getPosts(currPage() as number + 1, perPage())
-                            }
-                        }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> 
-                            </svg>
-                        </button>
-                        <button class="" onClick={() => {
-                            if (totalPage()) {
-                                getPosts(totalPage() as number, perPage())
-                            }
-                        }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" /> 
-                            </svg>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     )
