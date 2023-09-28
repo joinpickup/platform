@@ -19,4 +19,14 @@ class LocaleService {
       return Future.error(e);
     }
   }
+
+  Future<List<Locale>> searchLocales(String query) async {
+    // handle the different state cases
+    try {
+      return _localeRepository.searchLocales(query);
+    } catch (e) {
+      // TODO: parse for common errors
+      return Future.error(e);
+    }
+  }
 }

@@ -31,8 +31,20 @@ class HttpLocaleRepository implements LocaleRepository {
   }
 
   @override
-  Future<List<Locale>> searchLocales(String query) {
-    // TODO: implement searchLocales
-    throw UnimplementedError();
+  Future<List<Locale>> searchLocales(String query) async {
+    final resultList = await pocketBase
+        .collection('locales')
+        .getList(page: 1, perPage: 25, filter: "display_name ~ %$query%");
+
+    print(resultList);
+
+    List<Locale> locales = [];
+
+    for (RecordModel record in resultList.items) {
+      Locale locale = Locale.fromRecord(record);
+      locales.add(locale);
+    }
+
+    return locales;
   }
 }

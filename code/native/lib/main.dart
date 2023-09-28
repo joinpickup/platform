@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/features/locale/application/locale_bloc/locale_bloc_bloc.dart';
+import 'package:local/features/locale/application/locale_service.dart';
 import 'package:local/features/locale/data/locale_repository.dart';
 import 'package:local/features/locale/domain/locale.dart';
 import 'package:local/features/locale/presentation/locale_dialog.dart';
+import 'package:local/shared/application/bloc/service_bloc.dart';
+import 'package:local/theme/theme.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
@@ -24,13 +27,16 @@ Future<void> main() async {
   }
 
   // to create pocketbase instances, lets grab the auth store
+  PocketBase? pb;
+  List<Locale> locales = [];
   try {
     final prefs = await SharedPreferences.getInstance();
     final store = AsyncAuthStore(
       save: (String data) async => prefs.setString('pb_auth', data),
       initial: prefs.getString('pb_auth'),
     );
-    final pb = PocketBase(apiEndpoint, authStore: store);
+
+    pb = PocketBase(apiEndpoint, authStore: store);
 
     final resultList = await pb.collection('locales').getList(
           page: 1,
@@ -38,39 +44,61 @@ Future<void> main() async {
           filter: 'created >= "2022-01-01 00:00:00"',
         );
 
-    List<Locale> locales = [];
-
     for (RecordModel record in resultList.items) {
       Locale locale = Locale.fromRecord(record);
       locales.add(locale);
     }
-
-    runApp(MyApp(pb: pb));
   } catch (e) {
     log.severe("Error setting up pocketbase", [e]);
   }
+
+  runApp(
+    MyApp(
+      pb: pb,
+      locales: locales,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.pb});
+  const MyApp({super.key, this.pb, required this.locales});
 
-  final PocketBase pb;
+  final PocketBase? pb;
+  final List<Locale> locales;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Local",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: LocalTheme.light,
+      darkTheme: LocalTheme.dark,
       home: BlocProvider(
-        create: (context) => LocaleBloc(HttpLocaleRepository(
-          pocketBase: pb,
-        ))
-          ..add(LoadLocales()),
-        child: LocaleDialog(),
+        create: (context) => ServiceBloc()
+          ..add(
+            LoadServices(
+              pocketbase: pb as PocketBase,
+            ),
+          ),
+        child: BlocBuilder<ServiceBloc, ServiceState>(
+          builder: (context, state) {
+            switch (state.status) {
+              case ServiceStatus.loaded:
+                return BlocProvider(
+                  create: (context) =>
+                      LocaleBloc(state.localeService as LocaleService)
+                        ..add(
+                          LoadLocales(),
+                        ),
+                  child: const LocaleDialog(),
+                );
+              default:
+                return const SafeArea(
+                  child: Text("loading"),
+                );
+            }
+          },
+        ),
       ),
     );
   }
