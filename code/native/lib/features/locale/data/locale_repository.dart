@@ -34,9 +34,7 @@ class HttpLocaleRepository implements LocaleRepository {
   Future<List<Locale>> searchLocales(String query) async {
     final resultList = await pocketBase
         .collection('locales')
-        .getList(page: 1, perPage: 25, filter: "display_name ~ %$query%");
-
-    print(resultList);
+        .getList(page: 1, perPage: 25, filter: "display_name ~ \"$query\"");
 
     List<Locale> locales = [];
 

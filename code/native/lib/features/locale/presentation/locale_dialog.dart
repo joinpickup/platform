@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/features/locale/application/locale_bloc/locale_bloc_bloc.dart';
 import 'package:local/features/locale/domain/locale.dart';
+import 'package:local/shared/application/app/app_bloc.dart';
 
 class LocaleDialog extends StatefulWidget {
   const LocaleDialog({Key? key}) : super(key: key);
@@ -12,15 +13,12 @@ class LocaleDialog extends StatefulWidget {
 }
 
 class _LocaleDialogState extends State<LocaleDialog> {
-  TextEditingController _searchController = TextEditingController();
+  final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocaleBloc, LocaleState>(
       builder: (context, state) {
-        // initial loading locales
-        // loaded locales
-        // error locale
         return Scaffold(
           body: SafeArea(
             child: Padding(
@@ -58,15 +56,21 @@ class _LocaleDialogState extends State<LocaleDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // group 1: title
-        Text(
-          "Recent",
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(8),
-        ),
+        _searchController.text == ""
+            ? Column(
+                children: [
+                  Text(
+                    "Recent",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8),
+                  ),
+                ],
+              )
+            : Container(),
         // group 2: searches
         ListView.separated(
           shrinkWrap: true,
@@ -103,6 +107,12 @@ class _LocaleDialogState extends State<LocaleDialog> {
         // search bar
         CupertinoSearchTextField(
           controller: _searchController,
+          onChanged: (value) {
+            if (value == "") {
+              _searchController.clear();
+              context.read<LocaleBloc>().add(LoadLocales());
+            }
+          },
           onSuffixTap: () {
             _searchController.clear();
             context.read<LocaleBloc>().add(LoadLocales());
@@ -126,31 +136,36 @@ class LocaleListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // dot
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.green.shade200,
-            borderRadius: BorderRadius.circular(100),
+    return GestureDetector(
+      onTap: () {
+        context.read<AppBloc>().add(UpdateLocale(locale: locale));
+      },
+      child: Row(
+        children: [
+          // dot
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.green.shade200,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            width: 12,
+            height: 12,
           ),
-          width: 12,
-          height: 12,
-        ),
-        const Padding(
-          padding: EdgeInsets.all(4),
-        ),
-        // title
-        Text(
-          locale.displayName,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const Spacer(),
-        // state
-        Text(locale.state),
-      ],
+          const Padding(
+            padding: EdgeInsets.all(4),
+          ),
+          // title
+          Text(
+            locale.displayName,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const Spacer(),
+          // state
+          Text(locale.state),
+        ],
+      ),
     );
   }
 }

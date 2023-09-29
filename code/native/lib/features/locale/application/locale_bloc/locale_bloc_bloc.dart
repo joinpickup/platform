@@ -34,7 +34,7 @@ class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {
     }
   }
 
-  FutureOr<void> _searchLocales(event, emit) async {
+  FutureOr<void> _searchLocales(SearchLocales event, emit) async {
     try {
       List<Locale> locales = await localeService.searchLocales(event.query);
 

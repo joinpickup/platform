@@ -6,7 +6,9 @@ class LocalTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      colorScheme: const ColorScheme.light(),
+      colorScheme: const ColorScheme.light(
+        background: Color(0xFFFEF6ED),
+      ),
       textTheme: GoogleFonts.nunitoTextTheme(),
     );
   }

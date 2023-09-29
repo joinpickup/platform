@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/features/home/presentation/home.dart';
 import 'package:local/features/locale/application/locale_bloc/locale_bloc_bloc.dart';
 import 'package:local/features/locale/application/locale_service.dart';
-import 'package:local/features/locale/data/locale_repository.dart';
 import 'package:local/features/locale/domain/locale.dart';
 import 'package:local/features/locale/presentation/locale_dialog.dart';
-import 'package:local/shared/application/bloc/service_bloc.dart';
+import 'package:local/shared/application/app/app_bloc.dart';
+import 'package:local/shared/application/service/service_bloc.dart';
 import 'package:local/theme/theme.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -73,13 +74,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: LocalTheme.light,
       darkTheme: LocalTheme.dark,
-      home: BlocProvider(
-        create: (context) => ServiceBloc()
-          ..add(
-            LoadServices(
-              pocketbase: pb as PocketBase,
-            ),
+      themeMode: ThemeMode.light,
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ServiceBloc()
+              ..add(
+                LoadServices(
+                  pocketbase: pb as PocketBase,
+                ),
+              ),
           ),
+          BlocProvider(
+            create: (context) => AppBloc(),
+          ),
+        ],
         child: BlocBuilder<ServiceBloc, ServiceState>(
           builder: (context, state) {
             switch (state.status) {
@@ -90,7 +99,7 @@ class MyApp extends StatelessWidget {
                         ..add(
                           LoadLocales(),
                         ),
-                  child: const LocaleDialog(),
+                  child: const Home(),
                 );
               default:
                 return const SafeArea(
