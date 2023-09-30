@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:local/features/home/presentation/home_drawer.dart';
+import 'package:local/features/home/presentation/home_end_drawer.dart';
+import 'package:local/features/home/presentation/search_sheet.dart';
+import 'package:local/shared/presentation/black_button.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,8 +16,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
-      endDrawer: const Drawer(),
+      drawer: const HomeDrawer(),
+      endDrawer: const HomeEndDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -27,7 +31,7 @@ class _HomeState extends State<Home> {
                     children: [
                       // title
                       Text(
-                        "Following",
+                        "Discover",
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   fontWeight: FontWeight.bold,
@@ -46,62 +50,88 @@ class _HomeState extends State<Home> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(-1, 1),
-                        blurRadius: 8,
+                child: GestureDetector(
+                  onTap: () {
+                    HapticFeedback.mediumImpact();
+                    showSearchBottomSheet(context);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100),
+                      border: Border.all(
                         color: Colors.black,
+                        width: 1,
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      // left button
-                      SearchBarButton(
-                        icon: Icons.menu,
-                        click: (context) {
-                          Scaffold.of(context).openDrawer();
-                        },
-                      ),
-
-                      // search bar
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Text(
-                            "Search...",
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(-1, 1),
+                          blurRadius: 8,
+                          color: Colors.black,
                         ),
-                      ),
-
-                      // right button
-                      SearchBarButton(
-                        icon: Icons.person,
-                        click: (context) {
-                          Scaffold.of(context).openEndDrawer();
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: const ActionBar(),
                   ),
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ActionBar extends StatelessWidget {
+  const ActionBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // left button
+        BlackButton(
+          icon: Icons.menu,
+          click: (context) {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+
+        // search bar
+        const SearchBar(),
+
+        // right button
+        BlackButton(
+          icon: Icons.person,
+          click: (context) {
+            Scaffold.of(context).openEndDrawer();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Text(
+          "Search...",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
     );
@@ -137,45 +167,6 @@ class NewBoardButton extends StatelessWidget {
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
-      ),
-    );
-  }
-}
-
-class SearchBarButton extends StatelessWidget {
-  const SearchBarButton({
-    super.key,
-    required this.icon,
-    required this.click,
-  });
-
-  final IconData icon;
-  final Function click;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        click(context);
-      },
-      child: Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.black,
-          boxShadow: const [
-            BoxShadow(
-              offset: Offset(-1, 1),
-              blurRadius: 8,
-              color: Colors.black,
-            ),
-          ],
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-        ),
       ),
     );
   }

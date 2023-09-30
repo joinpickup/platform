@@ -19,31 +19,29 @@ class _LocaleDialogState extends State<LocaleDialog> {
   Widget build(BuildContext context) {
     return BlocBuilder<LocaleBloc, LocaleState>(
       builder: (context, state) {
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    width: 2,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // group 1: search bar
-                    _buildSearchBar(context),
-                    const Padding(
-                      padding: EdgeInsets.all(8),
-                    ),
-                    // group 2: searches
-                    _buildLoadedSearches(context, state),
-                  ],
-                ),
+        return Padding(
+          padding: const EdgeInsets.all(8),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                width: 2,
               ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // group 1: search bar
+                _buildSearchBar(context),
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                ),
+                // group 2: searches
+                _buildLoadedSearches(context, state),
+              ],
             ),
           ),
         );

@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/features/home/presentation/home.dart';
 import 'package:local/features/locale/application/locale_bloc/locale_bloc_bloc.dart';
 import 'package:local/features/locale/application/locale_service.dart';
 import 'package:local/features/locale/domain/locale.dart';
-import 'package:local/features/locale/presentation/locale_dialog.dart';
 import 'package:local/shared/application/app/app_bloc.dart';
 import 'package:local/shared/application/service/service_bloc.dart';
 import 'package:local/theme/theme.dart';
@@ -69,6 +69,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     return MaterialApp(
       title: "Local",
       debugShowCheckedModeBanner: false,
