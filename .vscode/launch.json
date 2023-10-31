@@ -2,16 +2,13 @@
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
+    "version": "0.0.1",
     "configurations": [
         {
             "name": "native",
             "cwd": "code/native",
             "request": "launch",
             "type": "dart",
-            "args": [
-                "--dart-define", "ACCESS_TOKEN=pk.eyJ1Ijoiam9pbnBpY2t1cCIsImEiOiJjbGU3YWtuNG4wM2x4M3ZuMWF2bGY4dGFmIn0.PNtNIKARSJdGC94vcjf4Eg"
-            ]
         },
         {
             "name": "native (profile mode)",
@@ -19,9 +16,6 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
-            "args": [
-                "--dart-define", "ACCESS_TOKEN=pk.eyJ1Ijoiam9pbnBpY2t1cCIsImEiOiJjbGU3YWtuNG4wM2x4M3ZuMWF2bGY4dGFmIn0.PNtNIKARSJdGC94vcjf4Eg"
-            ]
         },
         {
             "name": "native (release mode)",
@@ -29,9 +23,6 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
-            "args": [
-                "--dart-define", "ACCESS_TOKEN=pk.eyJ1Ijoiam9pbnBpY2t1cCIsImEiOiJjbGU3YWtuNG4wM2x4M3ZuMWF2bGY4dGFmIn0.PNtNIKARSJdGC94vcjf4Eg"
-            ]
         }
     ]
 }

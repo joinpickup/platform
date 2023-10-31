@@ -1,0 +1,72 @@
+---
+import LoginDialog from "../components/LoginDialog";
+import MenuNavbar from "../components/MenuNavbar";
+
+const {
+  title,
+  backgroundColor = "#f7e8de",
+  textColor = "#000000",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Local" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body class="m-4 text-2xl">
+    <slot />
+  </body>
+
+  <!-- Other Modal -->
+  <MenuNavbar client:only="solid" />
+  <LoginDialog client:only="solid" />
+</html>
+
+<style define:vars={{ backgroundColor, textColor }} is:global>
+  * {
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
+    font-family: "Nunito";
+    font-weight: 700;
+  }
+
+  .grow {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .grow:hover {
+    transform: scale(1.02);
+  }
+
+  .grow:active {
+    transform: scale(0.98);
+  }
+</style>
+
+<script>
+  import { menuBarOpen } from "../store/layout";
+
+  document.addEventListener("mousemove", function (event) {
+    // Get the mouse coordinates relative to the document
+    const mouseX = event.pageX;
+
+    // Check if the mouse is within the top-left quadrant
+    if (mouseX <= 25) {
+      // Replace the following line with your desired action
+      menuBarOpen.set(true);
+    }
+  });
+</script>

@@ -1,84 +1,104 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:local/navigator/post_auth/post_auth_navigator.dart';
-import 'package:local/navigator/pre_auth/pre_auth_navigator.dart';
-import 'package:local/repos/data/mocks/person.dart';
-import 'package:local/repos/data/mocks/post.dart';
-import 'package:local/repos/data/models/post/post.dart';
-import 'package:local/repos/data/models/user/person.dart';
-import 'package:local/repos/person_repository.dart';
-import 'package:local/repos/post_repository.dart';
-import 'package:local/repos/user_repository.dart';
-import 'package:local/screens/post_auth/discover/views/add_post/add_post_bloc.dart';
-import 'package:local/shared/auth_feed/auth_bloc.dart';
-import 'package:local/theme/dark_mode.dart';
+import 'package:local/features/home/presentation/home.dart';
+import 'package:local/features/locale/application/locale_bloc/locale_bloc_bloc.dart';
+import 'package:local/features/locale/application/locale_service.dart';
+import 'package:local/features/locale/domain/locale.dart';
+import 'package:local/shared/application/app/app_bloc.dart';
+import 'package:local/shared/application/service/service_bloc.dart';
+import 'package:local/theme/theme.dart';
+import 'package:pocketbase/pocketbase.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future main() async {
-  await Hive.initFlutter();
+Future<void> main() async {
+  final log = Logger("MainLogger");
+  await dotenv.load(fileName: ".env");
 
-  // setup cache
-  // posts
-  Box postBox = await Hive.openBox('posts');
-  List<Post> posts = [...allPosts];
-  String mapPosts = jsonEncode(posts);
-  await postBox.put("posts", mapPosts);
+  // check for auth service and service registry
+  final apiEndpoint = dotenv.env["API_ENDPOINT"];
 
-  // person
-  Box personBox = await Hive.openBox('persons');
-  List<Person> persons = [...allPersons];
-  String mapPersons = jsonEncode(persons);
-  await personBox.put("persons", mapPersons);
+  if (apiEndpoint == null) {
+    log.severe("Missing environment variable: API_ENDPOINT");
+    exit(1);
+  }
 
-  // setup mapbox stuff
+  // to create pocketbase instances, lets grab the auth store
+  PocketBase? pb;
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    final store = AsyncAuthStore(
+      save: (String data) async => prefs.setString('pb_auth', data),
+      initial: prefs.getString('pb_auth'),
+    );
 
-  runApp(const MyApp());
+    pb = PocketBase(apiEndpoint, authStore: store);
+  } catch (e) {
+    log.severe("Error setting up pocketbase", [e]);
+  }
+
+  runApp(
+    MyApp(
+      pb: pb,
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key, this.pb});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final _postRepository = PostRepository();
-  final _userRepository = const UserRepository();
-  final _personRepository = PersonRepository();
+  final PocketBase? pb;
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AddPostBloc>(
-          create: (context) => AddPostBloc(
-            _postRepository,
-            _personRepository,
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
+    return MaterialApp(
+      title: "Local",
+      debugShowCheckedModeBanner: false,
+      theme: LocalTheme.light,
+      darkTheme: LocalTheme.dark,
+      themeMode: ThemeMode.light,
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ServiceBloc()
+              ..add(
+                LoadServices(
+                  pocketbase: pb as PocketBase,
+                ),
+              ),
           ),
-        ),
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(
-            userRepository: _userRepository,
-            personRepository: _personRepository,
+          BlocProvider(
+            create: (context) => AppBloc(),
           ),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: BlocBuilder<AuthBloc, AuthState>(
+        ],
+        child: BlocBuilder<ServiceBloc, ServiceState>(
           builder: (context, state) {
             switch (state.status) {
-              case AuthStateStatus.authenticated:
-                return const PostAuthNavigator();
+              case ServiceStatus.loaded:
+                return BlocProvider(
+                  create: (context) =>
+                      LocaleBloc(state.localeService as LocaleService)
+                        ..add(
+                          LoadLocales(),
+                        ),
+                  child: const Home(),
+                );
               default:
-                return const PreAuthNavigator();
+                return const SafeArea(
+                  child: Text("loading"),
+                );
             }
           },
         ),
-        theme: darkTheme,
       ),
     );
   }

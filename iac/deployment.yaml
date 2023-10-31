@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-service
+  name: platform-service
   namespace: prod
   labels:
-    app: auth-service
+    app: platform-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth-service
+      app: platform-service
   template:
     metadata:
       labels:
-        app: auth-service
+        app: platform-service
     spec:
       containers:
-      - name: auth-service
-        image: joinpickup/auth-service:$TAG
+      - name: platform-service
+        image: joinpickup/platform-service:$TAG
         envFrom:
         - secretRef:
-            name: auth-service
+            name: platform-service
         env:
           - name: VERSION
             value: $VERSION
@@ -30,10 +30,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: platform-service
   namespace: prod
 spec:
   ports:
-  - port: 6051
+  - port: 6060
   selector:
-    app: auth-service
+    app: platform-service
