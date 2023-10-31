@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/features/home/presentation/home_drawer.dart';
 import 'package:local/features/locale/application/locale_bloc/locale_bloc_bloc.dart';
 import 'package:local/features/locale/presentation/locale_dialog.dart';
+import 'package:local/features/locale/domain/locale.dart';
+import 'package:local/shared/application/app/app_bloc.dart';
 import 'package:local/support/position.dart';
 
 class LocaleSelector extends StatefulWidget {
@@ -21,50 +23,56 @@ class _LocaleSelectorState extends State<LocaleSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.mediumImpact();
-        if (!_isMenuOpen) {
-          openMenu(context);
-        } else {
-          closeMenu();
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 16,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              offset: Offset(-1, 1),
-              blurRadius: 8,
-              color: Colors.black,
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Text(
-              "New Haven",
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+    return BlocBuilder<LocaleBloc, LocaleState>(
+      builder: (context, localeState) {
+        return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
+          return GestureDetector(
+            onTap: () {
+              HapticFeedback.mediumImpact();
+              if (!_isMenuOpen) {
+                openMenu(context);
+              } else {
+                closeMenu();
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    offset: Offset(-1, 1),
+                    blurRadius: 8,
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
                   ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    "test",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(4),
+                  ),
+                  const Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(4),
-            ),
-            const Icon(
-              Icons.keyboard_arrow_down,
-              color: Colors.black,
-            ),
-          ],
-        ),
-      ),
+          );
+        });
+      },
     );
   }
 
@@ -82,7 +90,8 @@ class _LocaleSelectorState extends State<LocaleSelector> {
                   closeMenu();
                 },
               ),
-              Positioned(
+              AnimatedPositioned(
+                duration: const Duration(seconds: 30),
                 top: getOffsetFromKey(homeLocaleSelectorKey).dy +
                     getSizeFromKey(homeLocaleSelectorKey).height,
                 left: getOffsetFromKey(homeLocaleSelectorKey).dx,

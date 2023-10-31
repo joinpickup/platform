@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/features/home/presentation/home.dart';
@@ -29,7 +30,6 @@ Future<void> main() async {
 
   // to create pocketbase instances, lets grab the auth store
   PocketBase? pb;
-  List<Locale> locales = [];
   try {
     final prefs = await SharedPreferences.getInstance();
     final store = AsyncAuthStore(
@@ -38,17 +38,6 @@ Future<void> main() async {
     );
 
     pb = PocketBase(apiEndpoint, authStore: store);
-
-    final resultList = await pb.collection('locales').getList(
-          page: 1,
-          perPage: 50,
-          filter: 'created >= "2022-01-01 00:00:00"',
-        );
-
-    for (RecordModel record in resultList.items) {
-      Locale locale = Locale.fromRecord(record);
-      locales.add(locale);
-    }
   } catch (e) {
     log.severe("Error setting up pocketbase", [e]);
   }
@@ -56,16 +45,14 @@ Future<void> main() async {
   runApp(
     MyApp(
       pb: pb,
-      locales: locales,
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, this.pb, required this.locales});
+  const MyApp({super.key, this.pb});
 
   final PocketBase? pb;
-  final List<Locale> locales;
 
   @override
   Widget build(BuildContext context) {

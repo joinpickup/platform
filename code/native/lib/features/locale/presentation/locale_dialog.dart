@@ -26,13 +26,15 @@ class _LocaleDialogState extends State<LocaleDialog> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                width: 2,
-              ),
+              boxShadow: const [
+                BoxShadow(
+                  offset: Offset(-1, 1),
+                  blurRadius: 8,
+                  color: Colors.black,
+                ),
+              ],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // group 1: search bar
                 _buildSearchBar(context),
@@ -70,21 +72,25 @@ class _LocaleDialogState extends State<LocaleDialog> {
               )
             : Container(),
         // group 2: searches
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: state.locales.length,
-          separatorBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.all(8),
-            );
-          },
-          itemBuilder: (context, index) {
-            return LocaleListItem(
-              locale: state.locales[index],
-            );
-          },
-        ),
+        _buildLocales(state),
       ],
+    );
+  }
+
+  ListView _buildLocales(LocaleState state) {
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: state.locales.length,
+      separatorBuilder: (context, index) {
+        return const Padding(
+          padding: EdgeInsets.all(8),
+        );
+      },
+      itemBuilder: (context, index) {
+        return LocaleListItem(
+          locale: state.locales[index],
+        );
+      },
     );
   }
 
