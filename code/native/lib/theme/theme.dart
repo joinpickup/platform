@@ -7,9 +7,9 @@ class LocalTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(
-        background: Color(0xFFFEF6ED),
+        background: Color(0xFFF5E8DA),
       ),
-      textTheme: GoogleFonts.nunitoTextTheme(),
+      textTheme: GoogleFonts.interTextTheme(),
     );
   }
 
