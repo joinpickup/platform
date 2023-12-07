@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:local/features/components/board_view.dart';
-import 'package:local/features/components/tab_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/features/components/board_feed.dart';
+import 'package:local/features/components/tab_bar/cubit/tab_bar_cubit.dart';
+import 'package:local/features/components/tab_bar/presentation/tab_bar.dart';
 import 'package:local/features/components/top_bar.dart';
 
 const fColorRoyal = Color(0xFF152834);
@@ -17,23 +19,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              TopBar(),
-              SizedBox(
-                height: 8,
-              ),
-              CustomTabBar(),
-              SizedBox(
-                height: 8,
-              ),
-              BoardFeed(),
-            ],
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => TabBarCubit(),
+        child: const SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TopBar(),
+                SizedBox(
+                  height: 8,
+                ),
+                CustomTabBar(),
+                SizedBox(
+                  height: 8,
+                ),
+                BoardFeed(),
+              ],
+            ),
           ),
         ),
       ),
