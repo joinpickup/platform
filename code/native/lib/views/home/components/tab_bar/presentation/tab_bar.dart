@@ -1,8 +1,8 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/features/components/tab_bar/cubit/tab_bar_cubit.dart';
-import 'package:local/features/home_screen.dart';
+import 'package:local/theme/color.dart';
+import 'package:local/views/home/components/tab_bar/cubit/tab_bar_cubit.dart';
 
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
@@ -66,7 +66,7 @@ class TabChip extends StatelessWidget {
             cornerRadius: 8,
             cornerSmoothing: 0.6,
           )),
-          color: active ? fColorRoyal : fColorSand,
+          color: active ? kColorRoyal : kColorSand,
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 4,
@@ -75,7 +75,7 @@ class TabChip extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: active ? fColorSand : fColorRoyal,
+            color: active ? kColorSand : kColorRoyal,
             fontWeight: FontWeight.w900,
             fontSize: 15,
           ),

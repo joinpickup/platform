@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:local/features/components/board_card.dart';
+import 'package:local/views/home/components/board_card.dart';
 
 const items = [];
 
