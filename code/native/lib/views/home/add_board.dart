@@ -4,6 +4,17 @@ import 'package:local/components/icon_button.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
 
+Future<dynamic> showAddBoard(BuildContext context) {
+  return showModalBottomSheet(
+      useSafeArea: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      builder: (context) {
+        return const AddBoard();
+      },
+      context: context);
+}
+
 class AddBoard extends StatelessWidget {
   const AddBoard({Key? key}) : super(key: key);
 
@@ -16,6 +27,7 @@ class AddBoard extends StatelessWidget {
         color: kColorSand,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,7 +51,29 @@ class AddBoard extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
+          const Text(
+            "Name",
+            style: TextStyle(
+              color: kColorRoyal,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
           const CustomInput(),
+          const SizedBox(
+            height: 8,
+          ),
+          const Text(
+            "Description",
+            style: TextStyle(
+              color: kColorRoyal,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(
             height: 8,
           ),
@@ -68,7 +102,7 @@ class CustomInput extends StatelessWidget {
         filled: true,
         isDense: true,
         fillColor: kColorInput,
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(20),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(50),
@@ -102,7 +136,7 @@ class CustomDescriptionInput extends StatelessWidget {
         filled: true,
         isDense: true,
         fillColor: kColorInput,
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(20),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(24),

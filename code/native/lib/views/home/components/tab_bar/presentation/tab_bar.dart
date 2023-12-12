@@ -48,17 +48,19 @@ class TabChip extends StatelessWidget {
     required this.active,
     required this.update,
     required this.tab,
+    this.disabled = false,
   });
 
   final TabBarTab tab;
   final String text;
   final bool active;
   final Function update;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => update(tab),
+      onTap: () => {if (!disabled) update(tab)},
       child: Container(
         decoration: ShapeDecoration(
           shape: SmoothRectangleBorder(
@@ -66,7 +68,11 @@ class TabChip extends StatelessWidget {
             cornerRadius: 8,
             cornerSmoothing: 0.6,
           )),
-          color: active ? kColorRoyal : kColorSand,
+          color: disabled
+              ? kColorSand
+              : active
+                  ? kColorRoyal
+                  : kColorSand,
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 4,
@@ -75,7 +81,11 @@ class TabChip extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: active ? kColorSand : kColorRoyal,
+            color: disabled
+                ? kColorSand
+                : active
+                    ? kColorSand
+                    : kColorRoyal,
             fontWeight: FontWeight.w900,
             fontSize: 15,
           ),

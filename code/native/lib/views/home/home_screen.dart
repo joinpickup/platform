@@ -19,11 +19,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(
-              builder: (context) {
-                return const AddBoard();
-              },
-              context: context);
+          showAddBoard(context);
         },
         child: SvgPicture.string(
           kIconPlus,
