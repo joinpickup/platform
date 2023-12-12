@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) => TabBarCubit(),
         child: const SafeArea(
+          bottom: false,
           child: Padding(
             padding: EdgeInsets.fromLTRB(
               16.0,
