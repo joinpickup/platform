@@ -68,7 +68,7 @@ class TopBar extends StatelessWidget {
                 Radius.circular(100),
               ),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 "AC",
                 style: TextStyle(
@@ -113,7 +113,7 @@ class SearchBar extends StatelessWidget {
                 kIconSearch,
                 width: 24,
                 height: 24,
-                theme: const SvgTheme(
+                theme: SvgTheme(
                   currentColor: kColorRoyal,
                 ),
               ),

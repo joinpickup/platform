@@ -24,7 +24,7 @@ class CustomIconButton extends StatelessWidget {
         icon,
         width: size,
         height: size,
-        theme: const SvgTheme(
+        theme: SvgTheme(
           currentColor: kColorRoyal,
         ),
       ),

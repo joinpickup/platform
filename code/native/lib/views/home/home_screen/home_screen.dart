@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           kIconPlus,
           width: 36,
           height: 36,
-          theme: const SvgTheme(
+          theme: SvgTheme(
             currentColor: kColorSand,
           ),
         ),

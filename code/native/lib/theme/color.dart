@@ -1,16 +1,34 @@
 import 'dart:ui';
 
-const kColorRoyal = Color(0xFF152834);
-const kColorRoyal200 = Color(0xFFb9dee8);
-const kColorRoyal400 = Color(0xFF50a5be);
-const kColorRoyal500 = Color(0xFF51a5bf);
-const kColorRoyal700 = Color(0xFF627C8);
-const kColorSand = Color(0xFFF5E8DA);
-const kColorDeepBlood = Color(0xFF864A4E);
+import 'package:flutter/material.dart';
+
+final kColorRoyal = createMaterialColor(const Color(0xFF152834));
+final kColorSand = createMaterialColor(const Color(0xFFF5E8DA));
+final kColorDeepBlood = createMaterialColor(const Color(0xFF864A4E));
 
 // card
-const kColorCardBlue = Color(0xFFB5C1B9);
-const kColorCardBlueAccent = Color(0xFF324E5F);
+final kColorCardBlue = createMaterialColor(const Color(0xFFB5C1B9));
+final kColorCardBlueAccent = createMaterialColor(const Color(0xFF324E5F));
 
 // input
-const kColorInput = Color(0xFFEDD3B8);
+final kColorInput = createMaterialColor(const Color(0xFFEDD3B8));
+
+MaterialColor createMaterialColor(Color color) {
+  List strengths = <double>[.05];
+  Map<int, Color> swatch = {};
+  final int r = color.red, g = color.green, b = color.blue;
+
+  for (int i = 1; i < 10; i++) {
+    strengths.add(0.1 * i);
+  }
+  for (var strength in strengths) {
+    final double ds = 0.5 - strength;
+    swatch[(strength * 1000).round()] = Color.fromRGBO(
+      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+      1,
+    );
+  }
+  return MaterialColor(color.value, swatch);
+}

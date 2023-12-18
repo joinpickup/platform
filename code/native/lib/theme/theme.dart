@@ -8,8 +8,9 @@ class LocalTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primaryColor: kColorCardBlue,
-      appBarTheme: const AppBarTheme(
+      primaryColor: kColorRoyal,
+      fontFamily: "Archivo",
+      appBarTheme: AppBarTheme(
         titleTextStyle: TextStyle(
           color: kColorRoyal,
           fontSize: 24,
@@ -20,26 +21,40 @@ class LocalTheme {
         ),
         backgroundColor: kColorSand,
       ),
-      textSelectionTheme: const TextSelectionThemeData(
+      textSelectionTheme: TextSelectionThemeData(
         cursorColor: kColorRoyal,
-        selectionColor: kColorRoyal200,
-        selectionHandleColor: kColorRoyal200,
+        selectionColor: kColorRoyal.shade200,
+        selectionHandleColor: kColorRoyal.shade200,
       ),
-      cupertinoOverrideTheme: const CupertinoThemeData(
+      cupertinoOverrideTheme: CupertinoThemeData(
         primaryColor: kColorRoyal,
       ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: kColorDeepBlood,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
       ),
-      colorScheme: const ColorScheme.light(
+      colorScheme: ColorScheme.light(
         background: kColorSand,
       ),
-      drawerTheme: const DrawerThemeData(
+      drawerTheme: DrawerThemeData(
         backgroundColor: kColorSand,
       ),
-      textTheme: GoogleFonts.archivoTextTheme(),
-      inputDecorationTheme: const InputDecorationTheme(
+      textTheme: GoogleFonts.archivoTextTheme().copyWith(
+        titleLarge: TextStyle(
+          color: kColorRoyal,
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+        ),
+        displayLarge: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        labelLarge: TextStyle(
+          color: kColorRoyal,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
         focusColor: kColorRoyal,
       ),
     );

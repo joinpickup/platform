@@ -28,8 +28,8 @@ class AddBoard extends StatelessWidget {
       create: (context) => VisibilitySelectorCubit(),
       child: Container(
         padding: const EdgeInsets.all(32),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(24)),
           color: kColorSand,
         ),
         child: Column(
@@ -39,19 +39,15 @@ class AddBoard extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            _buildNameInput(),
+            _buildNameInput(context),
             const SizedBox(
               height: 24,
             ),
-            _buildDescriptionInput(),
+            _buildDescriptionInput(context),
             const SizedBox(
               height: 24,
             ),
-            _buildVisibilitySelector(),
-            const SizedBox(
-              height: 24,
-            ),
-            _buildFiltersSelection(),
+            _buildFiltersSelection(context),
             const Spacer(),
             const CreateButton(),
           ],
@@ -60,82 +56,66 @@ class AddBoard extends StatelessWidget {
     );
   }
 
-  Column _buildFiltersSelection() {
-    return const Column(
+  Column _buildFiltersSelection(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Filter",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
-        ModifyFiltersButton(),
+        const ModifyFiltersButton(),
       ],
     );
   }
 
-  Column _buildVisibilitySelector() {
-    return const Column(
+  Column _buildVisibilitySelector(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Visibility",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
-        VisibilitySelector(),
+        const VisibilitySelector(),
       ],
     );
   }
 
-  Column _buildDescriptionInput() {
-    return const Column(
+  Column _buildDescriptionInput(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Description",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
-        CustomDescriptionInput(),
+        const CustomDescriptionInput(),
       ],
     );
   }
 
-  Column _buildNameInput() {
-    return const Column(
+  Column _buildNameInput(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Name",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
-        CustomInput(),
+        const CustomInput(),
       ],
     );
   }
@@ -144,13 +124,9 @@ class AddBoard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
+        Text(
           "New Board",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         CustomIconButton(
           icon: kIconClose,
@@ -181,7 +157,7 @@ class ModifyFiltersButton extends StatelessWidget {
           color: Colors.transparent,
           border: Border.all(color: kColorRoyal, width: 2),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
             "Modify Filter",
             style: TextStyle(
@@ -209,7 +185,7 @@ class CreateButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: kColorRoyal,
       ),
-      child: const Center(
+      child: Center(
         child: Text(
           "Create",
           style: TextStyle(

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local/components/icon_button.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
 import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/cubit/board_filter_tab_bar_cubit.dart';
 import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/presentation/board_filter_tab_bar.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/presentation/tab_views/distance_filter_view.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/presentation/tab_views/tags_filter_view.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/presentation/tab_views/time_filter_view.dart';
+import 'package:local/components/icon_button.dart';
 
 Future<dynamic> showAddBoardFilters(BuildContext context) {
   return showModalBottomSheet(
@@ -13,13 +16,16 @@ Future<dynamic> showAddBoardFilters(BuildContext context) {
     enableDrag: true,
     isScrollControlled: true,
     builder: (_) {
-      return BlocProvider(
-        create: (context) => BoardFilterTabBarCubit(),
-        child: const AddBoardFilters(),
-      );
+      return const AddBoardFilters();
     },
   );
 }
+
+const filterViews = [
+  TagsFilterView(),
+  DistanceFilterView(),
+  TimeFilterView(),
+];
 
 class AddBoardFilters extends StatefulWidget {
   const AddBoardFilters({Key? key}) : super(key: key);
@@ -28,54 +34,30 @@ class AddBoardFilters extends StatefulWidget {
   State<AddBoardFilters> createState() => _AddBoardFiltersState();
 }
 
-class _AddBoardFiltersState extends State<AddBoardFilters>
-    with TickerProviderStateMixin {
-  late TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller =
-        TabController(length: BoardFilterTabBarTab.values.length, vsync: this);
-
-    _controller.addListener(() {
-      context
-          .read<BoardFilterTabBarCubit>()
-          .changeTab(BoardFilterTabBarTab.values[_controller.index]);
-    });
-  }
-
+class _AddBoardFiltersState extends State<AddBoardFilters> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Container(
-        padding: const EdgeInsets.all(32),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-          color: kColorSand,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildTopRow(context),
-            const BoardFilterCustomTabBar(),
-            Expanded(
-              child: TabBarView(
-                controller: _controller,
-                children: BoardFilterTabBarTab.values.map((e) {
-                  return Center(
-                    child: Text(
-                      e.text,
-                    ),
-                  );
-                }).toList(),
-              ),
+    return BlocProvider(
+      create: (context) => BoardFilterTabBarCubit(),
+      child: BlocBuilder<BoardFilterTabBarCubit, BoardFilterTabBarTab>(
+        builder: (context, state) {
+          return Container(
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(24)),
+              color: kColorSand,
             ),
-          ],
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTopRow(context),
+                const BoardFilterCustomTabBar(),
+                Expanded(child: filterViews[state.index]),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -84,7 +66,7 @@ class _AddBoardFiltersState extends State<AddBoardFilters>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
+        Text(
           "Board Filters",
           style: TextStyle(
             color: kColorRoyal,

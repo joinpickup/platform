@@ -60,7 +60,7 @@ class SearchBar extends StatelessWidget {
         autofocus: true,
         decoration: InputDecoration(
           hintText: "Search for a board...",
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: kColorRoyal,
             fontSize: 15,
             fontWeight: FontWeight.bold,

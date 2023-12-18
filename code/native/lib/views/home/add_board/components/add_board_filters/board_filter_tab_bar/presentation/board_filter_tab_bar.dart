@@ -55,7 +55,10 @@ class TabChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        if (!disabled) context.read<BoardFilterTabBarCubit>().changeTab(tab)
+        if (!disabled)
+          context.read<BoardFilterTabBarCubit>().changeTab(
+                tab,
+              )
       },
       child: Container(
         decoration: ShapeDecoration(

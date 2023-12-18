@@ -34,9 +34,9 @@ class BoardCard extends StatelessWidget {
             // side bar
             Container(
               width: 8,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: kColorCardBlueAccent,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
             ),
             // body
@@ -57,7 +57,7 @@ class BoardCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "5d ago",
                       style: TextStyle(
                         color: kColorRoyal,
@@ -71,14 +71,14 @@ class BoardCard extends StatelessWidget {
                           kIconPost,
                           width: 24,
                           height: 24,
-                          theme: const SvgTheme(
+                          theme: SvgTheme(
                             currentColor: kColorRoyal,
                           ),
                         ),
                         const SizedBox(
                           width: 4,
                         ),
-                        const Text(
+                        Text(
                           "2k",
                           style: TextStyle(
                             color: kColorRoyal,
@@ -93,14 +93,14 @@ class BoardCard extends StatelessWidget {
                           kIconStar,
                           width: 24,
                           height: 24,
-                          theme: const SvgTheme(
+                          theme: SvgTheme(
                             currentColor: kColorRoyal,
                           ),
                         ),
                         const SizedBox(
                           width: 4,
                         ),
-                        const Text(
+                        Text(
                           "100k",
                           style: TextStyle(
                             color: kColorRoyal,
@@ -128,7 +128,7 @@ class BoardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
@@ -139,7 +139,7 @@ class BoardHeader extends StatelessWidget {
             fontSize: 12,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 2,
         ),
         Text(
@@ -150,7 +150,7 @@ class BoardHeader extends StatelessWidget {
             fontSize: 12,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 2,
         ),
         Text(
