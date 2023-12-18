@@ -45,7 +45,9 @@ class LocalTheme {
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
-        displayLarge: const TextStyle(
+        bodyMedium: TextStyle(
+          color: kColorRoyal,
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         labelLarge: TextStyle(

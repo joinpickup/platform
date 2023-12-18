@@ -155,13 +155,13 @@ class ModifyFiltersButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: Colors.transparent,
-          border: Border.all(color: kColorRoyal, width: 2),
+          border: Border.all(color: kColorRoyal.shade300, width: 2),
         ),
         child: Center(
           child: Text(
             "Modify Filter",
             style: TextStyle(
-              color: kColorRoyal,
+              color: kColorRoyal.shade300,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -213,7 +213,7 @@ class CustomInput extends StatelessWidget {
       decoration: InputDecoration(
         hintText: "Enter a name...",
         hintStyle: TextStyle(
-          color: Colors.grey.shade600,
+          color: kColorRoyal.shade300,
           fontSize: 15,
           fontWeight: FontWeight.bold,
         ),
@@ -251,7 +251,7 @@ class CustomDescriptionInput extends StatelessWidget {
       decoration: InputDecoration(
         hintText: "Enter a description...",
         hintStyle: TextStyle(
-          color: Colors.grey.shade600,
+          color: kColorRoyal.shade300,
           fontSize: 15,
           fontWeight: FontWeight.bold,
         ),

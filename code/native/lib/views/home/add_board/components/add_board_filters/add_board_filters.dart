@@ -27,14 +27,9 @@ const filterViews = [
   TimeFilterView(),
 ];
 
-class AddBoardFilters extends StatefulWidget {
+class AddBoardFilters extends StatelessWidget {
   const AddBoardFilters({Key? key}) : super(key: key);
 
-  @override
-  State<AddBoardFilters> createState() => _AddBoardFiltersState();
-}
-
-class _AddBoardFiltersState extends State<AddBoardFilters> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

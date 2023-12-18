@@ -11,9 +11,6 @@ class TimeFilterView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Include",
-          ),
           Container(
             height: 200,
             decoration: BoxDecoration(
