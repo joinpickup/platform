@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local/theme/theme.dart';
-import 'package:local/views/home/home_screen.dart';
+import 'package:local/views/home/home_screen/home_screen.dart';
 
 Future<void> main() async {
   runApp(

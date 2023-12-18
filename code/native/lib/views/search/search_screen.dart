@@ -54,6 +54,10 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: TextFormField(
+        onTapOutside: (event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        autofocus: true,
         decoration: InputDecoration(
           hintText: "Search for a board...",
           hintStyle: const TextStyle(

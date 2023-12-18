@@ -2,30 +2,28 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/theme/color.dart';
-import 'package:local/views/home/components/tab_bar/cubit/tab_bar_cubit.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/cubit/board_filter_tab_bar_cubit.dart';
 
-class CustomTabBar extends StatelessWidget {
-  const CustomTabBar({
+class BoardFilterCustomTabBar extends StatelessWidget {
+  const BoardFilterCustomTabBar({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TabBarCubit, TabBarTab>(
+    return BlocBuilder<BoardFilterTabBarCubit, BoardFilterTabBarTab>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: TabBarTab.values.map((tab) {
+              children: BoardFilterTabBarTab.values.map((tab) {
                 return Row(
                   children: [
                     TabChip(
                       tab: tab,
                       active: tab == state,
-                      text: tab.name,
-                      update: context.read<TabBarCubit>().changeTab,
                     ),
                     const SizedBox(
                       width: 8,
@@ -44,23 +42,21 @@ class CustomTabBar extends StatelessWidget {
 class TabChip extends StatelessWidget {
   const TabChip({
     super.key,
-    required this.text,
     required this.active,
-    required this.update,
     required this.tab,
     this.disabled = false,
   });
 
-  final TabBarTab tab;
-  final String text;
+  final BoardFilterTabBarTab tab;
   final bool active;
-  final Function update;
   final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {if (!disabled) update(tab)},
+      onTap: () => {
+        if (!disabled) context.read<BoardFilterTabBarCubit>().changeTab(tab)
+      },
       child: Container(
         decoration: ShapeDecoration(
           shape: SmoothRectangleBorder(
@@ -76,10 +72,10 @@ class TabChip extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 4,
-          horizontal: 8,
+          horizontal: 16,
         ),
         child: Text(
-          text,
+          tab.text,
           style: TextStyle(
             color: disabled
                 ? kColorSand
@@ -87,7 +83,7 @@ class TabChip extends StatelessWidget {
                     ? kColorSand
                     : kColorRoyal,
             fontWeight: FontWeight.w900,
-            fontSize: 15,
+            fontSize: 20,
           ),
         ),
       ),

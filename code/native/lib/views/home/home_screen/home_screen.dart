@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
-import 'package:local/views/home/add_board.dart';
-import 'package:local/views/home/components/board_feed.dart';
-import 'package:local/views/home/components/tab_bar/cubit/tab_bar_cubit.dart';
-import 'package:local/views/home/components/tab_bar/presentation/tab_bar.dart';
-import 'package:local/views/home/components/top_bar.dart';
+import 'package:local/views/home/add_board/add_board.dart';
+import 'package:local/views/home/home_screen/components/board_feed.dart';
+import 'package:local/views/home/home_screen/components/tab_bar/cubit/tab_bar_cubit.dart';
+import 'package:local/views/home/home_screen/components/tab_bar/presentation/tab_bar.dart';
+import 'package:local/views/home/home_screen/components/top_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -19,6 +20,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          HapticFeedback.mediumImpact();
           showAddBoard(context);
         },
         child: SvgPicture.string(
