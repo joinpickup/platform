@@ -9,88 +9,85 @@ class TagsFilterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Include",
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            const TagFilterDistinction(),
+          ],
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Container(
+          padding: const EdgeInsets.all(8),
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: kColorInput,
+          ),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.start,
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              Text(
-                "Include",
-                style: Theme.of(context).textTheme.labelLarge,
+              const TagChip(
+                text: "/soccer/",
               ),
-              const TagFilterDistinction(),
+              const TagChip(
+                text: "/football-uk/",
+              ),
+              const TagChip(
+                text: "/intermediate/",
+              ),
+              const TagChip(
+                text: "/pickup/",
+              ),
+              Button(
+                icon: kIconPlus,
+                click: () {
+                  showTagsSelector(context);
+                },
+              ),
             ],
           ),
-          const SizedBox(
-            height: 8,
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        Text(
+          "Exclude",
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Container(
+          padding: const EdgeInsets.all(8),
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: kColorInput,
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              color: kColorInput,
-            ),
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.start,
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                const TagChip(
-                  text: "/soccer/",
-                ),
-                const TagChip(
-                  text: "/football-uk/",
-                ),
-                const TagChip(
-                  text: "/intermediate/",
-                ),
-                const TagChip(
-                  text: "/pickup/",
-                ),
-                Button(
-                  icon: kIconPlus,
-                  click: () {
-                    showTagsSelector(context);
-                  },
-                ),
-              ],
-            ),
+          child: Wrap(
+            children: [
+              Button(
+                icon: kIconPlus,
+                click: () {
+                  showTagsSelector(context);
+                },
+              ),
+            ],
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            "Exclude",
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              color: kColorInput,
-            ),
-            child: Wrap(
-              children: [
-                Button(
-                  icon: kIconPlus,
-                  click: () {
-                    showTagsSelector(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

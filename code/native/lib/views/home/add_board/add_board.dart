@@ -223,7 +223,7 @@ class CustomInput extends StatelessWidget {
         contentPadding: const EdgeInsets.all(20),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -261,7 +261,7 @@ class CustomDescriptionInput extends StatelessWidget {
         contentPadding: const EdgeInsets.all(20),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
