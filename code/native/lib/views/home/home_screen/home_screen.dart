@@ -18,17 +18,36 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: Draggable(
+        onDragStarted: () {
           HapticFeedback.mediumImpact();
-          showAddBoard(context);
         },
-        child: SvgPicture.string(
-          kIconPlus,
-          width: 36,
-          height: 36,
-          theme: SvgTheme(
-            currentColor: kColorSand,
+        feedback: FloatingActionButton(
+          onPressed: () {
+            HapticFeedback.mediumImpact();
+            showAddBoard(context);
+          },
+          child: SvgPicture.string(
+            kIconPlus,
+            width: 36,
+            height: 36,
+            theme: SvgTheme(
+              currentColor: kColorSand,
+            ),
+          ),
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            HapticFeedback.mediumImpact();
+            showAddBoard(context);
+          },
+          child: SvgPicture.string(
+            kIconPlus,
+            width: 36,
+            height: 36,
+            theme: SvgTheme(
+              currentColor: kColorSand,
+            ),
           ),
         ),
       ),
@@ -47,10 +66,6 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TopBar(),
-                SizedBox(
-                  height: 8,
-                ),
-                CustomTabBar(),
                 SizedBox(
                   height: 8,
                 ),

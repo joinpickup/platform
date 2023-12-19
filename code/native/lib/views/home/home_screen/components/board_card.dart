@@ -17,7 +17,6 @@ class BoardCard extends StatelessWidget {
         builder: (context) => const BoardScreen(),
       ))),
       child: Container(
-        height: 200,
         decoration: ShapeDecoration(
           color: kColorCardBlue,
           shape: SmoothRectangleBorder(
@@ -29,87 +28,71 @@ class BoardCard extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(16),
         // left and right
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // side bar
-            Container(
-              width: 8,
-              decoration: BoxDecoration(
-                color: kColorCardBlueAccent,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-              ),
-            ),
-            // body
+            // title
+            const BoardHeader(),
+            // description
             const SizedBox(
               width: 16,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+            // data
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // title
-                const BoardHeader(),
-                // description
-                const SizedBox(
-                  width: 16,
+                Text(
+                  "5d ago",
+                  style: TextStyle(
+                    color: kColorRoyal,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
-                // data
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    SvgPicture.string(
+                      kIconPost,
+                      width: 24,
+                      height: 24,
+                      theme: SvgTheme(
+                        currentColor: kColorRoyal,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
                     Text(
-                      "5d ago",
+                      "2k",
                       style: TextStyle(
                         color: kColorRoyal,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.string(
-                          kIconPost,
-                          width: 24,
-                          height: 24,
-                          theme: SvgTheme(
-                            currentColor: kColorRoyal,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          "2k",
-                          style: TextStyle(
-                            color: kColorRoyal,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SvgPicture.string(
-                          kIconStar,
-                          width: 24,
-                          height: 24,
-                          theme: SvgTheme(
-                            currentColor: kColorRoyal,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          "100k",
-                          style: TextStyle(
-                            color: kColorRoyal,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        )
-                      ],
+                    const SizedBox(
+                      width: 8,
                     ),
+                    SvgPicture.string(
+                      kIconStar,
+                      width: 24,
+                      height: 24,
+                      theme: SvgTheme(
+                        currentColor: kColorRoyal,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      "100k",
+                      style: TextStyle(
+                        color: kColorRoyal,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    )
                   ],
                 ),
               ],

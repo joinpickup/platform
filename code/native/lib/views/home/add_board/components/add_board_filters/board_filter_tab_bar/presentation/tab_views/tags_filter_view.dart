@@ -39,16 +39,16 @@ class TagsFilterView extends StatelessWidget {
             runSpacing: 8,
             children: [
               const TagChip(
-                text: "/soccer/",
+                text: "All Soccer",
               ),
               const TagChip(
-                text: "/football-uk/",
+                text: "UK Soccer",
               ),
               const TagChip(
-                text: "/intermediate/",
+                text: "Only Intermediate",
               ),
               const TagChip(
-                text: "/pickup/",
+                text: "All Pickup",
               ),
               Button(
                 icon: kIconPlus,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:local/components/icon_button.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
@@ -10,10 +11,7 @@ Future<dynamic> showTagsSelector(BuildContext context) {
     enableDrag: true,
     isScrollControlled: true,
     builder: (_) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: const TagsSelector(),
-      );
+      return const TagsSelector();
     },
   );
 }
@@ -35,9 +33,58 @@ class TagsSelector extends StatelessWidget {
         children: [
           _buildTopRow(context),
           const SizedBox(
-            height: 8,
+            height: 16,
           ),
-          const CustomInput(),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Column(
+              children: [
+                TagItem(
+                  text: "/*",
+                  postNumber: "332M",
+                ),
+                TagItem(
+                  text: "/soccer",
+                  postNumber: "244K",
+                ),
+                TagItem(
+                  text: "/outdoors",
+                  postNumber: "234K",
+                ),
+                TagItem(
+                  text: "/books",
+                  postNumber: "47K",
+                ),
+                TagItem(
+                  text: "/music",
+                  postNumber: "37K",
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          const SizedBox(
+            height: 16,
+          ),
+          const Spacer(),
+          RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: "/",
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        color: kColorRoyal,
+                      )),
+              TextSpan(
+                  text: "space/",
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        color: kColorRoyal.shade300,
+                      )),
+            ]),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const CreateButton(),
         ],
       ),
     );
@@ -48,7 +95,7 @@ class TagsSelector extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "Tags",
+          "Tag Builder",
           style: TextStyle(
             color: kColorRoyal,
             fontSize: 28,
@@ -66,6 +113,64 @@ class TagsSelector extends StatelessWidget {
   }
 }
 
+class TagItem extends StatelessWidget {
+  const TagItem({super.key, required this.text, required this.postNumber});
+
+  final String text;
+  final String postNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(text),
+          Row(children: [
+            Text(
+              postNumber,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            SvgPicture.string(
+              kIconPost,
+            ),
+          ]),
+        ],
+      ),
+    );
+  }
+}
+
+class CreateButton extends StatelessWidget {
+  const CreateButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: kColorRoyal,
+      ),
+      child: Center(
+        child: Text(
+          "Create",
+          style: TextStyle(
+            color: kColorSand,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CustomInput extends StatelessWidget {
   const CustomInput({
     super.key,
@@ -78,7 +183,7 @@ class CustomInput extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       decoration: InputDecoration(
-        hintText: "Search for a tag...",
+        hintText: "Search for a keyword...",
         hintStyle: TextStyle(
           color: Colors.grey.shade600,
           fontSize: 15,
