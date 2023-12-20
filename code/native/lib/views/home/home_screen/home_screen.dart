@@ -7,7 +7,6 @@ import 'package:local/theme/svg.dart';
 import 'package:local/views/home/add_board/add_board.dart';
 import 'package:local/views/home/home_screen/components/board_feed.dart';
 import 'package:local/views/home/home_screen/components/tab_bar/cubit/tab_bar_cubit.dart';
-import 'package:local/views/home/home_screen/components/tab_bar/presentation/tab_bar.dart';
 import 'package:local/views/home/home_screen/components/top_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,36 +17,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Draggable(
-        onDragStarted: () {
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
           HapticFeedback.mediumImpact();
+          showAddBoard(context);
         },
-        feedback: FloatingActionButton(
-          onPressed: () {
-            HapticFeedback.mediumImpact();
-            showAddBoard(context);
-          },
-          child: SvgPicture.string(
-            kIconPlus,
-            width: 36,
-            height: 36,
-            theme: SvgTheme(
-              currentColor: kColorSand,
-            ),
-          ),
-        ),
-        child: FloatingActionButton(
-          onPressed: () {
-            HapticFeedback.mediumImpact();
-            showAddBoard(context);
-          },
-          child: SvgPicture.string(
-            kIconPlus,
-            width: 36,
-            height: 36,
-            theme: SvgTheme(
-              currentColor: kColorSand,
-            ),
+        child: SvgPicture.string(
+          kIconPlus,
+          width: 36,
+          height: 36,
+          theme: SvgTheme(
+            currentColor: kColorSand,
           ),
         ),
       ),
@@ -67,7 +47,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 TopBar(),
                 SizedBox(
-                  height: 8,
+                  height: 16,
                 ),
                 BoardFeed(),
               ],

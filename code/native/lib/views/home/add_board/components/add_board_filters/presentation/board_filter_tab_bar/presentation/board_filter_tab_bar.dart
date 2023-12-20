@@ -2,7 +2,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local/theme/color.dart';
-import 'package:local/views/home/add_board/components/add_board_filters/board_filter_tab_bar/cubit/board_filter_tab_bar_cubit.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/presentation/board_filter_tab_bar/cubit/board_filter_tab_bar_cubit.dart';
 
 class BoardFilterCustomTabBar extends StatelessWidget {
   const BoardFilterCustomTabBar({
@@ -70,7 +70,7 @@ class TabChip extends StatelessWidget {
           color: disabled
               ? kColorSand
               : active
-                  ? kColorRoyal
+                  ? kColorDeepBlood
                   : kColorSand,
         ),
         padding: const EdgeInsets.symmetric(

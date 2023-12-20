@@ -5,10 +5,21 @@ import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
 import 'package:local/views/board/board_screen.dart';
 
+class Board {
+  final String author;
+  final String name;
+  final String description;
+
+  Board({required this.author, required this.name, required this.description});
+}
+
 class BoardCard extends StatelessWidget {
   const BoardCard({
     super.key,
+    required this.board,
   });
+
+  final Board board;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +44,34 @@ class BoardCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // title
-            const BoardHeader(),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: board.author,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  TextSpan(
+                    text: " / ",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  TextSpan(
+                    text: board.name,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              board.description,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
             // description
             const SizedBox(
-              width: 16,
+              height: 8,
             ),
             // data
             Row(
@@ -44,11 +79,9 @@ class BoardCard extends StatelessWidget {
               children: [
                 Text(
                   "5d ago",
-                  style: TextStyle(
-                    color: kColorRoyal,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: kColorRoyal.shade300,
+                      ),
                 ),
                 Row(
                   children: [
@@ -100,51 +133,6 @@ class BoardCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class BoardHeader extends StatelessWidget {
-  const BoardHeader({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          "@local-hq",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
-        ),
-        const SizedBox(
-          width: 2,
-        ),
-        Text(
-          "/",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
-        ),
-        const SizedBox(
-          width: 2,
-        ),
-        Text(
-          "Nearby",
-          style: TextStyle(
-            color: kColorRoyal,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:local/components/icon_button.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
-import 'package:local/views/home/add_board/components/add_board_filters/add_board_filters.dart';
-import 'package:local/views/home/add_board/components/visibility_selector/cubit/visibility_selector_cubit.dart';
-import 'package:local/views/home/add_board/components/visibility_selector/presentation/visibility_selector.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/cubit/add_board_filters_cubit.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/presentation/add_board_filters.dart';
 
 Future<dynamic> showAddBoard(BuildContext context) {
   return showModalBottomSheet(
     context: context,
     useSafeArea: true,
-    enableDrag: true,
+    isDismissible: false,
+    enableDrag: false,
     isScrollControlled: true,
     builder: (_) {
       return const AddBoard();
@@ -24,8 +25,12 @@ class AddBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => VisibilitySelectorCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AddBoardFiltersCubit(),
+        ),
+      ],
       child: Container(
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
@@ -36,6 +41,10 @@ class AddBoard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildTopRow(context),
+            const SizedBox(
+              height: 8,
+            ),
+            const Text("Boards are used to collect posts that match filters."),
             const SizedBox(
               height: 24,
             ),
@@ -61,29 +70,13 @@ class AddBoard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Filter",
+          "Filters",
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(
           height: 8,
         ),
         const ModifyFiltersButton(),
-      ],
-    );
-  }
-
-  Column _buildVisibilitySelector(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Visibility",
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        const VisibilitySelector(),
       ],
     );
   }
@@ -151,21 +144,34 @@ class ModifyFiltersButton extends StatelessWidget {
         showAddBoardFilters(context);
       },
       child: Container(
-        padding: const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.transparent,
-          border: Border.all(color: kColorRoyal.shade300, width: 2),
-        ),
-        child: Center(
-          child: Text(
-            "Modify Filter",
-            style: TextStyle(
-              color: kColorRoyal.shade300,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+          color: kColorDeepBlood,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
           ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SvgPicture.string(
+              kIconEdit,
+              width: 24,
+              height: 24,
+              theme: SvgTheme(
+                currentColor: kColorSand,
+              ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              "Modify",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: kColorSand,
+                  ),
+            ),
+          ],
         ),
       ),
     );
@@ -220,7 +226,7 @@ class CustomInput extends StatelessWidget {
         filled: true,
         isDense: true,
         fillColor: kColorInput,
-        contentPadding: const EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(8),
@@ -258,7 +264,7 @@ class CustomDescriptionInput extends StatelessWidget {
         filled: true,
         isDense: true,
         fillColor: kColorInput,
-        contentPadding: const EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(8),

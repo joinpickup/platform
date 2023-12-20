@@ -13,7 +13,13 @@ class BoardFeed extends StatelessWidget {
     return Expanded(
       child: ListView.separated(
         itemBuilder: (context, index) {
-          return const BoardCard();
+          return BoardCard(
+            board: Board(
+                author: "@local-hq",
+                name: "Nearby",
+                description:
+                    "This is a default board to give you back all of the posts in a 5 mile radius."),
+          );
         },
         separatorBuilder: (context, index) {
           return const SizedBox(

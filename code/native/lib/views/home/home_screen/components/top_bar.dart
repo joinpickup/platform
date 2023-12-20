@@ -121,7 +121,7 @@ class SearchBar extends StatelessWidget {
                 width: 8,
               ),
               Text(
-                "Search for a board...",
+                "Discover boards...",
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: kColorRoyal,
                       fontSize: 15,
