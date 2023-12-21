@@ -24,6 +24,7 @@ dependencies:
   flutter_svg: ^2.0.9
   figma_squircle: ^0.5.3
   custom_pop_up_menu: ^1.2.4
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -38,3 +39,24 @@ flutter:
 
   assets:
     - .env
+
+flutter_launcher_icons:
+  image_path_android: "assets/images/icon-710x599-android.png"
+  image_path_ios: "assets/images/icon-1024x1024.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"
+  web:
+    generate: true
+    image_path: "assets/images/icon-1024x1024.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/icon-1024x1024.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/icon-1024x1024.png"
