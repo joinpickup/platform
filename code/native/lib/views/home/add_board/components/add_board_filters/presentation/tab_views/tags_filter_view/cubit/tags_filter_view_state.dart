@@ -1,32 +1,46 @@
 part of 'tags_filter_view_cubit.dart';
 
-enum IncludeState { any, all }
+enum TagFilterIncludeDistinction {
+  any(icon: kIconAny, text: "Any"),
+  all(icon: kIconAll, text: "All");
+
+  final String text;
+  final String icon;
+
+  const TagFilterIncludeDistinction({required this.text, required this.icon});
+}
 
 enum TagFilterOption { include, exclude }
 
 class TagsFilterViewState extends Equatable {
   final List<Tag> included;
-  final IncludeState includeState;
+  final TagFilterIncludeDistinction includeDistinction;
   final List<Tag> excluded;
 
   const TagsFilterViewState({
     required this.included,
-    required this.includeState,
+    required this.includeDistinction,
     required this.excluded,
   });
 
   @override
-  List<Object?> get props => [includeState, included, excluded];
+  List<Object?> get props => [includeDistinction, included, excluded];
 
   TagsFilterViewState copyWith({
     List<Tag>? included,
-    IncludeState? includeState,
+    TagFilterIncludeDistinction? includeDistinction,
     List<Tag>? excluded,
   }) {
     return TagsFilterViewState(
       included: included ?? this.included,
-      includeState: includeState ?? this.includeState,
+      includeDistinction: includeDistinction ?? this.includeDistinction,
       excluded: excluded ?? this.excluded,
     );
   }
 }
+
+const TagsFilterViewState initialTagsFilterViewState = TagsFilterViewState(
+  included: [],
+  excluded: [],
+  includeDistinction: TagFilterIncludeDistinction.any,
+);
