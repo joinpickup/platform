@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:local/components/rounded_icon_button.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
 import 'package:local/views/home/add_board/components/add_board_filters/presentation/tab_views/tags_filter_view/cubit/tags_filter_view_cubit.dart';
@@ -51,7 +52,7 @@ class TagsFilterView extends StatelessWidget {
                       tagFilterOption: TagFilterOption.include,
                     );
                   }).toList(),
-                  Button(
+                  RoundedIconButton(
                     icon: kIconPlus,
                     click: () {
                       HapticFeedback.lightImpact();
@@ -93,7 +94,7 @@ class TagsFilterView extends StatelessWidget {
                       tagFilterOption: TagFilterOption.exclude,
                     );
                   }).toList(),
-                  Button(
+                  RoundedIconButton(
                     icon: kIconPlus,
                     click: () {
                       HapticFeedback.lightImpact();
@@ -227,7 +228,7 @@ class TagChip extends StatelessWidget {
           const SizedBox(
             width: 8,
           ),
-          Button(
+          RoundedIconButton(
             background: kColorInput.shade700,
             icon: kIconX,
             size: 24,
@@ -242,48 +243,6 @@ class TagChip extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-}
-
-class Button extends StatelessWidget {
-  const Button({
-    super.key,
-    required this.icon,
-    required this.click,
-    this.background,
-    this.size = 32,
-  });
-
-  final String icon;
-  final Function click;
-  final Color? background;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        click();
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: background ?? kColorInput.shade600,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(
-              8,
-            ),
-          ),
-        ),
-        child: SvgPicture.string(
-          icon,
-          width: size,
-          height: size,
-          theme: SvgTheme(
-            currentColor: kColorRoyal,
-          ),
-        ),
       ),
     );
   }
