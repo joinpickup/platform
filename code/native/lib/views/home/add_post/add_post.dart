@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:local/components/icon_button.dart';
 import 'package:local/components/rounded_icon_button.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
-import 'package:local/views/home/add_board/components/add_board_filters/cubit/add_board_filters_cubit.dart';
-import 'package:local/views/home/add_board/components/add_board_filters/presentation/add_board_filters.dart';
-import 'package:local/views/home/add_board/components/add_board_filters/presentation/tab_views/tags_filter_view/presentation/tags_filter_view.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/presentation/tab_views/tags_filter_view/cubit/tags_filter_view_cubit.dart';
+import 'package:local/views/home/add_board/components/add_board_filters/presentation/tab_views/tags_filter_view/domain/tag.dart';
 
 Future<dynamic> showAddPost(BuildContext context) {
   return showModalBottomSheet(
@@ -83,6 +80,25 @@ class AddPost extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
+            const LabelChip(
+              group: "Space",
+              value: "sports",
+            ),
+            LabelChip(
+              group: "Activity",
+              value: "tennis",
+              color: kColorCardBlue.shade800,
+            ),
+            LabelChip(
+              group: "Type",
+              value: "game",
+              color: kColorInput.shade800,
+            ),
+            LabelChip(
+              group: "Difficulty",
+              value: "intermediate",
+              color: kColorRoyal,
+            ),
             RoundedIconButton(
               icon: kIconPlus,
               background: Colors.transparent,
@@ -148,52 +164,6 @@ class AddPost extends StatelessWidget {
   }
 }
 
-class ModifyFiltersButton extends StatelessWidget {
-  const ModifyFiltersButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showAddBoardFilters(context);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: kColorDeepBlood,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.string(
-              kIconEdit,
-              width: 24,
-              height: 24,
-              theme: SvgTheme(
-                currentColor: kColorSand,
-              ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            Text(
-              "Modify",
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: kColorSand,
-                  ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class CreateButton extends StatelessWidget {
   const CreateButton({
     super.key,
@@ -216,6 +186,57 @@ class CreateButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LabelChip extends StatelessWidget {
+  const LabelChip({
+    super.key,
+    required this.group,
+    required this.value,
+    this.color,
+  });
+
+  final String group;
+  final String value;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _buildChipPart(context, true),
+        _buildChipPart(context, false),
+      ],
+    );
+  }
+
+  Container _buildChipPart(
+    BuildContext context,
+    bool isFront,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        color: isFront ? color ?? kColorDeepBlood : Colors.transparent,
+        border: Border.all(color: color ?? kColorDeepBlood, width: 2),
+        borderRadius: isFront
+            ? const BorderRadius.only(
+                topLeft: Radius.circular(50),
+                bottomLeft: Radius.circular(50),
+              )
+            : const BorderRadius.only(
+                bottomRight: Radius.circular(50),
+                topRight: Radius.circular(50),
+              ),
+      ),
+      child: Text(
+        isFront ? group : value,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: isFront ? kColorSand : color ?? kColorDeepBlood,
+            ),
       ),
     );
   }

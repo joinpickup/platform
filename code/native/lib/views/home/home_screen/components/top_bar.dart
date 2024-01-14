@@ -42,7 +42,7 @@ class TopBar extends StatelessWidget {
               ),
             );
           },
-          icon: kIconNotifications,
+          icon: kIconBellSolid,
         ),
         const SizedBox(
           width: 8,

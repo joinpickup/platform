@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:local/views/home/home_screen/components/board_card.dart';
 
-const items = [];
+final items = [
+  Board(
+    author: "@local-hq",
+    name: "Nearby",
+    description:
+        "This is a default board to give you back all of the posts in a 5 mile radius.",
+    numberOfPosts: 24,
+    numberOfFollowers: 100,
+  ),
+  Board(
+    author: "@local-hq",
+    name: "Sports",
+    description: "This is a board that aggregates all sports posts.",
+    numberOfPosts: 500,
+    numberOfFollowers: 5000,
+  ),
+];
 
 class BoardFeed extends StatelessWidget {
   const BoardFeed({
@@ -14,11 +30,7 @@ class BoardFeed extends StatelessWidget {
       child: ListView.separated(
         itemBuilder: (context, index) {
           return BoardCard(
-            board: Board(
-                author: "@local-hq",
-                name: "Nearby",
-                description:
-                    "This is a default board to give you back all of the posts in a 5 mile radius."),
+            board: items[index],
           );
         },
         separatorBuilder: (context, index) {
@@ -26,7 +38,7 @@ class BoardFeed extends StatelessWidget {
             height: 8,
           );
         },
-        itemCount: 5,
+        itemCount: items.length,
         shrinkWrap: true,
       ),
     );

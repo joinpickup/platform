@@ -9,8 +9,16 @@ class Board {
   final String author;
   final String name;
   final String description;
+  final int numberOfPosts;
+  final int numberOfFollowers;
 
-  Board({required this.author, required this.name, required this.description});
+  Board({
+    required this.author,
+    required this.name,
+    required this.description,
+    required this.numberOfPosts,
+    required this.numberOfFollowers,
+  });
 }
 
 class BoardCard extends StatelessWidget {
@@ -25,7 +33,7 @@ class BoardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => (Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const BoardScreen(),
+        builder: (context) => BoardScreen(board: board),
       ))),
       child: Container(
         decoration: ShapeDecoration(
@@ -87,8 +95,8 @@ class BoardCard extends StatelessWidget {
                   children: [
                     SvgPicture.string(
                       kIconPost,
-                      width: 24,
-                      height: 24,
+                      height: 16,
+                      width: 16,
                       theme: SvgTheme(
                         currentColor: kColorRoyal,
                       ),
@@ -97,7 +105,7 @@ class BoardCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      "2k",
+                      board.numberOfPosts.toString(),
                       style: TextStyle(
                         color: kColorRoyal,
                         fontWeight: FontWeight.bold,
@@ -108,9 +116,9 @@ class BoardCard extends StatelessWidget {
                       width: 8,
                     ),
                     SvgPicture.string(
-                      kIconStar,
-                      width: 24,
-                      height: 24,
+                      kIconBellSolid,
+                      height: 16,
+                      width: 16,
                       theme: SvgTheme(
                         currentColor: kColorRoyal,
                       ),
@@ -119,7 +127,7 @@ class BoardCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      "100k",
+                      board.numberOfFollowers.toString(),
                       style: TextStyle(
                         color: kColorRoyal,
                         fontWeight: FontWeight.bold,
