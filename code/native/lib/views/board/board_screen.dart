@@ -1,8 +1,8 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
+import 'package:local/views/board/components/post_card.dart';
 import 'package:local/views/home/home_screen/components/board_card.dart';
 
 class BoardScreen extends StatelessWidget {
@@ -77,25 +77,12 @@ class BoardScreen extends StatelessWidget {
                 child: ListView.separated(
                   itemCount: 20,
                   separatorBuilder: (context, index) {
-                    return SizedBox(
+                    return const SizedBox(
                       height: 8,
                     );
                   },
                   itemBuilder: (context, index) {
-                    return Container(
-                      decoration: ShapeDecoration(
-                        color: kColorCardBlue,
-                        shape: SmoothRectangleBorder(
-                          borderRadius: SmoothBorderRadius(
-                            cornerRadius: 24,
-                            cornerSmoothing: 0.6,
-                          ),
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      // left and right
-                      child: Text("test"),
-                    );
+                    return const PostCard();
                   },
                 ),
               ),
@@ -110,7 +97,7 @@ class BoardScreen extends StatelessWidget {
     return Row(
       children: [
         const Expanded(
-          child: CustomButton(text: "Subscribe"),
+          child: CustomButton(text: "Follow"),
         ),
         const SizedBox(
           width: 8,
@@ -188,11 +175,13 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     required this.text,
+    this.icon,
     this.color,
   }) : super(key: key);
 
   final String text;
   final Color? color;
+  final String? icon;
 
   @override
   Widget build(BuildContext context) {

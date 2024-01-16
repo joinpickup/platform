@@ -1,5 +1,6 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
@@ -21,7 +22,7 @@ class Board {
   });
 }
 
-class BoardCard extends StatelessWidget {
+class BoardCard extends StatefulWidget {
   const BoardCard({
     super.key,
     required this.board,
@@ -30,14 +31,39 @@ class BoardCard extends StatelessWidget {
   final Board board;
 
   @override
+  State<BoardCard> createState() => _BoardCardState();
+}
+
+class _BoardCardState extends State<BoardCard> {
+  bool selected = false;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => (Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => BoardScreen(board: board),
-      ))),
+      onTapDown: (details) {
+        setState(() {
+          selected = true;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          selected = false;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          selected = false;
+        });
+      },
+      onTap: () {
+        HapticFeedback.lightImpact();
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => BoardScreen(board: widget.board),
+        ));
+      },
       child: Container(
         decoration: ShapeDecoration(
-          color: kColorCardBlue,
+          color: selected ? kColorCardBlue.shade600 : kColorCardBlue,
           shape: SmoothRectangleBorder(
             borderRadius: SmoothBorderRadius(
               cornerRadius: 24,
@@ -56,7 +82,7 @@ class BoardCard extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: board.author,
+                    text: widget.board.author,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   TextSpan(
@@ -64,7 +90,7 @@ class BoardCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   TextSpan(
-                    text: board.name,
+                    text: widget.board.name,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ],
@@ -74,7 +100,7 @@ class BoardCard extends StatelessWidget {
               height: 8,
             ),
             Text(
-              board.description,
+              widget.board.description,
               style: Theme.of(context).textTheme.bodySmall,
             ),
             // description
@@ -105,7 +131,7 @@ class BoardCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      board.numberOfPosts.toString(),
+                      widget.board.numberOfPosts.toString(),
                       style: TextStyle(
                         color: kColorRoyal,
                         fontWeight: FontWeight.bold,
@@ -127,7 +153,7 @@ class BoardCard extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      board.numberOfFollowers.toString(),
+                      widget.board.numberOfFollowers.toString(),
                       style: TextStyle(
                         color: kColorRoyal,
                         fontWeight: FontWeight.bold,
