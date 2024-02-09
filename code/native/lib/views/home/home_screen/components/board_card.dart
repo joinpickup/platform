@@ -12,6 +12,7 @@ class Board {
   final String description;
   final int numberOfPosts;
   final int numberOfFollowers;
+  final bool isFollowed;
 
   Board({
     required this.author,
@@ -19,6 +20,7 @@ class Board {
     required this.description,
     required this.numberOfPosts,
     required this.numberOfFollowers,
+    required this.isFollowed,
   });
 }
 
@@ -63,7 +65,10 @@ class _BoardCardState extends State<BoardCard> {
       },
       child: Container(
         decoration: ShapeDecoration(
-          color: selected ? kColorCardBlue.shade600 : kColorCardBlue,
+          color: selected
+              ? createMaterialColor(Theme.of(context).colorScheme.surface)
+                  .shade600
+              : createMaterialColor(Theme.of(context).colorScheme.surface),
           shape: SmoothRectangleBorder(
             borderRadius: SmoothBorderRadius(
               cornerRadius: 24,

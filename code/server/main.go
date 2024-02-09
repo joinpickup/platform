@@ -1,21 +1,7 @@
 package main
 
-import (
-	"log"
-
-	"github.com/pocketbase/pocketbase"
-	"github.com/pocketbase/pocketbase/core"
-)
+import "fmt"
 
 func main() {
-	app := pocketbase.New()
-
-	// add a custom route
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		return nil
-	})
-
-	if err := app.Start(); err != nil {
-		log.Fatal(err)
-	}
+	fmt.Println("test")
 }

@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
 import 'package:local/views/board/components/post_card.dart';
 import 'package:local/views/home/home_screen/components/board_card.dart';
+
+final items = [
+  Post(
+    author: "@local-hq",
+    body: "looking for a trivia partner",
+    createdAt: "5m",
+  ),
+  Post(
+    author: "@andrew",
+    body: "anyone know any good volunteer places?",
+    createdAt: "5m",
+  ),
+];
 
 class BoardScreen extends StatelessWidget {
   const BoardScreen({
@@ -75,14 +89,14 @@ class BoardScreen extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: 20,
+                  itemCount: items.length,
                   separatorBuilder: (context, index) {
                     return const SizedBox(
                       height: 8,
                     );
                   },
                   itemBuilder: (context, index) {
-                    return const PostCard();
+                    return PostCard(post: items[index]);
                   },
                 ),
               ),
@@ -96,8 +110,11 @@ class BoardScreen extends StatelessWidget {
   Row _buildButtons() {
     return Row(
       children: [
-        const Expanded(
-          child: CustomButton(text: "Follow"),
+        Expanded(
+          child: CustomButton(
+            text: board.isFollowed ? "Following" : "Follow",
+            color: board.isFollowed ? kColorDeepBlood : kColorDeepBlood,
+          ),
         ),
         const SizedBox(
           width: 8,

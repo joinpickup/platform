@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local/theme/cubit/theme_cubit.dart';
 import 'package:local/theme/theme.dart';
 import 'package:local/views/home/home_screen/home_screen.dart';
 
@@ -18,13 +20,20 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
 
-    return MaterialApp(
-      title: "Local",
-      debugShowCheckedModeBanner: false,
-      theme: LocalTheme.light,
-      darkTheme: LocalTheme.dark,
-      themeMode: ThemeMode.light,
-      home: const HomeScreen(),
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: "Local",
+            debugShowCheckedModeBanner: false,
+            theme: LocalTheme.light,
+            darkTheme: LocalTheme.dark,
+            themeMode: state,
+            home: const HomeScreen(),
+          );
+        },
+      ),
     );
   }
 }

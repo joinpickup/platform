@@ -25,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
         width: size,
         height: size,
         theme: SvgTheme(
-          currentColor: kColorRoyal,
+          currentColor: Theme.of(context).colorScheme.onBackground,
         ),
       ),
     );

@@ -9,6 +9,7 @@ final items = [
         "This is a default board to give you back all of the posts in a 5 mile radius.",
     numberOfPosts: 24,
     numberOfFollowers: 100,
+    isFollowed: false,
   ),
   Board(
     author: "@local-hq",
@@ -16,6 +17,7 @@ final items = [
     description: "This is a board that aggregates all sports posts.",
     numberOfPosts: 500,
     numberOfFollowers: 5000,
+    isFollowed: true,
   ),
 ];
 

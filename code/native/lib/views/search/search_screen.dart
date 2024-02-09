@@ -61,13 +61,13 @@ class SearchBar extends StatelessWidget {
         decoration: InputDecoration(
           hintText: "Search for a board...",
           hintStyle: TextStyle(
-            color: kColorRoyal,
+            color: Theme.of(context).inputDecorationTheme.focusColor,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
           filled: true,
           isDense: true,
-          fillColor: kColorInput,
+          fillColor: Theme.of(context).inputDecorationTheme.fillColor,
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
@@ -75,7 +75,7 @@ class SearchBar extends StatelessWidget {
           ),
         ),
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: kColorRoyal,
+              color: Theme.of(context).inputDecorationTheme.focusColor,
               fontSize: 15,
               fontWeight: FontWeight.bold,
             ),

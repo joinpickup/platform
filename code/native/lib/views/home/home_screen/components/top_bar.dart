@@ -101,11 +101,11 @@ class SearchBar extends StatelessWidget {
             vertical: 12,
             horizontal: 16,
           ),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
               Radius.circular(48),
             ),
-            color: Color(0xFFEDD3B8),
+            color: Theme.of(context).inputDecorationTheme.fillColor,
           ),
           child: Row(
             children: [
@@ -114,7 +114,9 @@ class SearchBar extends StatelessWidget {
                 width: 24,
                 height: 24,
                 theme: SvgTheme(
-                  currentColor: kColorRoyal,
+                  currentColor:
+                      Theme.of(context).inputDecorationTheme.focusColor ??
+                          Colors.transparent,
                 ),
               ),
               const SizedBox(
@@ -123,7 +125,9 @@ class SearchBar extends StatelessWidget {
               Text(
                 "Discover boards...",
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: kColorRoyal,
+                      color:
+                          Theme.of(context).inputDecorationTheme.focusColor ??
+                              Colors.transparent,
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
