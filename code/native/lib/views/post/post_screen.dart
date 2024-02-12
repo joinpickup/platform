@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
@@ -25,6 +24,9 @@ class PostScreen extends StatelessWidget {
           IconButton(
             icon: SvgPicture.string(
               kIconVert,
+              theme: SvgTheme(
+                currentColor: Theme.of(context).colorScheme.onBackground,
+              ),
             ),
             onPressed: () {},
           ),

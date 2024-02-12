@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+final kColorDust = createMaterialColor(const Color(0xFFC9B69F));
+
 // backgrounds
 final kColorRoyal = createMaterialColor(const Color(0xFF152834));
 final kColorMud = createMaterialColor(const Color(0xFF231403));
@@ -37,5 +39,6 @@ MaterialColor createMaterialColor(Color color) {
       1,
     );
   }
+
   return MaterialColor(color.value, swatch);
 }

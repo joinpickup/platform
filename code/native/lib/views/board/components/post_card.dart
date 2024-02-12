@@ -2,6 +2,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local/theme/color.dart';
+import 'package:local/theme/local.dart';
 import 'package:local/views/post/post_screen.dart';
 
 class Post {
@@ -33,6 +34,8 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    LocalColors colors = Theme.of(context).extension<LocalColors>()!;
+
     return GestureDetector(
       onTapDown: (details) {
         setState(() {
@@ -61,7 +64,7 @@ class _PostCardState extends State<PostCard> {
       },
       child: Container(
         decoration: ShapeDecoration(
-          color: selected ? kColorCardBlue.shade600 : kColorCardBlue,
+          color: selected ? colors.postCard!.shade600 : colors.postCard,
           shape: SmoothRectangleBorder(
             borderRadius: SmoothBorderRadius(
               cornerRadius: 24,

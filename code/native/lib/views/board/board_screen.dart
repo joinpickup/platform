@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
 import 'package:local/theme/svg.dart';
@@ -38,6 +37,9 @@ class BoardScreen extends StatelessWidget {
           IconButton(
             icon: SvgPicture.string(
               kIconVert,
+              theme: SvgTheme(
+                currentColor: Theme.of(context).colorScheme.onBackground,
+              ),
             ),
             onPressed: () {},
           ),
@@ -83,7 +85,7 @@ class BoardScreen extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              _buildButtons(),
+              _buildButtons(context),
               const SizedBox(
                 height: 16,
               ),
@@ -107,19 +109,22 @@ class BoardScreen extends StatelessWidget {
     );
   }
 
-  Row _buildButtons() {
+  Row _buildButtons(BuildContext context) {
     return Row(
       children: [
         Expanded(
           child: CustomButton(
             text: board.isFollowed ? "Following" : "Follow",
-            color: board.isFollowed ? kColorDeepBlood : kColorDeepBlood,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(
           width: 8,
         ),
-        CustomButton(text: "View Filter", color: kColorRoyal),
+        CustomButton(
+          text: "View Filter",
+          color: Theme.of(context).colorScheme.secondary,
+        ),
       ],
     );
   }
@@ -212,7 +217,8 @@ class CustomButton extends StatelessWidget {
         text,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: kColorSand,
+              color: Theme.of(context).colorScheme.background,
+              fontWeight: FontWeight.bold,
             ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local/theme/color.dart';
+import 'package:local/theme/local.dart';
 import 'package:local/theme/svg.dart';
 import 'package:local/views/board/board_screen.dart';
 
@@ -41,6 +42,8 @@ class _BoardCardState extends State<BoardCard> {
 
   @override
   Widget build(BuildContext context) {
+    LocalColors colors = Theme.of(context).extension<LocalColors>()!;
+
     return GestureDetector(
       onTapDown: (details) {
         setState(() {
@@ -65,10 +68,7 @@ class _BoardCardState extends State<BoardCard> {
       },
       child: Container(
         decoration: ShapeDecoration(
-          color: selected
-              ? createMaterialColor(Theme.of(context).colorScheme.surface)
-                  .shade600
-              : createMaterialColor(Theme.of(context).colorScheme.surface),
+          color: selected ? colors.boardCard!.shade600 : colors.boardCard,
           shape: SmoothRectangleBorder(
             borderRadius: SmoothBorderRadius(
               cornerRadius: 24,
@@ -88,15 +88,21 @@ class _BoardCardState extends State<BoardCard> {
                 children: [
                   TextSpan(
                     text: widget.board.author,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colors.onBoardCard,
+                        ),
                   ),
                   TextSpan(
                     text: " / ",
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colors.onBoardCard,
+                        ),
                   ),
                   TextSpan(
                     text: widget.board.name,
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: colors.onBoardCard,
+                        ),
                   ),
                 ],
               ),
@@ -106,7 +112,9 @@ class _BoardCardState extends State<BoardCard> {
             ),
             Text(
               widget.board.description,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: colors.onBoardCard,
+                  ),
             ),
             // description
             const SizedBox(
@@ -119,7 +127,7 @@ class _BoardCardState extends State<BoardCard> {
                 Text(
                   "5d ago",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: kColorRoyal.shade300,
+                        color: colors.onBoardCard.shade400,
                       ),
                 ),
                 Row(
@@ -138,7 +146,7 @@ class _BoardCardState extends State<BoardCard> {
                     Text(
                       widget.board.numberOfPosts.toString(),
                       style: TextStyle(
-                        color: kColorRoyal,
+                        color: colors.onBoardCard.shade400,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -160,7 +168,7 @@ class _BoardCardState extends State<BoardCard> {
                     Text(
                       widget.board.numberOfFollowers.toString(),
                       style: TextStyle(
-                        color: kColorRoyal,
+                        color: colors.onBoardCard.shade400,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),

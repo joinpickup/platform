@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:local/theme/color.dart';
+import 'package:local/theme/local.dart';
 
 class LocalTheme {
   static ThemeData get light {
@@ -34,6 +35,8 @@ class LocalTheme {
         shape: const CircleBorder(),
       ),
       colorScheme: ColorScheme.light(
+        primary: kColorDeepBlood,
+        secondary: kColorRoyal,
         background: kColorSand,
         surface: kColorCardBlue,
       ),
@@ -71,6 +74,13 @@ class LocalTheme {
         focusColor: kColorRoyal,
         fillColor: kColorInput,
       ),
+      extensions: <ThemeExtension<LocalColors>>[
+        LocalColors(
+          postCard: createMaterialColor(const Color(0xFFEDD3B8)),
+          boardCard: createMaterialColor(const Color(0xFFB5C1B9)),
+          onBoardCard: createMaterialColor(const Color(0xFF152834)),
+        ),
+      ],
     );
   }
 
@@ -106,8 +116,11 @@ class LocalTheme {
         shape: const CircleBorder(),
       ),
       colorScheme: ColorScheme.dark(
+        primary: kColorDust,
+        onPrimary: kColorMud,
+        secondary: kColorDust,
         background: kColorMud,
-        onBackground: kColorBeige,
+        onBackground: kColorDust,
         surface: kColorCardCardDark,
         onSurface: kColorBeige,
       ),
@@ -145,6 +158,13 @@ class LocalTheme {
         fillColor: kColorInputDark,
         focusColor: kColorBeige,
       ),
+      extensions: <ThemeExtension<LocalColors>>[
+        LocalColors(
+          postCard: createMaterialColor(const Color(0xFF352005)),
+          boardCard: createMaterialColor(const Color(0xFF38474D)),
+          onBoardCard: createMaterialColor(const Color(0xFFBAADA0)),
+        ),
+      ],
     );
   }
 }
