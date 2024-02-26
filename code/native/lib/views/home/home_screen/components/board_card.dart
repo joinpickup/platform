@@ -137,7 +137,7 @@ class _BoardCardState extends State<BoardCard> {
                       height: 16,
                       width: 16,
                       theme: SvgTheme(
-                        currentColor: kColorRoyal,
+                        currentColor: colors.onBoardCard.shade400,
                       ),
                     ),
                     const SizedBox(
@@ -146,7 +146,7 @@ class _BoardCardState extends State<BoardCard> {
                     Text(
                       widget.board.numberOfPosts.toString(),
                       style: TextStyle(
-                        color: colors.onBoardCard.shade400,
+                        color: colors.onBoardCard.shade300,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -159,7 +159,7 @@ class _BoardCardState extends State<BoardCard> {
                       height: 16,
                       width: 16,
                       theme: SvgTheme(
-                        currentColor: kColorRoyal,
+                        currentColor: colors.onBoardCard.shade300,
                       ),
                     ),
                     const SizedBox(
@@ -168,7 +168,7 @@ class _BoardCardState extends State<BoardCard> {
                     Text(
                       widget.board.numberOfFollowers.toString(),
                       style: TextStyle(
-                        color: colors.onBoardCard.shade400,
+                        color: colors.onBoardCard.shade300,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),

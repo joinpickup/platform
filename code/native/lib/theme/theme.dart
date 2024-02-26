@@ -79,6 +79,9 @@ class LocalTheme {
           postCard: createMaterialColor(const Color(0xFFEDD3B8)),
           boardCard: createMaterialColor(const Color(0xFFB5C1B9)),
           onBoardCard: createMaterialColor(const Color(0xFF152834)),
+          dialogBackground: createMaterialColor(const Color(0xFFF5E8DA)),
+          onDialogBackground: createMaterialColor(const Color(0xFF152834)),
+          dialogBackgroundHover: createMaterialColor(const Color(0xFFEDD3B8)),
         ),
       ],
     );
@@ -162,7 +165,10 @@ class LocalTheme {
         LocalColors(
           postCard: createMaterialColor(const Color(0xFF352005)),
           boardCard: createMaterialColor(const Color(0xFF38474D)),
-          onBoardCard: createMaterialColor(const Color(0xFFBAADA0)),
+          onBoardCard: createMaterialColor(const Color(0xFFE6DCD2)),
+          dialogBackground: createMaterialColor(const Color(0xFF352005)),
+          onDialogBackground: createMaterialColor(const Color(0xFFC9B69F)),
+          dialogBackgroundHover: createMaterialColor(const Color(0xFF442D0F)),
         ),
       ],
     );

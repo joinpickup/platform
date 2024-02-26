@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:local/theme/color.dart';
+import 'package:local/theme/local.dart';
 import 'package:local/theme/svg.dart';
 import 'package:local/views/home/add_board/add_board.dart';
 import 'package:local/views/home/add_post/add_post.dart';
@@ -34,13 +35,15 @@ class AddDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocalColors colors = Theme.of(context).extension<LocalColors>()!;
+
     return Dialog(
-      insetPadding: const EdgeInsets.all(8),
+      insetPadding: const EdgeInsets.all(16),
       alignment: Alignment.bottomCenter,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: kColorSand,
+          color: colors.dialogBackground,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -98,6 +101,8 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
+    LocalColors colors = Theme.of(context).extension<LocalColors>()!;
+
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
@@ -119,10 +124,10 @@ class _AddItemState extends State<AddItem> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: hovered ? kColorInput.shade300 : Colors.transparent,
+          color: hovered ? colors.dialogBackgroundHover : Colors.transparent,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +141,7 @@ class _AddItemState extends State<AddItem> {
                 height: 24,
                 width: 24,
                 theme: SvgTheme(
-                  currentColor: widget.iconColor ?? kColorRoyal,
+                  currentColor: widget.iconColor ?? colors.onDialogBackground,
                   fontSize: 20,
                 ),
               ),
@@ -150,14 +155,15 @@ class _AddItemState extends State<AddItem> {
                 children: [
                   Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: colors.onDialogBackground,
+                        ),
                   ),
                   Text(
                     widget.description,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: kColorRoyal.shade200),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colors.onDialogBackground.shade800,
+                        ),
                   ),
                 ],
               ),

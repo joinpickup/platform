@@ -19,8 +19,6 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showAddDialog(context);
-          // showAddBoard(context);
-          // showAddPost(context);
         },
         child: SvgPicture.string(
           kIconPlus,
